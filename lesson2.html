@@ -697,7 +697,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
   
 
 <!-- ===== S1 OVERFITTING ===== -->
-<div class="sec on" id="L2_s0">
+<div class="sec on" id="s0">
   <div class="chead">
     <h2>📉 แนวคิดที่ 1: นักเรียนจอมท่องจำ (Overfitting)</h2>
     <p>ความแม่นยำ 100% บนข้อมูลสอน ≠ AI ที่ดี — ดูที่ Validation Loss ด้วย</p>
@@ -712,22 +712,22 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
     <div class="ctitle"><div class="cicon">📈</div>จำลอง: Train Loss vs Validation Loss</div>
     <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:1rem;">ปรับจำนวนรอบการฝึก (Epochs) แล้วสังเกตว่าเมื่อไหร่ Overfitting เริ่มเกิด</p>
     <div class="sg" style="margin-bottom:1rem;">
-      <div class="slab">จำนวน Epochs ที่ฝึก <span id="L2_epochVal">25</span></div>
-      <input type="range" id="L2_epochSlider" min="5" max="100" value="25" oninput="updateOverfit()">
+      <div class="slab">จำนวน Epochs ที่ฝึก <span id="epochVal">25</span></div>
+      <input type="range" id="epochSlider" min="5" max="100" value="25" oninput="updateOverfit()">
     </div>
-    <canvas id="L2_overfitCanvas" height="220" style="background:#f7f8ff;"></canvas>
+    <canvas id="overfitCanvas" width="600" height="220" style="background:#f7f8ff;"></canvas>
     <div class="legend" style="margin-top:.75rem;">
       <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>Train Loss (ข้อมูลสอน)</div>
       <div class="litem"><div class="ldot" style="background:#e53935;"></div>Validation Loss (ข้อมูลทดสอบ)</div>
       <div class="litem"><div class="ldot" style="background:#fb8c00;border-radius:0;width:18px;height:3px;"></div>จุด Overfitting</div>
     </div>
     <div class="mcards">
-      <div class="mcard"><div class="mlabel">Train Loss</div><div class="mval mgood" id="L2_trainLoss">0.42</div></div>
-      <div class="mcard"><div class="mlabel">Val Loss</div><div class="mval" id="L2_valLoss" style="color:var(--success);">0.48</div></div>
-      <div class="mcard"><div class="mlabel">สถานะ</div><div class="mval" id="L2_overfitStatus" style="font-size:.9rem;color:var(--success);">✅ ปกติ</div></div>
-      <div class="mcard"><div class="mlabel">Gap</div><div class="mval" id="L2_gapVal" style="color:var(--success);">0.06</div></div>
+      <div class="mcard"><div class="mlabel">Train Loss</div><div class="mval mgood" id="trainLoss">0.42</div></div>
+      <div class="mcard"><div class="mlabel">Val Loss</div><div class="mval" id="valLoss" style="color:var(--success);">0.48</div></div>
+      <div class="mcard"><div class="mlabel">สถานะ</div><div class="mval" id="overfitStatus" style="font-size:.9rem;color:var(--success);">✅ ปกติ</div></div>
+      <div class="mcard"><div class="mlabel">Gap</div><div class="mval" id="gapVal" style="color:var(--success);">0.06</div></div>
     </div>
-    <div id="L2_overfitAlert" class="alertbox alert-grn" style="margin-top:.85rem;">✅ ยังอยู่ในสภาวะปกติ Train Loss และ Val Loss ลดลงพร้อมกัน</div>
+    <div id="overfitAlert" class="alertbox alert-grn" style="margin-top:.85rem;">✅ ยังอยู่ในสภาวะปกติ Train Loss และ Val Loss ลดลงพร้อมกัน</div>
   </div>
 
   <div class="card">
@@ -736,12 +736,12 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
       <div style="background:#fef2f2;border-radius:10px;padding:1.1rem;border:1px solid #fca5a5;">
         <div style="font-weight:700;color:#991b1b;margin-bottom:.5rem;">❌ นักเรียน A (Overfit)</div>
         <p style="font-size:.85rem;color:#7f1d1d;">ท่องข้อสอบเก่าจนจำได้ทุกคำ<br>คะแนนข้อสอบเก่า: <strong>100%</strong><br>คะแนนข้อสอบใหม่: <strong>35%</strong></p>
-        <canvas id="L2_studentA" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#fff5f5;"></canvas>
+        <canvas id="studentA" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#fff5f5;"></canvas>
       </div>
       <div style="background:#ecfdf5;border-radius:10px;padding:1.1rem;border:1px solid #6ee7b7;">
         <div style="font-weight:700;color:#065f46;margin-bottom:.5rem;">✅ นักเรียน B (Generalize)</div>
         <p style="font-size:.85rem;color:#064e3b;">เข้าใจหลักการ ไม่แค่ท่องจำ<br>คะแนนข้อสอบเก่า: <strong>88%</strong><br>คะแนนข้อสอบใหม่: <strong>84%</strong></p>
-        <canvas id="L2_studentB" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#f0fff4;"></canvas>
+        <canvas id="studentB" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#f0fff4;"></canvas>
       </div>
     </div>
   </div>
@@ -753,7 +753,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
 </div>
 
 <!-- ===== S2 PRECISION vs RECALL ===== -->
-<div class="sec" id="L2_s1">
+<div class="sec" id="s1">
   <div class="chead">
     <h2>🎯 แนวคิดที่ 2: ความแม่นยำ vs ความครอบคลุม (Precision vs Recall)</h2>
     <p>ได้อย่างเสียอย่าง (Trade-off) — เลือกให้เหมาะกับงาน</p>
@@ -767,24 +767,24 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
   <div class="card">
     <div class="ctitle"><div class="cicon">✈️</div>จำลองสนามบิน: ปรับ Threshold แล้วดูผล</div>
     <div class="sg" style="margin-bottom:1rem;">
-      <div class="slab">ระดับ Threshold (ความเข้มงวดในการตรวจ) <span id="L2_threshVal">50</span>%</div>
-      <input type="range" id="L2_threshSlider" min="10" max="95" value="50" step="5" oninput="updateAirport()">
+      <div class="slab">ระดับ Threshold (ความเข้มงวดในการตรวจ) <span id="threshVal">50</span>%</div>
+      <input type="range" id="threshSlider" min="10" max="95" value="50" step="5" oninput="updateAirport()">
       <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--text-muted);">
         <span>← ต่ำ (เหวี่ยงแหมากขึ้น)</span>
         <span>(ซุ่มยิงมากขึ้น) สูง →</span>
       </div>
     </div>
 
-    <div id="L2_airportGrid" class="airport-sim"></div>
+    <div id="airportGrid" class="airport-sim"></div>
 
     <div class="mcards" style="margin-top:1rem;">
-      <div class="mcard"><div class="mlabel">Precision</div><div class="mval" id="L2_precVal" style="color:var(--info);">67%</div><div style="font-size:.7rem;color:var(--text-muted);">ตรวจแล้วถูก</div></div>
-      <div class="mcard"><div class="mlabel">Recall</div><div class="mval" id="L2_recVal" style="color:var(--success);">100%</div><div style="font-size:.7rem;color:var(--text-muted);">หาเจอครบ</div></div>
-      <div class="mcard"><div class="mlabel">F1 Score</div><div class="mval" id="L2_f1Val" style="color:var(--accent);">80%</div></div>
-      <div class="mcard"><div class="mlabel">คนบริสุทธิ์โดนตรวจ</div><div class="mval mbad" id="L2_fpVal">3 คน</div></div>
-      <div class="mcard"><div class="mlabel">คนร้ายที่รอด</div><div class="mval mbad" id="L2_fnVal">0 คน</div></div>
+      <div class="mcard"><div class="mlabel">Precision</div><div class="mval" id="precVal" style="color:var(--info);">67%</div><div style="font-size:.7rem;color:var(--text-muted);">ตรวจแล้วถูก</div></div>
+      <div class="mcard"><div class="mlabel">Recall</div><div class="mval" id="recVal" style="color:var(--success);">100%</div><div style="font-size:.7rem;color:var(--text-muted);">หาเจอครบ</div></div>
+      <div class="mcard"><div class="mlabel">F1 Score</div><div class="mval" id="f1Val" style="color:var(--accent);">80%</div></div>
+      <div class="mcard"><div class="mlabel">คนบริสุทธิ์โดนตรวจ</div><div class="mval mbad" id="fpVal">3 คน</div></div>
+      <div class="mcard"><div class="mlabel">คนร้ายที่รอด</div><div class="mval mbad" id="fnVal">0 คน</div></div>
     </div>
-    <div id="L2_airportAlert" class="alertbox alert-blu">⚖️ ปรับ Threshold เพื่อเปลี่ยนสมดุล Precision-Recall</div>
+    <div id="airportAlert" class="alertbox alert-blu">⚖️ ปรับ Threshold เพื่อเปลี่ยนสมดุล Precision-Recall</div>
   </div>
 
   <div class="card">
@@ -797,8 +797,8 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
         <button class="choice-btn" onclick="checkChoice(1,'precision',this)">📍 Precision<br><small>เน้นความแม่นยำ</small></button>
         <button class="choice-btn" onclick="checkChoice(1,'recall',this)">🔍 Recall<br><small>เน้นความครอบคลุม</small></button>
       </div>
-      <div class="reveal" id="L2_r1c">✅ ถูกต้อง! ในการคัดกรองโรคร้าย เราต้องการ <strong>Recall สูง</strong> — ยอมให้เตือนผิดบ้างได้ ดีกว่าพลาดผู้ป่วยจริง</div>
-      <div class="reveal" id="L2_r1w">❌ ลองคิดใหม่ — ถ้าเน้น Precision สูง อาจ "พลาด" ผู้ป่วยที่ควรตรวจพบ ซึ่งอันตรายกว่าการแจ้งเตือนเกิน</div>
+      <div class="reveal" id="r1c">✅ ถูกต้อง! ในการคัดกรองโรคร้าย เราต้องการ <strong>Recall สูง</strong> — ยอมให้เตือนผิดบ้างได้ ดีกว่าพลาดผู้ป่วยจริง</div>
+      <div class="reveal" id="r1w">❌ ลองคิดใหม่ — ถ้าเน้น Precision สูง อาจ "พลาด" ผู้ป่วยที่ควรตรวจพบ ซึ่งอันตรายกว่าการแจ้งเตือนเกิน</div>
     </div>
 
     <div style="padding:1rem;background:#fff8f0;border-radius:10px;border:1px solid #fed7aa;">
@@ -808,14 +808,14 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
         <button class="choice-btn" onclick="checkChoice(2,'precision',this)">📍 Precision<br><small>เน้นความแม่นยำ</small></button>
         <button class="choice-btn" onclick="checkChoice(2,'recall',this)">🔍 Recall<br><small>เน้นความครอบคลุม</small></button>
       </div>
-      <div class="reveal" id="L2_r2c">✅ ถูกต้อง! ในระบบรักษาความปลอดภัย เราต้องการ <strong>Precision สูง</strong> — ถ้าปลดล็อค ต้องมั่นใจว่าเป็นเจ้าของจริงๆ ยอมให้ผู้ใช้ scan ซ้ำได้ดีกว่าปล่อยคนอื่นเข้า</div>
-      <div class="reveal" id="L2_r2w">❌ ลองคิดใหม่ — Recall สูงในระบบนี้หมายความว่า "ปลดล็อคให้ได้ทุกคนที่คล้ายเจ้าของ" ซึ่งอันตรายมาก</div>
+      <div class="reveal" id="r2c">✅ ถูกต้อง! ในระบบรักษาความปลอดภัย เราต้องการ <strong>Precision สูง</strong> — ถ้าปลดล็อค ต้องมั่นใจว่าเป็นเจ้าของจริงๆ ยอมให้ผู้ใช้ scan ซ้ำได้ดีกว่าปล่อยคนอื่นเข้า</div>
+      <div class="reveal" id="r2w">❌ ลองคิดใหม่ — Recall สูงในระบบนี้หมายความว่า "ปลดล็อคให้ได้ทุกคนที่คล้ายเจ้าของ" ซึ่งอันตรายมาก</div>
     </div>
   </div>
 
   <div class="card">
     <div class="ctitle"><div class="cicon">📊</div>กราฟ Precision-Recall Curve</div>
-    <canvas id="L2_prCanvas" height="200" style="background:#f7f8ff;"></canvas>
+    <canvas id="prCanvas" width="600" height="200" style="background:#f7f8ff;"></canvas>
     <div style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;text-align:center;">จุดสีส้มคือ Threshold ปัจจุบัน — ลองปรับ Slider ด้านบนเพื่อเลื่อนตำแหน่ง</div>
   </div>
 
@@ -826,7 +826,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
 </div>
 
 <!-- ===== S3 mAP & IoU ===== -->
-<div class="sec" id="L2_s2">
+<div class="sec" id="s2">
   <div class="chead">
     <h2>📦 แนวคิดที่ 3: วัดฝีมือตีกรอบ (mAP & IoU)</h2>
     <p>รู้จักประเภทวัตถุยังไม่พอ — ต้องตีกรอบให้ตรงด้วย</p>
@@ -842,31 +842,31 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
     <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:1rem;">ลาก Slider เพื่อปรับตำแหน่ง Bounding Box ของ AI แล้วดูค่า IoU เปลี่ยนแปลง</p>
 
     <div class="sg" style="margin-bottom:.5rem;">
-      <div class="slab">เลื่อน Predicted Box (แกน X) <span id="L2_iouXVal">0</span>px</div>
-      <input type="range" id="L2_iouX" min="-60" max="60" value="0" oninput="updateIoU()">
+      <div class="slab">เลื่อน Predicted Box (แกน X) <span id="iouXVal">0</span>px</div>
+      <input type="range" id="iouX" min="-60" max="60" value="0" oninput="updateIoU()">
     </div>
     <div class="sg" style="margin-bottom:1rem;">
-      <div class="slab">เลื่อน Predicted Box (แกน Y) <span id="L2_iouYVal">0</span>px</div>
-      <input type="range" id="L2_iouY" min="-50" max="50" value="0" oninput="updateIoU()">
+      <div class="slab">เลื่อน Predicted Box (แกน Y) <span id="iouYVal">0</span>px</div>
+      <input type="range" id="iouY" min="-50" max="50" value="0" oninput="updateIoU()">
     </div>
 
-    <div class="iou-demo" id="L2_iouDemo">
-      <div class="box-gt" id="L2_gtBox" style="left:25%;top:15%;width:50%;height:65%;">Ground Truth</div>
-      <div class="box-pred" id="L2_predBox" style="left:25%;top:15%;width:50%;height:65%;">Predicted</div>
-      <div class="box-overlap" id="L2_overlapBox" style="left:25%;top:15%;width:50%;height:65%;"></div>
+    <div class="iou-demo" id="iouDemo">
+      <div class="box-gt" id="gtBox" style="left:25%;top:15%;width:50%;height:65%;">Ground Truth</div>
+      <div class="box-pred" id="predBox" style="left:25%;top:15%;width:50%;height:65%;">Predicted</div>
+      <div class="box-overlap" id="overlapBox" style="left:25%;top:15%;width:50%;height:65%;"></div>
     </div>
 
     <div class="mcards" style="margin-top:1rem;">
-      <div class="mcard"><div class="mlabel">IoU</div><div class="mval" id="L2_iouVal" style="color:var(--success);">1.00</div></div>
-      <div class="mcard"><div class="mlabel">ผลการตรวจจับ</div><div class="mval" id="L2_iouResult" style="font-size:.9rem;color:var(--success);">✅ TP (IoU≥0.5)</div></div>
-      <div class="mcard"><div class="mlabel">ระดับคุณภาพ</div><div class="mval" id="L2_iouGrade" style="font-size:.88rem;color:var(--success);">🥇 ดีมาก</div></div>
+      <div class="mcard"><div class="mlabel">IoU</div><div class="mval" id="iouVal" style="color:var(--success);">1.00</div></div>
+      <div class="mcard"><div class="mlabel">ผลการตรวจจับ</div><div class="mval" id="iouResult" style="font-size:.9rem;color:var(--success);">✅ TP (IoU≥0.5)</div></div>
+      <div class="mcard"><div class="mlabel">ระดับคุณภาพ</div><div class="mval" id="iouGrade" style="font-size:.88rem;color:var(--success);">🥇 ดีมาก</div></div>
     </div>
-    <div id="L2_iouAlert" class="alertbox alert-grn">✅ Box ซ้อนกันสมบูรณ์ — IoU = 1.0 ดีที่สุด!</div>
+    <div id="iouAlert" class="alertbox alert-grn">✅ Box ซ้อนกันสมบูรณ์ — IoU = 1.0 ดีที่สุด!</div>
   </div>
 
   <div class="card">
     <div class="ctitle"><div class="cicon">🏆</div>mAP: ค่าเฉลี่ยความแม่นยำรวมทุก Class</div>
-    <canvas id="L2_mapCanvas" height="200" style="background:#f7f8ff;"></canvas>
+    <canvas id="mapCanvas" width="600" height="200" style="background:#f7f8ff;"></canvas>
     <div class="legend" style="margin-top:.75rem;">
       <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>แมว (Cat)</div>
       <div class="litem"><div class="ldot" style="background:#43a047;"></div>สุนัข (Dog)</div>
@@ -889,7 +889,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
 </div>
 
 <!-- ===== S4 EPOCHS & LR ===== -->
-<div class="sec" id="L2_s3">
+<div class="sec" id="s3">
   <div class="chead">
     <h2>🎛️ แนวคิดที่ 4: ความพอดีในการเคี่ยวกรำ (Epochs & Learning Rate)</h2>
     <p>ฝึกมากไปก็ไหม้ — ฝึกน้อยไปก็ดิบ — ต้องพอดีและรู้จักหยุด</p>
@@ -904,38 +904,38 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
     <div class="ctitle"><div class="cicon">🍰</div>จำลอง: การฝึก AI กับ Early Stopping</div>
     <div class="row2" style="margin-bottom:1rem;gap:.75rem;">
       <div class="sg">
-        <div class="slab">จำนวน Epochs <span id="L2_epVal2">60</span></div>
-        <input type="range" id="L2_epSlider2" min="10" max="150" value="60" oninput="updateEarlyStop()">
+        <div class="slab">จำนวน Epochs <span id="epVal2">60</span></div>
+        <input type="range" id="epSlider2" min="10" max="150" value="60" oninput="updateEarlyStop()">
       </div>
       <div class="sg">
-        <div class="slab">Learning Rate <span id="L2_lrVal">0.01</span></div>
-        <input type="range" id="L2_lrSlider" min="1" max="10" value="5" oninput="updateEarlyStop()">
+        <div class="slab">Learning Rate <span id="lrVal">0.01</span></div>
+        <input type="range" id="lrSlider" min="1" max="10" value="5" oninput="updateEarlyStop()">
       </div>
     </div>
     <div style="margin-bottom:.5rem;">
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.87rem;font-weight:500;">
-        <input type="checkbox" id="L2_earlyStopToggle" onchange="updateEarlyStop()" style="accent-color:var(--accent);">
+        <input type="checkbox" id="earlyStopToggle" onchange="updateEarlyStop()" style="accent-color:var(--accent);">
         เปิดใช้ Early Stopping
       </label>
     </div>
-    <canvas id="L2_esCanvas" height="230" style="background:#f7f8ff;"></canvas>
+    <canvas id="esCanvas" width="600" height="230" style="background:#f7f8ff;"></canvas>
     <div class="legend">
       <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>Train Accuracy</div>
       <div class="litem"><div class="ldot" style="background:#e53935;"></div>Validation Accuracy</div>
-      <div class="litem" id="L2_esLegend" style="display:none;"><div style="width:18px;height:3px;background:#fb8c00;border-radius:2px;flex-shrink:0;"></div>จุด Early Stop</div>
+      <div class="litem" id="esLegend" style="display:none;"><div style="width:18px;height:3px;background:#fb8c00;border-radius:2px;flex-shrink:0;"></div>จุด Early Stop</div>
     </div>
     <div class="mcards" style="margin-top:.75rem;">
-      <div class="mcard"><div class="mlabel">Best Val Acc</div><div class="mval mgood" id="L2_bestAcc">-</div></div>
-      <div class="mcard"><div class="mlabel">Epoch ที่ดีที่สุด</div><div class="mval" id="L2_bestEp" style="color:var(--accent);">-</div></div>
-      <div class="mcard"><div class="mlabel">Epoch ที่ฝึก</div><div class="mval" id="L2_actualEp" style="color:var(--text-muted);">-</div></div>
-      <div class="mcard"><div class="mlabel">ประหยัดเวลา</div><div class="mval" id="L2_timeSave" style="color:var(--success);">-</div></div>
+      <div class="mcard"><div class="mlabel">Best Val Acc</div><div class="mval mgood" id="bestAcc">-</div></div>
+      <div class="mcard"><div class="mlabel">Epoch ที่ดีที่สุด</div><div class="mval" id="bestEp" style="color:var(--accent);">-</div></div>
+      <div class="mcard"><div class="mlabel">Epoch ที่ฝึก</div><div class="mval" id="actualEp" style="color:var(--text-muted);">-</div></div>
+      <div class="mcard"><div class="mlabel">ประหยัดเวลา</div><div class="mval" id="timeSave" style="color:var(--success);">-</div></div>
     </div>
-    <div id="L2_esAlert" class="alertbox alert-blu">⬆️ ปรับ Epochs และ Learning Rate แล้วดูผล</div>
+    <div id="esAlert" class="alertbox alert-blu">⬆️ ปรับ Epochs และ Learning Rate แล้วดูผล</div>
   </div>
 
   <div class="card">
     <div class="ctitle"><div class="cicon">🌡️</div>Learning Rate: ก้าวใหญ่ vs ก้าวเล็ก</div>
-    <canvas id="L2_lrCanvas" height="160" style="background:#f7f8ff;"></canvas>
+    <canvas id="lrCanvas" width="600" height="160" style="background:#f7f8ff;"></canvas>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:.75rem;">
       <div style="background:#fee2e2;border-radius:8px;padding:.75rem;text-align:center;border:1px solid #fca5a5;">
         <div style="font-size:1.2rem;">🐎</div>
@@ -962,7 +962,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
 </div>
 
 <!-- ===== S5 CONFUSION MATRIX ===== -->
-<div class="sec" id="L2_s4">
+<div class="sec" id="s4">
   <div class="chead">
     <h2>🗂️ แนวคิดที่ 5: ตารางความสับสน (Confusion Matrix)</h2>
     <p>คะแนน 80% บอกว่าดี — แต่ Confusion Matrix บอกว่า AI สับสนอะไรกับอะไร</p>
@@ -980,17 +980,17 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
     <div style="overflow-x:auto;">
       <div style="min-width:340px;">
         <div style="font-size:.78rem;color:var(--text-muted);font-weight:700;text-align:center;margin-bottom:.3rem;">AI ทาย →</div>
-        <div class="cm-grid" id="L2_cmGrid"></div>
+        <div class="cm-grid" id="cmGrid"></div>
       </div>
     </div>
 
-    <div id="L2_cmInfo" class="alertbox alert-blu" style="margin-top:.85rem;">👆 คลิกที่ช่องใดก็ได้เพื่อดูความหมาย</div>
+    <div id="cmInfo" class="alertbox alert-blu" style="margin-top:.85rem;">👆 คลิกที่ช่องใดก็ได้เพื่อดูความหมาย</div>
   </div>
 
   <div class="card">
     <div class="ctitle"><div class="cicon">🔍</div>วิเคราะห์: AI สับสนอะไรมากที่สุด?</div>
-    <canvas id="L2_confCanvas" height="200" style="background:#f7f8ff;"></canvas>
-    <div style="margin-top:.75rem;" id="L2_confAnalysis">
+    <canvas id="confCanvas" width="600" height="200" style="background:#f7f8ff;"></canvas>
+    <div style="margin-top:.75rem;" id="confAnalysis">
       <div class="alertbox alert-ylw">⚠️ AI สับสนระหว่าง <strong>Husky vs Malamute</strong> มากที่สุด (28 ครั้ง) เพราะทั้งสองพันธุ์มีลักษณะคล้ายกันมาก</div>
       <div style="margin-top:.6rem;padding:.85rem;background:#f0f4ff;border-radius:8px;border:1px solid #c7d2fe;">
         <div style="font-weight:700;color:#3730a3;font-size:.88rem;margin-bottom:.4rem;">💡 แนวทางแก้ไข Dataset</div>
@@ -1032,7 +1032,7 @@ input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
 </div>
 
 <!-- ===== S6 SUMMARY ===== -->
-<div class="sec" id="L2_s5">
+<div class="sec" id="s5">
   <div class="chead">
     <h2>✅ สรุป: เครื่องมือประเมินและควบคุมการฝึก AI</h2>
     <p>ทบทวนหลักการสำคัญทั้ง 5 ข้อจากบทเรียนที่ 2</p>
@@ -1101,15 +1101,15 @@ const secs = document.querySelectorAll('#lesson2 .sec');
 
 // ===== S1 OVERFITTING =====
 function initL2S0(){
-  L2_updateOverfit();
-  L2_drawStudentBars();
+  updateOverfit();
+  drawStudentBars();
 }
-function L2_updateOverfit(){
-  const ep = parseInt(document.getElementById('L2_epochSlider').value);
-  document.getElementById('L2_epochVal').textContent = ep;
-  const c = document.getElementById('L2_overfitCanvas');
+function updateOverfit(){
+  const ep = parseInt(document.getElementById('epochSlider').value);
+  document.getElementById('epochVal').textContent = ep;
+  const c = document.getElementById('overfitCanvas');
   const ctx = c.getContext('2d');
-  const W=c.offsetWidth||600, H=220;
+  const W=getCanvasWidth(c, 600), H=220;
   c.width=W; c.height=H;
   const pad=45, gw=W-2*pad, gh=H-2*pad-10;
 
@@ -1172,17 +1172,17 @@ function L2_updateOverfit(){
   const vLossVal=ep<=overfit_start ? (0.85*Math.exp(-(ep/100)*4)+0.12).toFixed(2) : Math.min(0.98,0.22+(ep-overfit_start)*0.006).toFixed(2);
   const gap=(parseFloat(vLossVal)-parseFloat(tLossVal)).toFixed(2);
 
-  document.getElementById('L2_trainLoss').textContent=tLossVal;
-  document.getElementById('L2_valLoss').textContent=vLossVal;
-  document.getElementById('L2_gapVal').textContent=gap;
+  document.getElementById('trainLoss').textContent=tLossVal;
+  document.getElementById('valLoss').textContent=vLossVal;
+  document.getElementById('gapVal').textContent=gap;
 
   const ov=ep>overfit_start;
-  document.getElementById('L2_valLoss').style.color=ov?'var(--danger)':'var(--success)';
-  document.getElementById('L2_gapVal').style.color=parseFloat(gap)>0.15?'var(--danger)':parseFloat(gap)>0.08?'var(--warning)':'var(--success)';
-  document.getElementById('L2_overfitStatus').textContent=ov?'🔴 Overfit':'✅ ปกติ';
-  document.getElementById('L2_overfitStatus').style.color=ov?'var(--danger)':'var(--success)';
+  document.getElementById('valLoss').style.color=ov?'var(--danger)':'var(--success)';
+  document.getElementById('gapVal').style.color=parseFloat(gap)>0.15?'var(--danger)':parseFloat(gap)>0.08?'var(--warning)':'var(--success)';
+  document.getElementById('overfitStatus').textContent=ov?'🔴 Overfit':'✅ ปกติ';
+  document.getElementById('overfitStatus').style.color=ov?'var(--danger)':'var(--success)';
 
-  const al=document.getElementById('L2_overfitAlert');
+  const al=document.getElementById('overfitAlert');
   if(ov){
     al.className='alertbox alert-red';
     al.textContent='⚠️ Overfitting กำลังเกิดขึ้น! Val Loss พุ่งสูงขณะที่ Train Loss ยังลดลง — ควร Early Stop ที่ Epoch ≈ '+overfit_start;
@@ -1192,12 +1192,12 @@ function L2_updateOverfit(){
   }
 }
 
-function L2_drawStudentBars(){
+function drawStudentBars(){
   const drawBars=(id,data,colors)=>{
     const c=document.getElementById(id);
     if(!c)return;
     const ctx=c.getContext('2d');
-    const W=c.offsetWidth||200, H=90;
+    const W=getCanvasWidth(c, 200), H=90;
     c.width=W; c.height=H;
     ctx.clearRect(0,0,W,H);
     const bw=(W-30)/(data.length*2);
@@ -1212,20 +1212,20 @@ function L2_drawStudentBars(){
       ctx.fillText(['Train','Val'][i], x+bw/2, H-8);
     });
   };
-  L2_drawBars('studentA',[100,35],['#e53935','#ef9a9a']);
-  L2_drawBars('studentB',[88,84],['#43a047','#66bb6a']);
+  drawBars('studentA',[100,35],['#e53935','#ef9a9a']);
+  drawBars('studentB',[88,84],['#43a047','#66bb6a']);
 }
 
 // ===== S2 PRECISION vs RECALL =====
 // People: 0=innocent, 1=criminal
 const people=[0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1];
-function initL2S1(){L2_updateAirport();L2_drawPRCurve();}
-function L2_updateAirport(){
-  const thresh=parseInt(document.getElementById('L2_threshSlider').value);
-  document.getElementById('L2_threshVal').textContent=thresh;
+function initL2S1(){updateAirport();drawPRCurve();}
+function updateAirport(){
+  const thresh=parseInt(document.getElementById('threshSlider').value);
+  document.getElementById('threshVal').textContent=thresh;
   // each person has a suspicion score
   const scores=[30,20,95,15,25,85,35,10,40,90,18,22,45,80,28,12,38,8,50,92];
-  const grid=document.getElementById('L2_airportGrid');
+  const grid=document.getElementById('airportGrid');
   grid.innerHTML='';
 
   let tp=0,fp=0,fn=0,tn=0;
@@ -1247,23 +1247,23 @@ function L2_updateAirport(){
   const prec=tp+fp>0?Math.round(tp/(tp+fp)*100):100;
   const rec=tp+fn>0?Math.round(tp/(tp+fn)*100):0;
   const f1=prec+rec>0?Math.round(2*prec*rec/(prec+rec)):0;
-  document.getElementById('L2_precVal').textContent=prec+'%';
-  document.getElementById('L2_recVal').textContent=rec+'%';
-  document.getElementById('L2_f1Val').textContent=f1+'%';
-  document.getElementById('L2_fpVal').textContent=fp+' คน';
-  document.getElementById('L2_fnVal').textContent=fn+' คน';
+  document.getElementById('precVal').textContent=prec+'%';
+  document.getElementById('recVal').textContent=rec+'%';
+  document.getElementById('f1Val').textContent=f1+'%';
+  document.getElementById('fpVal').textContent=fp+' คน';
+  document.getElementById('fnVal').textContent=fn+' คน';
 
-  const al=document.getElementById('L2_airportAlert');
+  const al=document.getElementById('airportAlert');
   if(thresh<30){al.className='alertbox alert-ylw';al.textContent='⚠️ Threshold ต่ำ: จับคนร้ายได้ครบแต่ตรวจคนบริสุทธิ์เยอะ (Recall↑ Precision↓)';}
   else if(thresh>75){al.className='alertbox alert-ylw';al.textContent='⚠️ Threshold สูง: แม่นยำมากแต่เสี่ยงให้คนร้ายรอด (Precision↑ Recall↓)';}
   else{al.className='alertbox alert-blu';al.textContent='⚖️ สมดุลระหว่าง Precision และ Recall — F1 Score: '+f1+'%';}
-  L2_drawPRCurve(thresh);
+  drawPRCurve(thresh);
 }
-function L2_drawPRCurve(curThresh=50){
-  const c=document.getElementById('L2_prCanvas');
+function drawPRCurve(curThresh=50){
+  const c=document.getElementById('prCanvas');
   if(!c)return;
   const ctx=c.getContext('2d');
-  const W=c.offsetWidth||580, H=200;
+  const W=getCanvasWidth(c, 580), H=200;
   c.width=W; c.height=H;
   const pad=40, gw=W-2*pad, gh=H-2*pad;
   ctx.clearRect(0,0,W,H);
@@ -1304,7 +1304,7 @@ function L2_drawPRCurve(curThresh=50){
   ctx.fillStyle='#fb8c00'; ctx.beginPath(); ctx.arc(cx2,cy2,7,0,Math.PI*2); ctx.fill();
   ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
 }
-function L2_checkChoice(q,ans,el){
+function checkChoice(q,ans,el){
   const correct={1:'recall',2:'precision'};
   const parent=el.parentElement;
   parent.querySelectorAll('.choice-btn').forEach(b=>{b.classList.remove('correct','wrong');});
@@ -1315,20 +1315,20 @@ function L2_checkChoice(q,ans,el){
 }
 
 // ===== S3 mAP & IoU =====
-function initL2S2(){L2_updateIoU();L2_drawMapChart();}
-function L2_updateIoU(){
-  const dx=parseInt(document.getElementById('L2_iouX').value);
-  const dy=parseInt(document.getElementById('L2_iouY').value);
-  document.getElementById('L2_iouXVal').textContent=dx;
-  document.getElementById('L2_iouYVal').textContent=dy;
+function initL2S2(){updateIoU();drawMapChart();}
+function updateIoU(){
+  const dx=parseInt(document.getElementById('iouX').value);
+  const dy=parseInt(document.getElementById('iouY').value);
+  document.getElementById('iouXVal').textContent=dx;
+  document.getElementById('iouYVal').textContent=dy;
 
-  const demo=document.getElementById('L2_iouDemo');
+  const demo=document.getElementById('iouDemo');
   const W=demo.offsetWidth||400, H=180;
   const gt={l:.22*W,t:.12*H,w:.55*W,h:.72*H};
   const pr={l:gt.l+dx*.8,t:gt.t+dy*.8,w:gt.w,h:gt.h};
 
-  document.getElementById('L2_gtBox').style.cssText=`left:${gt.l}px;top:${gt.t}px;width:${gt.w}px;height:${gt.h}px;position:absolute;border:3px solid #43a047;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#43a047;background:rgba(67,160,71,.08);`;
-  document.getElementById('L2_predBox').style.cssText=`left:${pr.l}px;top:${pr.t}px;width:${pr.w}px;height:${pr.h}px;position:absolute;border:3px dashed #e53935;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#e53935;background:rgba(229,57,53,.08);`;
+  document.getElementById('gtBox').style.cssText=`left:${gt.l}px;top:${gt.t}px;width:${gt.w}px;height:${gt.h}px;position:absolute;border:3px solid #43a047;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#43a047;background:rgba(67,160,71,.08);`;
+  document.getElementById('predBox').style.cssText=`left:${pr.l}px;top:${pr.t}px;width:${pr.w}px;height:${pr.h}px;position:absolute;border:3px dashed #e53935;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#e53935;background:rgba(229,57,53,.08);`;
 
   const ol={l:Math.max(gt.l,pr.l),t:Math.max(gt.t,pr.t)};
   ol.r=Math.min(gt.l+gt.w,pr.l+pr.w);
@@ -1338,28 +1338,28 @@ function L2_updateIoU(){
   const union=gt.w*gt.h+pr.w*pr.h-inter;
   const iou=union>0?inter/union:0;
 
-  document.getElementById('L2_overlapBox').style.cssText=`left:${ol.l}px;top:${ol.t}px;width:${interW}px;height:${interH}px;position:absolute;background:rgba(92,107,192,.25);border-radius:2px;`;
+  document.getElementById('overlapBox').style.cssText=`left:${ol.l}px;top:${ol.t}px;width:${interW}px;height:${interH}px;position:absolute;background:rgba(92,107,192,.25);border-radius:2px;`;
   const iouDisplay=iou.toFixed(2);
-  document.getElementById('L2_iouVal').textContent=iouDisplay;
-  document.getElementById('L2_iouVal').style.color=iou>=.75?'var(--success)':iou>=.5?'var(--warning)':'var(--danger)';
+  document.getElementById('iouVal').textContent=iouDisplay;
+  document.getElementById('iouVal').style.color=iou>=.75?'var(--success)':iou>=.5?'var(--warning)':'var(--danger)';
 
   let result,grade,ac,ab;
   if(iou>=0.5){result='✅ TP (IoU≥0.5)';grade='🥇 ดีมาก';ac='var(--success)';ab='alert-grn';}
   else if(iou>=0.25){result='⚠️ Partial';grade='🥈 พอใช้';ac='var(--warning)';ab='alert-ylw';}
   else{result='❌ FP (IoU<0.5)';grade='🥉 ต้องปรับ';ac='var(--danger)';ab='alert-red';}
-  document.getElementById('L2_iouResult').textContent=result;
-  document.getElementById('L2_iouResult').style.color=ac;
-  document.getElementById('L2_iouGrade').textContent=grade;
-  const ial=document.getElementById('L2_iouAlert');
+  document.getElementById('iouResult').textContent=result;
+  document.getElementById('iouResult').style.color=ac;
+  document.getElementById('iouGrade').textContent=grade;
+  const ial=document.getElementById('iouAlert');
   ial.className='alertbox '+ab;
   ial.textContent=iou>=0.5?`✅ IoU = ${iouDisplay} — Box ซ้อนทับเพียงพอ นับเป็น True Positive`:iou>=0.25?`⚠️ IoU = ${iouDisplay} — Box ซ้อนทับน้อยเกินไป ยังไม่เป็น TP`:`❌ IoU = ${iouDisplay} — Box แทบไม่ซ้อนทับ = False Positive`;
 }
 
-function L2_drawMapChart(){
-  const c=document.getElementById('L2_mapCanvas');
+function drawMapChart(){
+  const c=document.getElementById('mapCanvas');
   if(!c)return;
   const ctx=c.getContext('2d');
-  const W=c.offsetWidth||580, H=200;
+  const W=getCanvasWidth(c, 580), H=200;
   c.width=W; c.height=H;
   const pad=45, gw=W-2*pad, gh=H-2*pad;
   ctx.clearRect(0,0,W,H);
@@ -1393,20 +1393,20 @@ function L2_drawMapChart(){
 }
 
 // ===== S4 EARLY STOPPING =====
-function initL2S3(){L2_updateEarlyStop();L2_drawLRViz();}
-function L2_updateEarlyStop(){
-  const ep=parseInt(document.getElementById('L2_epSlider2').value);
-  const lrIdx=parseInt(document.getElementById('L2_lrSlider').value);
+function initL2S3(){updateEarlyStop();drawLRViz();}
+function updateEarlyStop(){
+  const ep=parseInt(document.getElementById('epSlider2').value);
+  const lrIdx=parseInt(document.getElementById('lrSlider').value);
   const lrValues=[0.001,0.003,0.005,0.008,0.01,0.015,0.02,0.03,0.05,0.1];
   const lr=lrValues[lrIdx-1];
-  document.getElementById('L2_epVal2').textContent=ep;
-  document.getElementById('L2_lrVal').textContent=lr;
-  const useES=document.getElementById('L2_earlyStopToggle').checked;
-  document.getElementById('L2_esLegend').style.display=useES?'flex':'none';
+  document.getElementById('epVal2').textContent=ep;
+  document.getElementById('lrVal').textContent=lr;
+  const useES=document.getElementById('earlyStopToggle').checked;
+  document.getElementById('esLegend').style.display=useES?'flex':'none';
 
-  const c=document.getElementById('L2_esCanvas');
+  const c=document.getElementById('esCanvas');
   const ctx=c.getContext('2d');
-  const W=c.offsetWidth||580, H=230;
+  const W=getCanvasWidth(c, 580), H=230;
   c.width=W; c.height=H;
   const pad=45, gw=W-2*pad, gh=H-2*pad-5;
   ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
@@ -1460,25 +1460,25 @@ function L2_updateEarlyStop(){
   ctx.fillText('Epoch →', W/2, H-2);
   ctx.save(); ctx.rotate(-Math.PI/2); ctx.fillText('Accuracy ↑', -H/2, 12); ctx.restore();
 
-  document.getElementById('L2_bestAcc').textContent=Math.round(bestValAcc)+'%';
-  document.getElementById('L2_bestEp').textContent='Ep. '+bestEp;
-  document.getElementById('L2_actualEp').textContent='Ep. '+ep;
+  document.getElementById('bestAcc').textContent=Math.round(bestValAcc)+'%';
+  document.getElementById('bestEp').textContent='Ep. '+bestEp;
+  document.getElementById('actualEp').textContent='Ep. '+ep;
   const saved=useES&&bestEp<ep?ep-bestEp:0;
-  document.getElementById('L2_timeSave').textContent=saved>0?'~'+saved+' Epochs':'ไม่ได้เปิด';
-  document.getElementById('L2_timeSave').style.color=saved>0?'var(--success)':'var(--text-muted)';
+  document.getElementById('timeSave').textContent=saved>0?'~'+saved+' Epochs':'ไม่ได้เปิด';
+  document.getElementById('timeSave').style.color=saved>0?'var(--success)':'var(--text-muted)';
 
-  const al=document.getElementById('L2_esAlert');
+  const al=document.getElementById('esAlert');
   if(useES&&bestEp<ep){al.className='alertbox alert-grn';al.textContent='✅ Early Stopping หยุดที่ Epoch '+bestEp+' ประหยัด '+saved+' Epochs และป้องกัน Overfitting';}
   else if(ep>bestEp){al.className='alertbox alert-red';al.textContent='⚠️ ฝึกเกิน Epoch ที่ดีที่สุด ('+bestEp+') เสี่ยง Overfitting — ลองเปิด Early Stopping';}
   else{al.className='alertbox alert-blu';al.textContent='✅ จำนวน Epoch เหมาะสม กำลังอยู่ในช่วงเรียนรู้ที่ดี';}
-  L2_drawLRViz();
+  drawLRViz();
 }
 
-function L2_drawLRViz(){
-  const c=document.getElementById('L2_lrCanvas');
+function drawLRViz(){
+  const c=document.getElementById('lrCanvas');
   if(!c)return;
   const ctx=c.getContext('2d');
-  const W=c.offsetWidth||580, H=160;
+  const W=getCanvasWidth(c, 580), H=160;
   c.width=W; c.height=H;
   ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
 
@@ -1493,7 +1493,7 @@ function L2_drawLRViz(){
   }
   ctx.stroke();
 
-  const lrIdx=parseInt(document.getElementById('L2_lrSlider').value);
+  const lrIdx=parseInt(document.getElementById('lrSlider').value);
   const scenarios=[
     {lbl:'LR ต่ำเกิน',col:'#fb8c00',steps:8,stepSize:8,startX:midX-W*0.28},
     {lbl:'LR พอดี',col:'#43a047',steps:4,stepSize:20,startX:midX-W*0.28},
@@ -1509,7 +1509,7 @@ function L2_drawLRViz(){
   for(let s=0;s<sc.steps;s++){
     const nx=cx+(midX-cx)*Math.min(1,sc.stepSize/80);
     if(Math.abs(nx-midX)<5) break;
-    const cy=L2_getY(cx), ny=L2_getY(nx);
+    const cy=getY(cx), ny=getY(nx);
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(nx,ny); ctx.stroke();
     ctx.fillStyle=sc.col; ctx.beginPath(); ctx.arc(nx,ny,4,0,Math.PI*2); ctx.fill();
     if(si===2&&s>0){cx=cx+(nx-cx)*((Math.random()-.4)*3);} else cx=nx;
@@ -1518,8 +1518,8 @@ function L2_drawLRViz(){
   ctx.fillStyle='#374151'; ctx.font='10px Sarabun'; ctx.textAlign='center';
   ctx.fillText('🏔 Loss Landscape — '+sc.lbl, W/2, 14);
   ctx.fillStyle='#6b7280'; ctx.fillText('↕ Loss', 10, baseline+8); ctx.fillText('← Weights →', W/2, H-5);
-  ctx.fillStyle='#43a047'; ctx.font='bold 10px Sarabun'; ctx.fillText('★', midX, L2_getY(midX)-8);
-  ctx.fillText('optimal', midX, L2_getY(midX)-18);
+  ctx.fillStyle='#43a047'; ctx.font='bold 10px Sarabun'; ctx.fillText('★', midX, getY(midX)-8);
+  ctx.fillText('optimal', midX, getY(midX)-18);
 }
 
 // ===== S5 CONFUSION MATRIX =====
@@ -1527,9 +1527,9 @@ const cmData={
   labels:['Husky','Malamute','Shiba','Poodle'],
   matrix:[[62,28,5,5],[18,72,4,6],[3,2,85,10],[4,5,8,83]]
 };
-function initL2S4(){L2_buildCM();L2_drawConfBar();}
-function L2_buildCM(){
-  const grid=document.getElementById('L2_cmGrid');
+function initL2S4(){buildCM();drawConfBar();}
+function buildCM(){
+  const grid=document.getElementById('cmGrid');
   grid.style.gridTemplateColumns='repeat(5,1fr)';
   grid.innerHTML='';
   const add=(content,cls,onclick)=>{
@@ -1550,23 +1550,23 @@ function L2_buildCM(){
       else if(v>20) cls+='cm-fn';
       else if(v>5) cls+='cm-fp';
       else cls+='cm-zero';
-      add(v, cls, ()=>L2_showCMInfo(ri,ci,v));
+      add(v, cls, ()=>showCMInfo(ri,ci,v));
     });
   });
 }
-function L2_showCMInfo(r,c,v){
-  const al=document.getElementById('L2_cmInfo');
+function showCMInfo(r,c,v){
+  const al=document.getElementById('cmInfo');
   const rl=cmData.labels[r], cl=cmData.labels[c];
   if(r===c){al.className='alertbox alert-grn';al.innerHTML=`✅ <strong>${rl}</strong> ทายถูก ${v} ครั้ง — Diagonal หมายถึงทำนายถูกต้อง`;}
   else if(v>20){al.className='alertbox alert-red';al.innerHTML=`❌ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ถึง ${v} ครั้ง! → แก้ไข: เพิ่มภาพเน้น Feature ที่ต่างกันระหว่างสองพันธุ์นี้`;}
   else if(v>5){al.className='alertbox alert-ylw';al.innerHTML=`⚠️ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ${v} ครั้ง — มีข้อผิดพลาดพอสมควร`;}
   else{al.className='alertbox alert-blu';al.innerHTML=`ℹ️ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ${v} ครั้ง — ถือว่าน้อย`;}
 }
-function L2_drawConfBar(){
-  const c=document.getElementById('L2_confCanvas');
+function drawConfBar(){
+  const c=document.getElementById('confCanvas');
   if(!c)return;
   const ctx=c.getContext('2d');
-  const W=c.offsetWidth||580, H=200;
+  const W=getCanvasWidth(c, 580), H=200;
   c.width=W; c.height=H;
   const pad=50, gw=W-2*pad, gh=H-2*pad;
   ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
@@ -1599,23 +1599,24 @@ function L2_drawConfBar(){
   ctx.textAlign='right'; ctx.fillText('ครั้ง', pad-5, pad+4);
 }
 
-// ===== INIT =====
-initL2S0();
 
-
-
+function getCanvasWidth(c, fallback) {
+  var w = c.offsetWidth || c.parentElement && c.parentElement.offsetWidth || fallback || 580;
+  return w > 0 ? w : fallback || 580;
+}
 
 function goL2(i) {
   document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',i===j));
   document.querySelectorAll('.sec').forEach((s,j)=>s.classList.toggle('on',i===j));
-  if(i===0)initL2S0();
-  if(i===1)initL2S1();
-  if(i===2)initL2S2();
-  if(i===3)initL2S3();
-  if(i===4)initL2S4();
+  requestAnimationFrame(function() {
+    if(i===0)initL2S0();
+    else if(i===1)initL2S1();
+    else if(i===2)initL2S2();
+    else if(i===3)initL2S3();
+    else if(i===4)initL2S4();
+  });
 }
-
-initL2S0();
+document.addEventListener("DOMContentLoaded", function() { requestAnimationFrame(function(){ requestAnimationFrame(initL2S0); }); });
 </script>
 </body>
 </html>
