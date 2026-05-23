@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บทที่ 1: ศาสตร์แห่งการเตรียมข้อมูลสำหรับ AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;line-height:1.8;font-size:16px;}
+.back-bar{
+  background:rgba(15,15,40,0.95);color:rgba(255,255,255,0.85);
+  padding:.65rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:.85rem;width:100%;font-family:'Sarabun',sans-serif;
+  text-decoration:none;transition:.2s;
+}
+.back-bar:hover{background:#000;color:#fff;}
+/* ===== LESSON 1 VARS ===== */
+#lesson1{
+  --primary:#1a1a2e;--accent:#e94560;--accent2:#0f3460;--accent3:#533483;
+  --teal:#16213e;--gold:#f5a623;--green:#27ae60;--bg:#f8f7f4;--surface:#ffffff;
+  --text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;
+  --success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;
+  background:var(--bg);color:var(--text);
+}
+
+
+
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --accent3: #533483;
+    --teal: #16213e;
+    --gold: #f5a623;
+    --green: #27ae60;
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(233,69,96,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(83,52,131,0.15) 0%, transparent 50%);
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+  .hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(233,69,96,0.25);
+    color: #ff8fa3;
+    border: 1px solid rgba(233,69,96,0.4);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .nav-tabs {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 1.5rem;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tab-btn:hover { color: var(--text); background: #f9fafb; }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .tab-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .tab-btn.active .tab-num {
+    background: var(--accent);
+    color: white;
+  }
+
+  .main-content { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .concept-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem 1.75rem;
+    background: var(--surface);
+    border-radius: 16px;
+    border-left: 5px solid var(--accent);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .concept-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .concept-header p { color: var(--text-muted); }
+
+  .principle-box {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .principle-box h3 {
+    color: #f5a623;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .principle-box p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .sim-container {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .sim-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sim-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  canvas {
+    border-radius: 10px;
+    display: block;
+    max-width: 100%;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #c73652; transform: translateY(-1px); }
+  .btn-secondary { background: #f3f4f6; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #e5e7eb; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #059669; }
+
+  .slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 200px;
+    flex: 1;
+  }
+
+  .slider-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .slider-label span {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .result-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .metric-card {
+    flex: 1;
+    min-width: 120px;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .metric-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+  .metric-value { font-size: 1.5rem; font-weight: 700; margin-top: 2px; }
+
+  .metric-good { color: var(--success); }
+  .metric-bad { color: var(--danger); }
+  .metric-warn { color: var(--warning); }
+
+  .question-block {
+    background: #fef9ec;
+    border: 1px solid #fcd34d;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+  }
+
+  .question-block .q-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #92400e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  .question-block p { color: #78350f; font-size: 0.95rem; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .answer-reveal {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #ecfdf5;
+    border-radius: 8px;
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .progress-tracker {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+
+  .progress-dot.done { background: var(--success); }
+  .progress-dot.current { background: var(--accent); transform: scale(1.3); }
+
+  .scenario-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ede9fe;
+    color: #5b21b6;
+    border-radius: 20px;
+    padding: 0.25rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  select {
+    font-family: 'Sarabun', sans-serif;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+
+  .info-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .chip {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .chip-blue { background: #dbeafe; color: #1d4ed8; }
+  .chip-green { background: #dcfce7; color: #15803d; }
+  .chip-red { background: #fee2e2; color: #b91c1c; }
+  .chip-purple { background: #ede9fe; color: #6d28d9; }
+  .chip-orange { background: #ffedd5; color: #c2410c; }
+
+  .summary-section {
+    background: linear-gradient(135deg, #1a1a2e, #533483);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    margin-top: 2rem;
+  }
+
+  .summary-section h2 { font-size: 1.3rem; margin-bottom: 1.25rem; color: #fbbf24; }
+
+  .checklist {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 600px) { .checklist { grid-template-columns: 1fr; } }
+
+  .checklist li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #10b981;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .aug-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .aug-card {
+    background: #f9fafb;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .aug-card:hover { border-color: var(--accent); background: #fff5f5; color: var(--text); }
+  .aug-card.selected { border-color: var(--success); background: #ecfdf5; color: var(--success); font-weight: 600; }
+  .aug-card.wrong { border-color: var(--danger); background: #fef2f2; color: var(--danger); }
+
+  .aug-emoji { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+
+  .feedback-msg {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+  }
+
+  .feedback-correct { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+  .feedback-wrong { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+
+  #augFeedback1, #augFeedback2 { display: none; }
+
+</style>
+</head>
+<body>
+<a class="back-bar" href="index.html">← กลับหน้าเลือกบทเรียน &nbsp;|&nbsp; 🗂️ บทที่ 1: ศาสตร์แห่งการเตรียมข้อมูลสำหรับ AI</a>
+
+<div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:white;padding:2.2rem 2rem 1.75rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(233,69,96,0.15) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(83,52,131,0.15) 0%,transparent 50%);"></div>
+  <div style="position:relative;z-index:1;">
+    <div style="display:inline-block;background:rgba(233,69,96,0.25);color:#ff8fa3;border:1px solid rgba(233,69,96,0.4);border-radius:20px;padding:.25rem .9rem;font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem;">🤖 AI Learning Lab — บทที่ 1</div>
+    <h1 style="font-size:clamp(1.4rem,3.5vw,2.3rem);font-weight:700;margin-bottom:.5rem;">มนุษย์เรียนรู้ AI — AI เรียนรู้จากมนุษย์</h1>
+    <p style="font-size:.97rem;opacity:.8;max-width:560px;margin:0 auto;">มาสำรวจพฤติกรรมการเรียนรู้ของ AI กันเถอะ! ศาสตร์แห่งการเตรียมข้อมูล</p>
+  </div>
+</div>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> มุมมองกล้อง</button>
+  <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> ข้อมูลไม่สมดุล</button>
+  <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> อคติฉากหลัง</button>
+  <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Generalization</button>
+  <button class="tab-btn" onclick="switchTab(4)"><span class="tab-num">5</span> Data Augmentation</button>
+  <button class="tab-btn" onclick="switchTab(5)"><span class="tab-num">✓</span> สรุป</button>
+</div>
+
+
+
+<div class="main-content">
+
+
+<!-- SECTION 1: Viewpoint Coverage -->
+<div class="section active" id="s0">
+  <div class="concept-header">
+    <h2>📷 แนวคิดที่ 1: ความครอบคลุมของมุมมอง (Viewpoint Coverage)</h2>
+    <p>AI เรียนรู้จาก "มุมมองที่เห็น" ถ้าสอนด้วยมุมเดียว ก็รู้จักแค่มุมนั้น</p>
+  </div>
+
+  <div class="question-block">
+    <div class="q-label">💭 คำถามให้คิด</div>
+    <p>หากสอน AI ให้รู้จัก "แก้วน้ำ" จากภาพด้านข้างเท่านั้น แล้วนำไปใช้กับกล้องวงจรปิดบนเพดานที่มองเห็นแก้วจากด้านบน — จะเกิดอะไรขึ้น?</p>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🎯</div> จำลองการมองวัตถุในมุมต่างๆ</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">เลือกมุมมองของกล้อง และดูว่า AI ที่สอนจากมุมเดียวจะรู้จักวัตถุได้หรือไม่</p>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+      <div style="flex:1; min-width:220px;">
+        <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">📚 ชุดข้อมูลที่ใช้สอน AI</div>
+        <div id="trainingSlots" style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:0.75rem;"></div>
+        <div style="font-size:0.8rem; color:var(--text-muted);">AI เห็นภาพเหล่านี้ระหว่างการสอน</div>
+      </div>
+      <div style="flex:1; min-width:220px;">
+        <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">🔍 ทดสอบ AI ด้วยภาพใหม่</div>
+        <canvas id="testCanvas" width="200" height="200" style="border:2px dashed var(--border); background:#f9fafb; width:100%; max-width:200px;"></canvas>
+        <div style="margin-top:0.5rem;">
+          <select id="cameraAngle" onchange="updateTest()" style="width:100%;">
+            <option value="side">📸 ด้านข้าง (Side View)</option>
+            <option value="top">🔝 ด้านบน (Top View)</option>
+            <option value="front">🔲 ด้านหน้า (Front View)</option>
+            <option value="angle">📐 มุมเฉียง (Angle View)</option>
+          </select>
+        </div>
+      </div>
+      <div style="flex:1; min-width:200px; display:flex; flex-direction:column; gap:0.75rem; justify-content:center;">
+        <div id="aiResult" class="metric-card" style="flex:none;">
+          <div class="metric-label">ผลการตรวจสอบ AI</div>
+          <div id="aiConfidence" class="metric-value metric-good">95%</div>
+          <div id="aiLabel" style="font-size:0.8rem; color:var(--text-muted);">แก้วน้ำ ✓</div>
+        </div>
+        <div id="aiStatusBox" style="background:#ecfdf5; border:1px solid #6ee7b7; border-radius:8px; padding:0.75rem; font-size:0.85rem; color:#065f46;">
+          ✅ AI จำได้! เพราะมุมภาพคล้ายกับข้อมูลสอน
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem; padding:0.85rem 1rem; background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
+      <div style="font-size:0.8rem; font-weight:700; color:#0369a1; margin-bottom:0.4rem;">💡 บทเรียนจากการทดลอง</div>
+      <p id="viewpointLesson" style="font-size:0.85rem; color:#0c4a6e;">ลองเปลี่ยนมุมกล้องด้านบน เพื่อดูว่า AI ที่เรียนแค่ภาพด้านข้างจะทำงานอย่างไร</p>
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🏭</div> กรณีศึกษา: กล้องตรวจสอบรอยร้าวในโรงงาน</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+      <div style="background:#fef2f2; border-radius:10px; padding:1rem; border:1px solid #fca5a5;">
+        <div style="font-weight:700; color:#991b1b; margin-bottom:0.5rem; font-size:0.9rem;">❌ ชุดข้อมูลไม่ครอบคลุม</div>
+        <canvas id="badDatasetCanvas" width="240" height="120" style="width:100%; border-radius:6px;"></canvas>
+        <div style="font-size:0.8rem; color:#7f1d1d; margin-top:0.5rem;">ภาพรอยร้าวจาก "ด้านข้าง" เพียงมุมเดียว</div>
+      </div>
+      <div style="background:#ecfdf5; border-radius:10px; padding:1rem; border:1px solid #6ee7b7;">
+        <div style="font-weight:700; color:#065f46; margin-bottom:0.5rem; font-size:0.9rem;">✅ ชุดข้อมูลครอบคลุม</div>
+        <canvas id="goodDatasetCanvas" width="240" height="120" style="width:100%; border-radius:6px;"></canvas>
+        <div style="font-size:0.8rem; color:#064e3b; margin-top:0.5rem;">ภาพรอยร้าวจากหลายมุม ครอบคลุมการใช้งานจริง</div>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-primary" onclick="animateCrackDetection()">▶ จำลองการตรวจจับรอยร้าว</button>
+      <div id="detectionResult" style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-muted);"></div>
+    </div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 หลักการ: Viewpoint Coverage</h3>
+    <p>ชุดข้อมูลที่ดีต้องมีภาพจาก <strong>มุมมองที่หลากหลาย</strong> ให้สอดคล้องกับสภาพแวดล้อมและตำแหน่งกล้องในการใช้งานจริง หาก AI เรียนจากมุมเดียว จะจดจำ "ลักษณะเฉพาะของมุมนั้น" ไม่ใช่ตัววัตถุ</p>
+  </div>
+</div>
+
+<!-- SECTION 2: Class Imbalance -->
+<div class="section" id="s1">
+  <div class="concept-header">
+    <h2>⚖️ แนวคิดที่ 2: ปัญหาข้อมูลไม่สมดุล (Class Imbalance)</h2>
+    <p>เมื่อข้อมูลหนึ่งประเภทมีมากกว่าอีกประเภทมาก AI จะเกิด "ความลำเอียง"</p>
+  </div>
+
+  <div class="question-block">
+    <div class="q-label">💭 คำถามให้คิด</div>
+    <p>โรงพยาบาลรวบรวมข้อมูลผิวหนังปกติ 10,000 ภาพ แต่มีภาพมะเร็ง 20 ภาพ — AI จะ "เดา" อะไรเมื่อเจอเคสที่น่าสงสัย?</p>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">📊</div> จำลองผลกระทบของข้อมูลไม่สมดุล</div>
+    <div style="margin-bottom:1rem;">
+      <div class="slider-group">
+        <div class="slider-label">จำนวนภาพผิวหนังปกติ <span id="normalCount">10000</span> ภาพ</div>
+        <input type="range" id="normalSlider" min="100" max="10000" value="10000" step="100" oninput="updateImbalance()">
+      </div>
+      <div class="slider-group" style="margin-top:0.75rem;">
+        <div class="slider-label">จำนวนภาพมะเร็ง <span id="cancerCount">20</span> ภาพ</div>
+        <input type="range" id="cancerSlider" min="10" max="5000" value="20" step="10" oninput="updateImbalance()">
+      </div>
+    </div>
+
+    <canvas id="imbalanceCanvas" width="600" height="200" style="width:100%; border-radius:10px; background:#f9fafb;"></canvas>
+
+    <div class="result-display" style="margin-top:1rem;">
+      <div class="metric-card">
+        <div class="metric-label">อัตราส่วนข้อมูล</div>
+        <div class="metric-value" id="ratioVal" style="color:var(--danger);">500:1</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">AI เดา "ปกติ"</div>
+        <div class="metric-value" id="normalBias" style="color:var(--warning);">99.8%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ตรวจพบมะเร็ง</div>
+        <div class="metric-value metric-bad" id="cancerDetect">5%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ความสมดุล</div>
+        <div class="metric-value" id="balanceScore" style="color:var(--danger);">🔴 วิกฤต</div>
+      </div>
+    </div>
+
+    <div id="imbalanceAlert" style="margin-top:1rem; padding:0.85rem; background:#fef2f2; border-radius:8px; border:1px solid #fca5a5; font-size:0.85rem; color:#991b1b;">
+      ⚠️ อัตราส่วน 500:1 ทำให้ AI เรียนรู้ว่า "ทายว่าปกติเสมอ" มีโอกาสถูก 99.8% — แต่พลาดมะเร็งทั้งหมด!
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🔧</div> วิธีแก้ปัญหา: Class Balancing Techniques</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+      <div style="background:#eff6ff; border:2px solid transparent; border-radius:10px; padding:1rem; text-align:center; cursor:pointer; transition:all 0.2s;" id="tech-under" onclick="selectTech('under')">
+        <div style="font-size:1.8rem; margin-bottom:0.5rem;">📉</div>
+        <div style="font-size:0.85rem; font-weight:600; color:#1d4ed8;">Undersampling</div>
+        <div style="font-size:0.75rem; color:#1e40af; margin-top:0.25rem;">ลดข้อมูลกลุ่มมาก</div>
+      </div>
+      <div style="background:#f0fdf4; border:2px solid transparent; border-radius:10px; padding:1rem; text-align:center; cursor:pointer; transition:all 0.2s;" id="tech-over" onclick="selectTech('over')">
+        <div style="font-size:1.8rem; margin-bottom:0.5rem;">📈</div>
+        <div style="font-size:0.85rem; font-weight:600; color:#15803d;">Oversampling</div>
+        <div style="font-size:0.75rem; color:#166534; margin-top:0.25rem;">เพิ่มข้อมูลกลุ่มน้อย</div>
+      </div>
+      <div style="background:#faf5ff; border:2px solid transparent; border-radius:10px; padding:1rem; text-align:center; cursor:pointer; transition:all 0.2s;" id="tech-aug" onclick="selectTech('aug')">
+        <div style="font-size:1.8rem; margin-bottom:0.5rem;">🔄</div>
+        <div style="font-size:0.85rem; font-weight:600; color:#6d28d9;">Data Augmentation</div>
+        <div style="font-size:0.75rem; color:#5b21b6; margin-top:0.25rem;">สร้างข้อมูลใหม่</div>
+      </div>
+    </div>
+    <canvas id="balancingCanvas" width="600" height="160" style="width:100%; border-radius:10px; background:#f9fafb;"></canvas>
+    <div id="techDescription" style="margin-top:0.75rem; padding:0.75rem 1rem; background:#f8fafc; border-radius:8px; font-size:0.85rem; color:var(--text-muted);">
+      👆 คลิกเลือกเทคนิคเพื่อดูวิธีการทำงาน
+    </div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 หลักการ: Class Imbalance Problem</h3>
+    <p>เมื่อข้อมูลไม่สมดุล AI จะ "ลำเอียง" ไปทาง Majority Class เพราะการทายแบบนั้นมีโอกาสถูกสูงกว่า ต้องใช้เทคนิค Class Balancing เพื่อให้ AI เรียนรู้ได้อย่างยุติธรรม</p>
+  </div>
+</div>
+
+<!-- SECTION 3: Background Bias -->
+<div class="section" id="s2">
+  <div class="concept-header">
+    <h2>🎭 แนวคิดที่ 3: อคติจากฉากหลัง (Background Bias)</h2>
+    <p>บางครั้ง AI จำ "ฉากหลัง" ไม่ใช่ "วัตถุ" ที่เราต้องการ</p>
+  </div>
+
+  <div class="question-block">
+    <div class="q-label">💭 คำถามให้คิด</div>
+    <p>AI ตรวจจับรถถังพรางตัวในป่าทำงานได้ดีเยี่ยม แต่พอนำรถถังคันเดิมไปวางในทะเลทราย AI กลับ "มองไม่เห็น" — AI จำ "รถถัง" หรือ "ป่า" กันแน่?</p>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🎯</div> ทดสอบ: AI จำอะไรกันแน่?</div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">เปลี่ยนฉากหลัง แล้วดูว่า AI ที่สอนด้วยภาพในป่าจะตรวจจับวัตถุได้หรือไม่</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ชุดข้อมูลสอน AI (ป่าทึบ)</div>
+        <canvas id="bgTrainCanvas" width="280" height="180" style="width:100%; border-radius:8px;"></canvas>
+      </div>
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ทดสอบ AI ในสภาพแวดล้อมใหม่</div>
+        <select id="bgSelect" onchange="updateBackground()" style="width:100%; margin-bottom:0.5rem;">
+          <option value="forest">🌿 ป่าทึบ (เหมือนข้อมูลสอน)</option>
+          <option value="desert">🏜️ ทะเลทราย</option>
+          <option value="snow">❄️ หิมะ</option>
+          <option value="urban">🏙️ เมือง</option>
+        </select>
+        <canvas id="bgTestCanvas" width="280" height="180" style="width:100%; border-radius:8px;"></canvas>
+      </div>
+    </div>
+
+    <div id="bgResult" style="margin-top:1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+      <div class="metric-card">
+        <div class="metric-label">ความมั่นใจ AI</div>
+        <div class="metric-value metric-good" id="bgConfidence">96%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ผลการตรวจจับ</div>
+        <div class="metric-value" id="bgDetectResult" style="font-size:1rem;">✅ พบวัตถุ</div>
+      </div>
+    </div>
+
+    <div id="bgExplanation" style="margin-top:0.75rem; padding:0.85rem; background:#ecfdf5; border-radius:8px; border:1px solid #6ee7b7; font-size:0.85rem; color:#065f46;">
+      🌿 ป่าทึบ: AI ทำงานได้ดี เพราะ "ฉากหลัง" ตรงกับข้อมูลสอน
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🔬</div> วิเคราะห์: AI "โฟกัส" ที่ส่วนไหนของภาพ?</div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">แผนที่ความร้อน (Attention Map) แสดงให้เห็นว่า AI ให้ความสำคัญกับส่วนใดของภาพมากที่สุด</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:600; color:var(--danger); margin-bottom:0.5rem;">❌ AI ที่มีอคติฉากหลัง</div>
+        <canvas id="attentionBad" width="240" height="180" style="width:100%; border-radius:8px; max-width:240px; margin:0 auto;"></canvas>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">โฟกัสที่ฉากหลัง (ป่า) มากกว่าวัตถุ</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:600; color:var(--success); margin-bottom:0.5rem;">✅ AI ที่ดี (เรียนจากหลากหลายฉาก)</div>
+        <canvas id="attentionGood" width="240" height="180" style="width:100%; border-radius:8px; max-width:240px; margin:0 auto;"></canvas>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">โฟกัสที่ตัววัตถุ (รถถัง) โดยตรง</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem;" class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> ความสนใจสูงมาก</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div> ความสนใจปานกลาง</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> ความสนใจต่ำ</div>
+    </div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 หลักการ: Background Bias</h3>
+    <p>AI อาจเรียนรู้ "บริบทแวดล้อม" แทนที่จะเรียนรู้ "ตัววัตถุ" ชุดข้อมูลที่ดีต้องให้วัตถุเป้าหมายปรากฏในสภาพแวดล้อม <strong>หลากหลาย</strong> เพื่อบังคับให้ AI โฟกัสที่ตัววัตถุจริงๆ</p>
+  </div>
+</div>
+
+<!-- SECTION 4: Generalization -->
+<div class="section" id="s3">
+  <div class="concept-header">
+    <h2>🌍 แนวคิดที่ 4: ความสามารถในการสรุปความ (Generalization)</h2>
+    <p>ชุดข้อมูลซ้ำซาก → AI ท่องจำ → ไม่สามารถรับมือโลกความเป็นจริง</p>
+  </div>
+
+  <div class="question-block">
+    <div class="q-label">💭 คำถามให้คิด</div>
+    <p>AI คัดแยกแอปเปิ้ลที่เรียนจากภาพ "แอปเปิ้ลแดงสด ขนาดเดิม แสงเดิม" 10,000 ภาพ — เมื่อมีแอปเปิ้ลสีแดงอมเขียว หรือขนาดเล็กกว่าเล็กน้อย AI จะยังทำงานได้ไหม?</p>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🍎</div> จำลองการ Overfit vs Generalize</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ชุดข้อมูลสอน AI</div>
+        <div class="slider-group">
+          <div class="slider-label">ความหลากหลายของสี <span id="colorDiversity">10</span>%</div>
+          <input type="range" id="colorSlider" min="0" max="100" value="10" oninput="updateGeneralization()">
+        </div>
+        <div class="slider-group" style="margin-top:0.5rem;">
+          <div class="slider-label">ความหลากหลายของขนาด <span id="sizeDiversity">10</span>%</div>
+          <input type="range" id="sizeSlider" min="0" max="100" value="10" oninput="updateGeneralization()">
+        </div>
+        <div class="slider-group" style="margin-top:0.5rem;">
+          <div class="slider-label">ความหลากหลายของแสง <span id="lightDiversity">10</span>%</div>
+          <input type="range" id="lightSlider" min="0" max="100" value="10" oninput="updateGeneralization()">
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ประสิทธิภาพ AI</div>
+        <canvas id="genCanvas" width="260" height="200" style="width:100%; border-radius:8px;"></canvas>
+      </div>
+    </div>
+
+    <div class="result-display">
+      <div class="metric-card">
+        <div class="metric-label">ความแม่นยำข้อมูลสอน</div>
+        <div class="metric-value metric-good" id="trainAcc">99%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ความแม่นยำข้อมูลใหม่</div>
+        <div class="metric-value metric-bad" id="testAcc">42%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ช่องว่าง (Gap)</div>
+        <div class="metric-value metric-bad" id="gapVal">57%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">สถานะ AI</div>
+        <div class="metric-value" id="aiStatus" style="font-size:0.9rem; color:var(--danger);">🔴 Overfit</div>
+      </div>
+    </div>
+
+    <div id="genExplanation" style="margin-top:0.75rem; padding:0.85rem; background:#fef2f2; border-radius:8px; border:1px solid #fca5a5; font-size:0.85rem; color:#991b1b;">
+      ⚠️ ข้อมูลซ้ำซาก: AI ท่องจำรูปแบบเดิม ไม่สามารถรับมือข้อมูลใหม่ได้
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">📈</div> Learning Curve: กราฟแสดง Overfitting</div>
+    <canvas id="learningCurve" width="600" height="200" style="width:100%; border-radius:8px; background:#f9fafb;"></canvas>
+    <div class="legend" style="margin-top:0.75rem;">
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Training Accuracy (ข้อมูลสอน)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Validation Accuracy (ข้อมูลทดสอบ)</div>
+    </div>
+    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;">เมื่อเส้นสีแดงลดลงขณะที่เส้นสีน้ำเงินยังขึ้น = Overfitting เกิดขึ้นแล้ว</div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 หลักการ: Generalization vs Overfitting</h3>
+    <p>Generalization คือความสามารถทำงานกับข้อมูลใหม่ที่ไม่เคยเห็น หากข้อมูลสอนขาดความหลากหลาย AI จะ "ท่องจำ (Overfit)" รูปแบบเดิม และล้มเหลวในโลกจริง</p>
+  </div>
+</div>
+
+<!-- SECTION 5: Data Augmentation -->
+<div class="section" id="s4">
+  <div class="concept-header">
+    <h2>🔄 แนวคิดที่ 5: การเพิ่มพูนข้อมูล (Data Augmentation)</h2>
+    <p>สร้างข้อมูลใหม่จากข้อมูลเดิม เพื่อสอน AI ให้รู้จักความหลากหลาย</p>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🎨</div> ทดลอง Data Augmentation แบบ Interactive</div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">เลือกเทคนิค Augmentation และดูผลที่เกิดขึ้นกับภาพ</p>
+
+    <div style="display:grid; grid-template-columns:auto 1fr; gap:1.5rem; align-items:start;">
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ภาพต้นฉบับ</div>
+        <canvas id="origCanvas" width="160" height="160" style="border:2px solid var(--border); border-radius:8px;"></canvas>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem; text-align:center;">Original</div>
+      </div>
+      <div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">เลือกเทคนิค Augmentation</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-bottom:1rem;">
+          <button class="btn btn-secondary" onclick="applyAug('flip')" style="font-size:0.8rem; padding:0.4rem;">↔ Flip<br><span style="font-size:0.7rem; color:var(--text-muted);">พลิกภาพ</span></button>
+          <button class="btn btn-secondary" onclick="applyAug('rotate')" style="font-size:0.8rem; padding:0.4rem;">🔄 Rotate<br><span style="font-size:0.7rem; color:var(--text-muted);">หมุนภาพ</span></button>
+          <button class="btn btn-secondary" onclick="applyAug('brightness')" style="font-size:0.8rem; padding:0.4rem;">☀️ Brightness<br><span style="font-size:0.7rem; color:var(--text-muted);">ปรับแสง</span></button>
+          <button class="btn btn-secondary" onclick="applyAug('crop')" style="font-size:0.8rem; padding:0.4rem;">✂️ Crop<br><span style="font-size:0.7rem; color:var(--text-muted);">ครอบตัด</span></button>
+          <button class="btn btn-secondary" onclick="applyAug('noise')" style="font-size:0.8rem; padding:0.4rem;">📡 Noise<br><span style="font-size:0.7rem; color:var(--text-muted);">เพิ่ม Noise</span></button>
+          <button class="btn btn-secondary" onclick="applyAug('zoom')" style="font-size:0.8rem; padding:0.4rem;">🔍 Zoom<br><span style="font-size:0.7rem; color:var(--text-muted);">ซูม</span></button>
+        </div>
+        <canvas id="augCanvas" width="480" height="160" style="width:100%; border:2px solid var(--border); border-radius:8px; background:#f9fafb;"></canvas>
+        <div id="augDesc" style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-muted);">👆 เลือกเทคนิคเพื่อดูผล</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <div class="sim-title"><div class="sim-icon">🧠</div> แบบฝึกหัด: เลือกเทคนิคที่เหมาะสม</div>
+
+    <div style="margin-bottom:1.5rem;">
+      <div style="background:#eff6ff; border-radius:10px; padding:1.25rem; margin-bottom:0.75rem;">
+        <div style="font-weight:700; color:#1d4ed8; margin-bottom:0.75rem; font-size:0.95rem;">📋 โจทย์ที่ 1: AI ตรวจจับตัวเลขบนป้ายทะเบียนรถ</div>
+        <p style="font-size:0.85rem; color:#1e40af; margin-bottom:1rem;">กล้องติดตั้งในหลายสภาพแสง ทั้งกลางวัน กลางคืน อุโมงค์ — ควรใช้เทคนิคใด?</p>
+        <div class="aug-grid">
+          <div class="aug-card" onclick="checkAug(1, 'flip', this)"><span class="aug-emoji">↔</span>Flip<br>พลิกภาพ</div>
+          <div class="aug-card" onclick="checkAug(1, 'rotate', this)"><span class="aug-emoji">🔄</span>Rotate<br>หมุน</div>
+          <div class="aug-card" onclick="checkAug(1, 'brightness', this)"><span class="aug-emoji">☀️</span>Brightness<br>ปรับแสง ✓</div>
+          <div class="aug-card" onclick="checkAug(1, 'noise', this)"><span class="aug-emoji">📡</span>Noise<br>เพิ่ม Noise</div>
+        </div>
+        <div class="feedback-msg feedback-correct" id="aug1-correct">✅ ถูกต้อง! การปรับ Brightness/Contrast ช่วยให้ AI รับมือกับสภาพแสงที่แตกต่างได้ การ Flip หรือ Rotate อาจทำให้ตัวเลขอ่านผิด เช่น "6" กลายเป็น "9"</div>
+        <div class="feedback-msg feedback-wrong" id="aug1-wrong">❌ ไม่เหมาะสม! ลองคิดว่า: ถ้าพลิกหรือหมุนป้ายทะเบียน ตัวเลขจะยังอ่านออกไหม? และสิ่งที่เปลี่ยนแปลงในการใช้งานจริงคืออะไร?</div>
+      </div>
+
+      <div style="background:#f0fdf4; border-radius:10px; padding:1.25rem;">
+        <div style="font-weight:700; color:#15803d; margin-bottom:0.75rem; font-size:0.95rem;">📋 โจทย์ที่ 2: AI แยกแยะรอยขีดข่วนบนพื้นผิวโลหะกลม</div>
+        <p style="font-size:0.85rem; color:#166534; margin-bottom:1rem;">รอยขีดข่วนเกิดได้ทุกทิศทาง ต้องการลด Directional Bias — ควรใช้เทคนิคใด?</p>
+        <div class="aug-grid">
+          <div class="aug-card" onclick="checkAug(2, 'flip', this)"><span class="aug-emoji">↔</span>Flip<br>พลิกภาพ</div>
+          <div class="aug-card" onclick="checkAug(2, 'rotate', this)"><span class="aug-emoji">🔄</span>Rotate<br>หมุน ✓</div>
+          <div class="aug-card" onclick="checkAug(2, 'brightness', this)"><span class="aug-emoji">☀️</span>Brightness<br>ปรับแสง</div>
+          <div class="aug-card" onclick="checkAug(2, 'noise', this)"><span class="aug-emoji">📡</span>Noise<br>เพิ่ม Noise</div>
+        </div>
+        <div class="feedback-msg feedback-correct" id="aug2-correct">✅ ถูกต้อง! Random Rotation ช่วยให้ AI เข้าใจว่า "รอยขีดข่วนจะเอียงทิศไหนก็ยังคือรอยขีดข่วน" ลด Directional Bias ได้อย่างมีประสิทธิภาพ</div>
+        <div class="feedback-msg feedback-wrong" id="aug2-wrong">❌ ลองคิดอีกครั้ง! ปัญหาคือ AI ลำเอียงต่อ "ทิศทาง" ของรอยขีดข่วน เทคนิคใดที่เปลี่ยนทิศทางของภาพได้?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 หลักการ: Data Augmentation Techniques</h3>
+    <p>การเลือกเทคนิค Augmentation ต้องสอดคล้องกับ "ธรรมชาติของปัญหา" ไม่ใช่ใช้ทุกเทคนิคเสมอไป เทคนิคที่ผิดอาจทำให้ข้อมูล "เสียความหมาย" เช่น การพลิกป้ายทะเบียน</p>
+  </div>
+</div>
+
+<!-- SECTION 6: Summary -->
+<div class="section" id="s5">
+  <div class="concept-header">
+    <h2>✅ สรุป: ข้อมูลที่ดีสำหรับ AI มีลักษณะอย่างไร?</h2>
+    <p>ทบทวนหลักการทั้ง 5 ข้อที่ได้เรียนรู้</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+    <div style="background:var(--surface); border-radius:14px; padding:1.25rem; border:1px solid var(--border); border-top:4px solid #3b82f6;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">📷</div>
+      <div style="font-weight:700; color:#1d4ed8; margin-bottom:0.4rem;">Viewpoint Coverage</div>
+      <p style="font-size:0.85rem; color:var(--text-muted);">ครอบคลุมทุกมุมมองที่จะพบในการใช้งานจริง</p>
+    </div>
+    <div style="background:var(--surface); border-radius:14px; padding:1.25rem; border:1px solid var(--border); border-top:4px solid #ef4444;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">⚖️</div>
+      <div style="font-weight:700; color:#b91c1c; margin-bottom:0.4rem;">Class Balance</div>
+      <p style="font-size:0.85rem; color:var(--text-muted);">สัดส่วนข้อมูลสมดุล ไม่ทิ้ง Minority Class</p>
+    </div>
+    <div style="background:var(--surface); border-radius:14px; padding:1.25rem; border:1px solid var(--border); border-top:4px solid #10b981;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">🎭</div>
+      <div style="font-weight:700; color:#065f46; margin-bottom:0.4rem;">Diverse Backgrounds</div>
+      <p style="font-size:0.85rem; color:var(--text-muted);">ฉากหลังหลากหลาย ป้องกัน Background Bias</p>
+    </div>
+    <div style="background:var(--surface); border-radius:14px; padding:1.25rem; border:1px solid var(--border); border-top:4px solid #f59e0b;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">🌍</div>
+      <div style="font-weight:700; color:#92400e; margin-bottom:0.4rem;">Generalization</div>
+      <p style="font-size:0.85rem; color:var(--text-muted);">ข้อมูลหลากหลาย ป้องกัน Overfitting</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface); border-radius:14px; padding:1.25rem; border:1px solid var(--border); border-top:4px solid #8b5cf6; margin-bottom:1.5rem;">
+    <div style="font-size:1.5rem; margin-bottom:0.5rem;">🔄</div>
+    <div style="font-weight:700; color:#5b21b6; margin-bottom:0.4rem;">Smart Augmentation</div>
+    <p style="font-size:0.85rem; color:var(--text-muted);">เลือกเทคนิค Augmentation ที่เหมาะกับธรรมชาติของปัญหา ไม่ใช่ใช้ทุกอย่างสุ่มสี่สุ่มห้า</p>
+  </div>
+
+  <div class="summary-section">
+    <h2>🏆 Checklist: ข้อมูลที่ดีสำหรับ AI</h2>
+    <ul class="checklist">
+      <li><div class="check-icon">✓</div> ครอบคลุมมุมมองของกล้องจริง</li>
+      <li><div class="check-icon">✓</div> สัดส่วนข้อมูลแต่ละ Class สมดุล</li>
+      <li><div class="check-icon">✓</div> วัตถุปรากฏในฉากหลังหลากหลาย</li>
+      <li><div class="check-icon">✓</div> ความหลากหลายของสี ขนาด และสภาพแสง</li>
+      <li><div class="check-icon">✓</div> Augmentation เหมาะกับปัญหา</li>
+      <li><div class="check-icon">✓</div> ทดสอบกับข้อมูลที่ไม่เคยเห็นมาก่อน</li>
+    </ul>
+  </div>
+
+  <div style="margin-top:1.5rem; padding:1.25rem; background:#f8fafc; border-radius:12px; border:1px solid var(--border); text-align:center;">
+    <div style="font-size:1.5rem; margin-bottom:0.5rem;">💬</div>
+    <div style="font-weight:600; margin-bottom:0.5rem;">คำถามทบทวนสุดท้าย</div>
+    <p style="color:var(--text-muted); font-size:0.9rem; max-width:500px; margin:0 auto 1rem;">ถ้าคุณเป็นวิศวกร AI ที่ต้องสร้างระบบตรวจจับโรคพืชจากภาพถ่าย จะออกแบบชุดข้อมูลอย่างไรให้ครอบคลุมหลักการทั้ง 5 ข้อ?</p>
+    <button class="btn btn-primary" onclick="alert('ลองคิดว่า: มุมภาพของใบไม้, สัดส่วนใบปกติ vs ป่วย, ฉากหลัง (ไร่นา/แปลงผัก), ความหลากหลายของแสงและระยะ, และเทคนิค Augmentation ที่เหมาะสม')">🤔 ดูแนวคิด</button>
+  </div>
+</div>
+
+
+</div><!-- end main-content -->
+
+<script>
+
+// ===== TAB SWITCHING =====
+const tabs = document.querySelectorAll('.tab-btn');
+const sections = document.querySelectorAll('.section');
+
+function switchTab(i) {
+  tabs.forEach((t, j) => t.classList.toggle('active', i === j));
+  sections.forEach((s, j) => s.classList.toggle('active', i === j));
+  if (i === 0) initSection0();
+  if (i === 1) initSection1();
+  if (i === 2) initSection2();
+  if (i === 3) initSection3();
+  if (i === 4) initSection4();
+}
+
+// ===== SECTION 1: VIEWPOINT =====
+function drawCup(ctx, w, h, view, color='#4a90d9') {
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#f0f4f8';
+  ctx.fillRect(0,0,w,h);
+  const cx = w/2, cy = h/2;
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2.5;
+
+  if (view === 'side') {
+    ctx.beginPath();
+    ctx.moveTo(cx-25, cy-35);
+    ctx.lineTo(cx-30, cy+35);
+    ctx.lineTo(cx+30, cy+35);
+    ctx.lineTo(cx+25, cy-35);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(74,144,217,0.15)';
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx-25, cy-35);
+    ctx.lineTo(cx+25, cy-35);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx+32, cy, 12, -Math.PI*0.5, Math.PI*0.5);
+    ctx.stroke();
+    ctx.font = '10px Sarabun';
+    ctx.fillStyle = '#666';
+    ctx.textAlign = 'center';
+    ctx.fillText('ด้านข้าง', cx, h-8);
+  } else if (view === 'top') {
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, 35, 15, 0, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(74,144,217,0.15)';
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, 28, 10, 0, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.font = '10px Sarabun';
+    ctx.fillStyle = '#666';
+    ctx.textAlign = 'center';
+    ctx.fillText('ด้านบน', cx, h-8);
+  } else if (view === 'front') {
+    ctx.beginPath();
+    ctx.moveTo(cx-28, cy-35);
+    ctx.lineTo(cx-28, cy+35);
+    ctx.lineTo(cx+28, cy+35);
+    ctx.lineTo(cx+28, cy-35);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(74,144,217,0.15)';
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx-28, cy-35);
+    ctx.lineTo(cx+28, cy-35);
+    ctx.stroke();
+    ctx.font = '10px Sarabun';
+    ctx.fillStyle = '#666';
+    ctx.textAlign = 'center';
+    ctx.fillText('ด้านหน้า', cx, h-8);
+  } else {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(-0.3);
+    ctx.beginPath();
+    ctx.moveTo(-22,-35); ctx.lineTo(-25,35);
+    ctx.lineTo(25,35); ctx.lineTo(22,-35);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(74,144,217,0.15)';
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+    ctx.font = '10px Sarabun';
+    ctx.fillStyle = '#666';
+    ctx.textAlign = 'center';
+    ctx.fillText('มุมเฉียง', cx, h-8);
+  }
+}
+
+function initSection0() {
+  const slots = document.getElementById('trainingSlots');
+  slots.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const c = document.createElement('canvas');
+    c.width = 70; c.height = 70;
+    c.style.borderRadius = '6px';
+    c.style.border = '1px solid #e5e7eb';
+    drawCup(c.getContext('2d'), 70, 70, 'side', '#4a90d9');
+    slots.appendChild(c);
+  }
+
+  const tc = document.getElementById('testCanvas');
+  const tctx = tc.getContext('2d');
+  drawCup(tctx, 200, 200, 'side');
+  drawBadDataset();
+  drawGoodDataset();
+  drawAttentionMaps();
+}
+
+function updateTest() {
+  const angle = document.getElementById('cameraAngle').value;
+  const tc = document.getElementById('testCanvas');
+  drawCup(tc.getContext('2d'), 200, 200, angle);
+
+  const conf = document.getElementById('aiConfidence');
+  const label = document.getElementById('aiLabel');
+  const status = document.getElementById('aiStatusBox');
+  const lesson = document.getElementById('viewpointLesson');
+
+  const data = {
+    side: { conf:'95%', cls:'metric-good', lbl:'แก้วน้ำ ✓', bg:'#ecfdf5', bc:'#6ee7b7', sc:'#065f46', msg:'✅ AI จำได้! เพราะมุมภาพตรงกับข้อมูลสอน', lesson:'มุมด้านข้างตรงกับข้อมูลสอน AI จึงทำงานได้ดี' },
+    top:  { conf:'12%', cls:'metric-bad', lbl:'?? ไม่รู้จัก', bg:'#fef2f2', bc:'#fca5a5', sc:'#991b1b', msg:'❌ AI จำไม่ได้! ภาพด้านบนไม่เคยอยู่ในข้อมูลสอน', lesson:'⚠️ มุมด้านบนต่างจากข้อมูลสอนอย่างสิ้นเชิง AI ไม่เคยเห็นลักษณะนี้จึงจำไม่ได้ นี่คือปัญหา Viewpoint Coverage' },
+    front:{ conf:'48%', cls:'metric-warn', lbl:'อาจเป็นแก้วน้ำ?', bg:'#fffbeb', bc:'#fcd34d', sc:'#92400e', msg:'⚠️ AI ไม่แน่ใจ! ภาพด้านหน้าต่างจากข้อมูลสอน', lesson:'มุมด้านหน้าต่างพอให้ AI สับสน แต่ยังมีลักษณะร่วมบางอย่าง' },
+    angle:{ conf:'65%', cls:'metric-warn', lbl:'น่าจะเป็นแก้วน้ำ', bg:'#fffbeb', bc:'#fcd34d', sc:'#92400e', msg:'⚠️ AI พอเดาได้ แต่ไม่มั่นใจ เพราะมุมเฉียงต่างจากข้อมูลสอน', lesson:'มุมเฉียงยังพอมีลักษณะด้านข้างอยู่บ้าง AI จึงพอเดาได้' }
+  };
+
+  const d = data[angle];
+  conf.textContent = d.conf;
+  conf.className = 'metric-value ' + d.cls;
+  label.textContent = d.lbl;
+  status.style.background = d.bg;
+  status.style.borderColor = d.bc;
+  status.style.color = d.sc;
+  status.textContent = d.msg;
+  lesson.textContent = d.lesson;
+}
+
+function drawBadDataset() {
+  const c = document.getElementById('badDatasetCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,240,120);
+  ctx.fillStyle = '#fef2f2';
+  ctx.fillRect(0,0,240,120);
+  for (let i = 0; i < 3; i++) {
+    ctx.save();
+    ctx.translate(30 + i*80, 60);
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-15,-25); ctx.lineTo(-18,25); ctx.lineTo(18,25); ctx.lineTo(15,-25);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,38,38,0.1)';
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(-15,-25); ctx.lineTo(15,-25); ctx.stroke();
+    ctx.restore();
+  }
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 9px Sarabun';
+  ctx.textAlign = 'center';
+  ctx.fillText('ด้านข้างเท่านั้น ×3', 120, 112);
+}
+
+function drawGoodDataset() {
+  const c = document.getElementById('goodDatasetCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,240,120);
+  ctx.fillStyle = '#f0fdf4';
+  ctx.fillRect(0,0,240,120);
+
+  const configs = [
+    { x:30, draw:(ctx)=>{ctx.beginPath();ctx.moveTo(-15,-25);ctx.lineTo(-18,25);ctx.lineTo(18,25);ctx.lineTo(15,-25);ctx.closePath();ctx.fillStyle='rgba(16,185,129,0.1)';ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-15,-25);ctx.lineTo(15,-25);ctx.stroke();}, label:'Side' },
+    { x:110, draw:(ctx)=>{ctx.beginPath();ctx.ellipse(0,0,18,8,0,0,Math.PI*2);ctx.fillStyle='rgba(16,185,129,0.1)';ctx.fill();ctx.stroke();}, label:'Top' },
+    { x:190, draw:(ctx)=>{ctx.save();ctx.rotate(-0.3);ctx.beginPath();ctx.moveTo(-13,-25);ctx.lineTo(-15,25);ctx.lineTo(15,25);ctx.lineTo(13,-25);ctx.closePath();ctx.fillStyle='rgba(16,185,129,0.1)';ctx.fill();ctx.stroke();ctx.restore();}, label:'Angle' }
+  ];
+
+  configs.forEach(cfg => {
+    ctx.save();
+    ctx.translate(cfg.x, 55);
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 2;
+    cfg.draw(ctx);
+    ctx.restore();
+    ctx.fillStyle = '#10b981';
+    ctx.font = '9px Sarabun';
+    ctx.textAlign = 'center';
+    ctx.fillText(cfg.label, cfg.x, 95);
+  });
+
+  ctx.fillStyle = '#065f46';
+  ctx.font = 'bold 9px Sarabun';
+  ctx.textAlign = 'center';
+  ctx.fillText('หลายมุมมอง ✓', 120, 112);
+}
+
+let animatingCrack = false;
+function animateCrackDetection() {
+  if (animatingCrack) return;
+  animatingCrack = true;
+  const result = document.getElementById('detectionResult');
+  result.textContent = '🔍 กำลังตรวจสอบ...';
+  result.style.color = 'var(--text-muted)';
+  setTimeout(()=>{
+    result.innerHTML = '❌ AI (ชุดข้อมูลไม่ครอบคลุม): พลาดรอยร้าว 78% จากมุมกล้องด้านบน<br>✅ AI (ชุดข้อมูลครอบคลุม): ตรวจพบรอยร้าว 96% ทุกมุมกล้อง';
+    result.style.color = 'var(--text)';
+    animatingCrack = false;
+  }, 1500);
+}
+
+function drawAttentionMaps() {
+  drawAttention('attentionBad', false);
+  drawAttention('attentionGood', true);
+}
+
+function drawAttention(id, good) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const w = c.width, h = c.height;
+  ctx.clearRect(0,0,w,h);
+
+  // Background (forest-like)
+  ctx.fillStyle = '#2d5a27';
+  ctx.fillRect(0,0,w,h);
+  for (let i = 0; i < 20; i++) {
+    ctx.fillStyle = `rgba(${40+Math.random()*30},${80+Math.random()*40},${30+Math.random()*20},0.6)`;
+    ctx.fillRect(Math.random()*w, Math.random()*h, 15+Math.random()*25, 15+Math.random()*25);
+  }
+
+  // Tank body (center-right area)
+  const tx = w*0.55, ty = h*0.55;
+  ctx.fillStyle = '#556b2f';
+  ctx.fillRect(tx-40, ty-15, 80, 30);
+  ctx.fillRect(tx-20, ty-30, 40, 20);
+  ctx.fillRect(tx-8, ty-38, 5, 15);
+
+  // Attention heatmap overlay
+  const imgData = ctx.createImageData(w, h);
+  for (let x = 0; x < w; x++) {
+    for (let y = 0; y < h; y++) {
+      let intensity = 0;
+      if (good) {
+        const dx = x - tx, dy = y - ty;
+        intensity = Math.max(0, 1 - Math.sqrt(dx*dx+dy*dy)/60);
+      } else {
+        intensity = Math.max(0, (1 - y/h) * 0.8 + Math.random()*0.2);
+        intensity += Math.max(0, 0.5 - Math.abs(x - w*0.2)/60);
+      }
+      intensity = Math.min(1, intensity);
+      const idx = (y*w+x)*4;
+      imgData.data[idx]   = Math.round(intensity > 0.5 ? 255 : intensity*2*255);
+      imgData.data[idx+1] = Math.round(intensity < 0.5 ? intensity*2*255 : (1-intensity)*2*255);
+      imgData.data[idx+2] = Math.round(intensity < 0.5 ? 255 : 0);
+      imgData.data[idx+3] = Math.round(intensity * 160);
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+}
+
+// ===== SECTION 2: CLASS IMBALANCE =====
+function initSection1() {
+  updateImbalance();
+  drawBalancingCanvas('none');
+}
+
+function updateImbalance() {
+  const n = parseInt(document.getElementById('normalSlider').value);
+  const c = parseInt(document.getElementById('cancerSlider').value);
+  document.getElementById('normalCount').textContent = n.toLocaleString();
+  document.getElementById('cancerCount').textContent = c.toLocaleString();
+
+  const ratio = n/c;
+  document.getElementById('ratioVal').textContent = Math.round(ratio) + ':1';
+  const normalBiasVal = Math.round((n/(n+c))*100);
+  document.getElementById('normalBias').textContent = normalBiasVal + '%';
+
+  const detectRate = Math.max(5, Math.round(100 - (ratio/500)*95));
+  document.getElementById('cancerDetect').textContent = Math.min(95, detectRate) + '%';
+  document.getElementById('cancerDetect').className = 'metric-value ' + (detectRate < 40 ? 'metric-bad' : detectRate < 70 ? 'metric-warn' : 'metric-good');
+
+  let status, statusColor;
+  if (ratio > 200) { status = '🔴 วิกฤต'; statusColor = 'var(--danger)'; }
+  else if (ratio > 50) { status = '🟡 ไม่ดี'; statusColor = 'var(--warning)'; }
+  else if (ratio > 10) { status = '🟠 พอรับได้'; statusColor = '#f97316'; }
+  else { status = '🟢 ดี'; statusColor = 'var(--success)'; }
+  document.getElementById('balanceScore').textContent = status;
+  document.getElementById('balanceScore').style.color = statusColor;
+
+  const alert = document.getElementById('imbalanceAlert');
+  if (ratio > 100) {
+    alert.style.background = '#fef2f2'; alert.style.borderColor = '#fca5a5'; alert.style.color = '#991b1b';
+    alert.innerHTML = `⚠️ อัตราส่วน ${Math.round(ratio)}:1 ทำให้ AI เรียนรู้ว่า "ทายว่าปกติเสมอ" มีโอกาสถูก ${normalBiasVal}% — แต่พลาดมะเร็งเกือบทั้งหมด!`;
+  } else if (ratio > 10) {
+    alert.style.background = '#fffbeb'; alert.style.borderColor = '#fcd34d'; alert.style.color = '#92400e';
+    alert.innerHTML = `⚠️ อัตราส่วน ${Math.round(ratio)}:1 ยังมีอคติอยู่บ้าง ควรปรับให้สมดุลขึ้น`;
+  } else {
+    alert.style.background = '#ecfdf5'; alert.style.borderColor = '#6ee7b7'; alert.style.color = '#065f46';
+    alert.innerHTML = `✅ อัตราส่วน ${Math.round(ratio)}:1 ค่อนข้างสมดุล AI มีโอกาสเรียนรู้ทั้งสองกลุ่มได้ดี`;
+  }
+
+  drawImbalanceBar(n, c);
+}
+
+function drawImbalanceBar(normal, cancer) {
+  const c = document.getElementById('imbalanceCanvas');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#f9fafb';
+  ctx.fillRect(0,0,W,H);
+
+  const total = normal + cancer;
+  const nw = (normal/total) * (W-60);
+  const cw = (cancer/total) * (W-60);
+
+  ctx.fillStyle = '#3b82f6';
+  ctx.beginPath();
+  ctx.roundRect(30, 30, nw, 50, 6);
+  ctx.fill();
+
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath();
+  ctx.roundRect(30+nw, 30, Math.max(cw, 4), 50, 6);
+  ctx.fill();
+
+  ctx.fillStyle = '#1d4ed8';
+  ctx.font = 'bold 12px Sarabun';
+  ctx.textAlign = 'center';
+  if (nw > 60) ctx.fillText(`ผิวหนังปกติ (${normal.toLocaleString()})`, 30+nw/2, 61);
+
+  ctx.fillStyle = '#b91c1c';
+  if (cw > 20) ctx.fillText(`มะเร็ง (${cancer})`, 30+nw+Math.max(cw,4)/2, 61);
+
+  ctx.fillStyle = '#374151';
+  ctx.font = '11px Sarabun';
+  ctx.textAlign = 'left';
+  ctx.fillText('สัดส่วนข้อมูล:', 30, 110);
+  ctx.fillStyle = '#3b82f6'; ctx.fillRect(130, 98, 14, 14);
+  ctx.fillStyle = '#374151'; ctx.fillText('ผิวหนังปกติ', 148, 110);
+  ctx.fillStyle = '#ef4444'; ctx.fillRect(250, 98, 14, 14);
+  ctx.fillStyle = '#374151'; ctx.fillText('มะเร็ง', 268, 110);
+
+  const pct = Math.round((cancer/total)*100*10)/10;
+  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'right';
+  ctx.fillText(`มะเร็ง = ${pct}%`, W-30, 110);
+}
+
+function selectTech(tech) {
+  ['under','over','aug'].forEach(t => {
+    const el = document.getElementById('tech-'+t);
+    el.style.border = '2px solid transparent';
+  });
+  document.getElementById('tech-'+tech).style.border = '2px solid var(--accent)';
+  drawBalancingCanvas(tech);
+}
+
+function drawBalancingCanvas(tech) {
+  const c = document.getElementById('balancingCanvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#f9fafb';
+  ctx.fillRect(0,0,W,H);
+
+  const techData = {
+    under: { normal:200, cancer:20, desc:'Undersampling: ลดผิวหนังปกติเหลือ 200 ภาพ เพื่อให้สมดุลกับมะเร็ง 20 ภาพ (ข้อเสีย: สูญเสียข้อมูล)', color1:'#3b82f6', color2:'#ef4444' },
+    over:  { normal:10000, cancer:2000, desc:'Oversampling: เพิ่มภาพมะเร็งเป็น 2,000 ภาพ โดยการสุ่มซ้ำจากภาพเดิม', color1:'#3b82f6', color2:'#ef4444' },
+    aug:   { normal:10000, cancer:5000, desc:'Data Augmentation: สร้างภาพมะเร็งใหม่ 5,000 ภาพจาก 20 ภาพเดิม โดยการพลิก หมุน ปรับแสง', color1:'#3b82f6', color2:'#10b981' },
+    none:  { normal:10000, cancer:20, desc:'สถานะเริ่มต้น: ข้อมูลไม่สมดุล อัตราส่วน 500:1', color1:'#3b82f6', color2:'#ef4444' }
+  };
+
+  const d = techData[tech] || techData.none;
+  const total = d.normal + d.cancer;
+  const nw = (d.normal/total)*(W-60);
+  const cw = Math.max((d.cancer/total)*(W-60), 4);
+
+  ctx.fillStyle = d.color1;
+  ctx.beginPath(); ctx.roundRect(30,20,nw,40,6); ctx.fill();
+  ctx.fillStyle = d.color2;
+  ctx.beginPath(); ctx.roundRect(30+nw,20,cw,40,6); ctx.fill();
+
+  ctx.fillStyle = 'white'; ctx.font = 'bold 11px Sarabun'; ctx.textAlign = 'center';
+  if (nw > 80) ctx.fillText(`ปกติ: ${d.normal.toLocaleString()}`, 30+nw/2, 44);
+  if (cw > 40) ctx.fillText(`มะเร็ง: ${d.cancer.toLocaleString()}`, 30+nw+cw/2, 44);
+
+  ctx.fillStyle = '#374151'; ctx.font = '11px Sarabun'; ctx.textAlign = 'left';
+  ctx.fillText(d.desc, 30, 90);
+
+  document.getElementById('techDescription').textContent = '';
+}
+
+// ===== SECTION 3: BACKGROUND BIAS =====
+function initSection2() {
+  drawBgTrain();
+  updateBackground();
+  drawAttentionMaps();
+}
+
+function drawBgTrain() {
+  const c = document.getElementById('bgTrainCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,280,180);
+  drawScene(ctx, 280, 180, 'forest', '#556b2f');
+}
+
+function drawScene(ctx, w, h, bg, tankColor) {
+  const bgColors = {
+    forest: ['#1a4a1a', '#2d5a27', '#1e3a1e', '#3a6e35'],
+    desert: ['#c2956a', '#d4a76a', '#c8875a', '#e0b080'],
+    snow:   ['#e8f0f8', '#d0e4f4', '#c0d8ee', '#f0f8ff'],
+    urban:  ['#808080', '#909090', '#6a6a6a', '#a0a0a0']
+  };
+  const cols = bgColors[bg] || bgColors.forest;
+
+  ctx.fillStyle = cols[0]; ctx.fillRect(0,0,w,h);
+  for (let i=0; i<15; i++) {
+    ctx.fillStyle = cols[Math.floor(Math.random()*cols.length)];
+    if (bg==='forest') {
+      ctx.fillRect(Math.random()*w, Math.random()*h, 20+Math.random()*40, 30+Math.random()*50);
+    } else if (bg==='desert') {
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h+h*0.7, 5+Math.random()*15, 0, Math.PI*2); ctx.fill();
+    } else if (bg==='snow') {
+      ctx.fillStyle = 'white';
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, 3+Math.random()*8, 0, Math.PI*2); ctx.fill();
+    } else {
+      ctx.fillRect(Math.random()*w, Math.random()*h, 30+Math.random()*60, 20+Math.random()*50);
+    }
+  }
+
+  const tx = w*0.55, ty = h*0.6;
+  ctx.fillStyle = tankColor;
+  ctx.fillRect(tx-35, ty-12, 70, 25);
+  ctx.fillStyle = '#4a5a30';
+  ctx.fillRect(tx-18, ty-25, 36, 16);
+  ctx.fillStyle = '#3a4a20';
+  ctx.fillRect(tx-6, ty-32, 4, 12);
+
+  ctx.fillStyle = '#2a2a2a';
+  ctx.beginPath(); ctx.arc(tx-25, ty+13, 8, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(tx, ty+13, 8, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(tx+25, ty+13, 8, 0, Math.PI*2); ctx.fill();
+}
+
+function updateBackground() {
+  const bg = document.getElementById('bgSelect').value;
+  const c = document.getElementById('bgTestCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,280,180);
+  drawScene(ctx, 280, 180, bg, '#556b2f');
+
+  const conf = document.getElementById('bgConfidence');
+  const det = document.getElementById('bgDetectResult');
+  const exp = document.getElementById('bgExplanation');
+
+  const data = {
+    forest: { c:'96%', cl:'metric-good', d:'✅ พบวัตถุ', bg:'#ecfdf5', bc:'#6ee7b7', sc:'#065f46', msg:'🌿 ป่าทึบ: AI ทำงานได้ดี เพราะ "ฉากหลัง" ตรงกับข้อมูลสอน' },
+    desert: { c:'8%',  cl:'metric-bad',  d:'❌ ไม่พบ',  bg:'#fef2f2', bc:'#fca5a5', sc:'#991b1b', msg:'🏜️ ทะเลทราย: AI มองไม่เห็น! เพราะมันจำ "ป่า" ไม่ใช่ "รถถัง"' },
+    snow:   { c:'11%', cl:'metric-bad',  d:'❌ ไม่พบ',  bg:'#fef2f2', bc:'#fca5a5', sc:'#991b1b', msg:'❄️ หิมะ: AI ล้มเหลว! ฉากหลังขาวสว่างต่างจากป่าเขียวทึบ' },
+    urban:  { c:'19%', cl:'metric-bad',  d:'❌ ไม่พบ',  bg:'#fef2f2', bc:'#fca5a5', sc:'#991b1b', msg:'🏙️ เมือง: AI ล้มเหลว! รู้จักแต่รถถังในป่า ไม่รู้จักรถถังในเมือง' }
+  };
+
+  const d = data[bg];
+  conf.textContent = d.c; conf.className = 'metric-value ' + d.cl;
+  det.textContent = d.d;
+  exp.style.background = d.bg; exp.style.borderColor = d.bc; exp.style.color = d.sc;
+  exp.textContent = d.msg;
+}
+
+// ===== SECTION 4: GENERALIZATION =====
+function initSection3() {
+  updateGeneralization();
+  drawLearningCurve(10);
+}
+
+function updateGeneralization() {
+  const cd = parseInt(document.getElementById('colorSlider').value);
+  const sd = parseInt(document.getElementById('sizeSlider').value);
+  const ld = parseInt(document.getElementById('lightSlider').value);
+  document.getElementById('colorDiversity').textContent = cd;
+  document.getElementById('sizeDiversity').textContent = sd;
+  document.getElementById('lightDiversity').textContent = ld;
+
+  const diversity = (cd + sd + ld) / 3;
+  const trainAcc = 99;
+  const testAcc = Math.round(42 + diversity * 0.55);
+  const gap = trainAcc - testAcc;
+
+  document.getElementById('trainAcc').textContent = trainAcc + '%';
+  document.getElementById('testAcc').textContent = testAcc + '%';
+  document.getElementById('testAcc').className = 'metric-value ' + (testAcc > 85 ? 'metric-good' : testAcc > 65 ? 'metric-warn' : 'metric-bad');
+  document.getElementById('gapVal').textContent = gap + '%';
+  document.getElementById('gapVal').className = 'metric-value ' + (gap < 15 ? 'metric-good' : gap < 35 ? 'metric-warn' : 'metric-bad');
+
+  let status, statusColor;
+  if (gap > 35) { status = '🔴 Overfit'; statusColor = 'var(--danger)'; }
+  else if (gap > 15) { status = '🟡 ระวัง'; statusColor = 'var(--warning)'; }
+  else { status = '🟢 ดี'; statusColor = 'var(--success)'; }
+  document.getElementById('aiStatus').textContent = status;
+  document.getElementById('aiStatus').style.color = statusColor;
+
+  const exp = document.getElementById('genExplanation');
+  if (diversity < 30) {
+    exp.style.background = '#fef2f2'; exp.style.borderColor = '#fca5a5'; exp.style.color = '#991b1b';
+    exp.textContent = '⚠️ ข้อมูลซ้ำซาก: AI ท่องจำรูปแบบเดิม ไม่สามารถรับมือข้อมูลใหม่ได้';
+  } else if (diversity < 70) {
+    exp.style.background = '#fffbeb'; exp.style.borderColor = '#fcd34d'; exp.style.color = '#92400e';
+    exp.textContent = '⚠️ ข้อมูลยังไม่หลากหลายพอ ควรเพิ่มความหลากหลายในทุกมิติ';
+  } else {
+    exp.style.background = '#ecfdf5'; exp.style.borderColor = '#6ee7b7'; exp.style.color = '#065f46';
+    exp.textContent = '✅ ข้อมูลหลากหลายดี! AI มีแนวโน้ม Generalize ได้ดีขึ้น';
+  }
+
+  drawAppleCanvas(diversity);
+  drawLearningCurve(diversity);
+}
+
+function drawAppleCanvas(diversity) {
+  const c = document.getElementById('genCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,260,200);
+  ctx.fillStyle = '#f9fafb';
+  ctx.fillRect(0,0,260,200);
+
+  const colors = diversity > 50 ? ['#e74c3c','#27ae60','#f39c12','#c0392b','#e67e22'] : ['#e74c3c','#e74c3c','#e74c3c'];
+  const sizes = diversity > 50 ? [1.3,0.9,1.1,0.75,1.0] : [1.1,1.0,1.1,1.0,1.0];
+
+  for (let i=0; i<5; i++) {
+    const x = 28 + (i%3)*80;
+    const y = 45 + Math.floor(i/3)*90;
+    const r = 28 * sizes[i];
+    const col = colors[i % colors.length];
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#6d4c41';
+    ctx.fillRect(x-2, y-r-10, 3, 10);
+    ctx.fillStyle = '#27ae60';
+    ctx.beginPath(); ctx.ellipse(x+5, y-r-5, 8, 5, 0.5, 0, Math.PI*2); ctx.fill();
+  }
+
+  ctx.fillStyle = '#374151';
+  ctx.font = '10px Sarabun';
+  ctx.textAlign = 'center';
+  ctx.fillText(diversity > 50 ? 'ข้อมูลหลากหลาย: สี ขนาด แสง' : 'ข้อมูลซ้ำซาก: แดงเท่านั้น', 130, 190);
+}
+
+function drawLearningCurve(diversity) {
+  const c = document.getElementById('learningCurve');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const W=600, H=200;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f9fafb'; ctx.fillRect(0,0,W,H);
+
+  const pad=40, gw=W-2*pad, gh=H-2*pad;
+
+  ctx.strokeStyle='#e5e7eb'; ctx.lineWidth=1;
+  for (let i=0;i<=4;i++) {
+    const y = pad + (gh/4)*i;
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px Sarabun'; ctx.textAlign='right';
+    ctx.fillText((100-(i*25))+'%', pad-5, y+4);
+  }
+
+  const epochs = 20;
+  const trainPts=[], valPts=[];
+  const overfit = diversity < 50;
+
+  for (let e=0;e<epochs;e++) {
+    const t = e/epochs;
+    trainPts.push({ x: pad+t*gw, y: pad + gh*(1-(0.6+t*0.39)) });
+    let valY;
+    if (overfit) {
+      valY = e < 8 ? (0.4+e*0.06) : (0.88 - (e-8)*0.06);
+    } else {
+      valY = 0.4 + t*0.5;
+    }
+    valPts.push({ x: pad+t*gw, y: pad + gh*(1-Math.min(valY,0.95)) });
+  }
+
+  ctx.lineWidth=2.5; ctx.strokeStyle='#3b82f6';
+  ctx.beginPath(); trainPts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)); ctx.stroke();
+
+  ctx.strokeStyle='#ef4444';
+  ctx.beginPath(); valPts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)); ctx.stroke();
+
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun'; ctx.textAlign='center';
+  ctx.fillText('Epoch (รอบการเรียนรู้)', W/2, H-5);
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Accuracy', -H/2, 12); ctx.restore();
+
+  if (overfit) {
+    ctx.fillStyle='rgba(239,68,68,0.1)';
+    ctx.fillRect(pad+gw*0.4, pad, gw*0.6, gh);
+    ctx.fillStyle='#ef4444'; ctx.font='bold 10px Sarabun'; ctx.textAlign='center';
+    ctx.fillText('⚠ Overfitting', pad+gw*0.7, pad+15);
+  }
+}
+
+// ===== SECTION 5: DATA AUGMENTATION =====
+function initSection4() {
+  drawOrigImage();
+  clearAugCanvas();
+}
+
+function drawOrigImage() {
+  const c = document.getElementById('origCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,160,160);
+  ctx.fillStyle = '#e8f4f8';
+  ctx.fillRect(0,0,160,160);
+  ctx.fillStyle = '#e74c3c';
+  ctx.beginPath(); ctx.arc(80,75,42,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#6d4c41'; ctx.fillRect(78,33,4,12);
+  ctx.fillStyle = '#27ae60';
+  ctx.beginPath(); ctx.ellipse(88,38,10,6,0.5,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#c0392b'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.arc(70,72,10,0.2,1.5); ctx.stroke();
+}
+
+function clearAugCanvas() {
+  const c = document.getElementById('augCanvas');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,480,160);
+  ctx.fillStyle = '#f9fafb'; ctx.fillRect(0,0,480,160);
+  ctx.fillStyle = '#9ca3af'; ctx.font = '14px Sarabun'; ctx.textAlign='center';
+  ctx.fillText('เลือกเทคนิคเพื่อดูผล Augmentation', 240, 85);
+}
+
+const augDescs = {
+  flip: 'Horizontal Flip: พลิกภาพซ้าย-ขวา สร้างมุมมองตรงข้าม',
+  rotate: 'Random Rotation: หมุนภาพ ±30°, ±60°, 90° ลด Directional Bias',
+  brightness: 'Brightness/Contrast: ปรับความสว่างและความคมชัด รับมือสภาพแสงต่างๆ',
+  crop: 'Random Crop: ครอบตัดวัตถุในตำแหน่งต่างๆ ฝึกการจดจำในทุกส่วนของภาพ',
+  noise: 'Gaussian Noise: เพิ่ม Noise จำลองภาพคุณภาพต่ำหรือสัญญาณรบกวน',
+  zoom: 'Random Zoom: ซูมเข้า-ออก ฝึก AI ให้จดจำวัตถุในระยะต่างๆ'
+};
+
+function applyAug(type) {
+  const src = document.getElementById('origCanvas');
+  const dst = document.getElementById('augCanvas');
+  const ctx = dst.getContext('2d');
+  ctx.clearRect(0,0,480,160);
+  ctx.fillStyle = '#f9fafb'; ctx.fillRect(0,0,480,160);
+
+  const variants = [0.3, 0.65, 1.0];
+  variants.forEach((v, i) => {
+    ctx.save();
+    ctx.translate(20 + i*155, 10);
+    const tc = document.createElement('canvas');
+    tc.width=140; tc.height=140;
+    const tctx = tc.getContext('2d');
+    tctx.fillStyle='#e8f4f8'; tctx.fillRect(0,0,140,140);
+
+    if (type==='flip') {
+      tctx.save(); tctx.translate(140,0); tctx.scale(-1,1);
+      tctx.drawImage(src,0,0,140,140); tctx.restore();
+    } else if (type==='rotate') {
+      const angle = [-30,-15,30][i] * Math.PI/180;
+      tctx.save(); tctx.translate(70,70); tctx.rotate(angle);
+      tctx.drawImage(src,-70,-70,140,140); tctx.restore();
+    } else if (type==='brightness') {
+      tctx.drawImage(src,0,0,140,140);
+      tctx.fillStyle = `rgba(${v>0.5?'255,255,255':'0,0,0'},${Math.abs(v-0.5)*0.8})`;
+      tctx.fillRect(0,0,140,140);
+    } else if (type==='crop') {
+      const off = Math.floor(v*20);
+      tctx.drawImage(src,off,off,120,120,0,0,140,140);
+    } else if (type==='noise') {
+      tctx.drawImage(src,0,0,140,140);
+      const imgData = tctx.getImageData(0,0,140,140);
+      const level = Math.floor(v*60);
+      for (let j=0; j<imgData.data.length; j+=4) {
+        const n = (Math.random()-0.5)*level;
+        imgData.data[j] = Math.max(0,Math.min(255,imgData.data[j]+n));
+        imgData.data[j+1] = Math.max(0,Math.min(255,imgData.data[j+1]+n));
+        imgData.data[j+2] = Math.max(0,Math.min(255,imgData.data[j+2]+n));
+      }
+      tctx.putImageData(imgData,0,0);
+    } else if (type==='zoom') {
+      const zoom = 0.7 + v*0.6;
+      const size = Math.round(140*zoom);
+      const off = Math.round((140-size)/2);
+      tctx.drawImage(src,0,0,140,140,off,off,size,size);
+    }
+
+    ctx.drawImage(tc,0,0);
+
+    ctx.fillStyle='#374151'; ctx.font='10px Sarabun'; ctx.textAlign='center';
+    const labels = { flip:'Flipped', rotate:['−30°','−15°','+30°'][i], brightness:['Brighter','Normal','Darker'][i], crop:`Crop ${i+1}`, noise:`Noise ×${i+1}`, zoom:`Zoom ×${(0.7+v*0.6).toFixed(1)}` };
+    ctx.fillText(labels[type]||'', 70, 152);
+    ctx.restore();
+  });
+
+  document.getElementById('augDesc').textContent = augDescs[type] || '';
+}
+
+function checkAug(q, choice, el) {
+  const answers = { 1:'brightness', 2:'rotate' };
+  const correct = answers[q];
+  const allCards = el.parentElement.querySelectorAll('.aug-card');
+  allCards.forEach(c=>{ c.classList.remove('selected','wrong'); });
+
+  if (choice === correct) {
+    el.classList.add('selected');
+    document.getElementById(`aug${q}-correct`).style.display = 'block';
+    document.getElementById(`aug${q}-wrong`).style.display = 'none';
+  } else {
+    el.classList.add('wrong');
+    document.getElementById(`aug${q}-correct`).style.display = 'none';
+    document.getElementById(`aug${q}-wrong`).style.display = 'block';
+  }
+}
+
+// ===== INIT =====
+initSection0();
+
+initSection0();
+</script>
+</body>
+</html>

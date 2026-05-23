@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บทที่ 2: ศิลปะแห่งการฝึกสอนโมเดล AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;line-height:1.8;font-size:16px;}
+.back-bar{
+  background:rgba(15,15,50,0.95);color:rgba(255,255,255,0.85);
+  padding:.65rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:.85rem;width:100%;font-family:'Sarabun',sans-serif;
+  text-decoration:none;transition:.2s;
+}
+.back-bar:hover{background:#000;color:#fff;}
+/* ===== LESSON 2 VARS ===== */
+#lesson2{
+  --bg:#f0f2f8;--surface:#ffffff;--primary:#2c2f6b;--accent:#5c6bc0;
+  --accent2:#e53935;--accent3:#43a047;--gold:#fb8c00;--teal:#00897b;
+  --text:#1a1d3a;--text-muted:#6b7280;--border:#e2e5f0;
+  --danger:#e53935;--success:#43a047;--warning:#fb8c00;--info:#1e88e5;
+  background:var(--bg);color:var(--text);
+}
+
+
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --accent3: #533483;
+    --teal: #16213e;
+    --gold: #f5a623;
+    --green: #27ae60;
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(233,69,96,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(83,52,131,0.15) 0%, transparent 50%);
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+  .hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(233,69,96,0.25);
+    color: #ff8fa3;
+    border: 1px solid rgba(233,69,96,0.4);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .nav-tabs {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 1.5rem;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tab-btn:hover { color: var(--text); background: #f9fafb; }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .tab-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .tab-btn.active .tab-num {
+    background: var(--accent);
+    color: white;
+  }
+
+  .main-content { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .concept-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem 1.75rem;
+    background: var(--surface);
+    border-radius: 16px;
+    border-left: 5px solid var(--accent);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .concept-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .concept-header p { color: var(--text-muted); }
+
+  .principle-box {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .principle-box h3 {
+    color: #f5a623;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .principle-box p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .sim-container {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .sim-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sim-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  canvas {
+    border-radius: 10px;
+    display: block;
+    max-width: 100%;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #c73652; transform: translateY(-1px); }
+  .btn-secondary { background: #f3f4f6; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #e5e7eb; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #059669; }
+
+  .slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 200px;
+    flex: 1;
+  }
+
+  .slider-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .slider-label span {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .result-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .metric-card {
+    flex: 1;
+    min-width: 120px;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .metric-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+  .metric-value { font-size: 1.5rem; font-weight: 700; margin-top: 2px; }
+
+  .metric-good { color: var(--success); }
+  .metric-bad { color: var(--danger); }
+  .metric-warn { color: var(--warning); }
+
+  .question-block {
+    background: #fef9ec;
+    border: 1px solid #fcd34d;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+  }
+
+  .question-block .q-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #92400e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  .question-block p { color: #78350f; font-size: 0.95rem; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .answer-reveal {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #ecfdf5;
+    border-radius: 8px;
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .progress-tracker {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+
+  .progress-dot.done { background: var(--success); }
+  .progress-dot.current { background: var(--accent); transform: scale(1.3); }
+
+  .scenario-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ede9fe;
+    color: #5b21b6;
+    border-radius: 20px;
+    padding: 0.25rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  select {
+    font-family: 'Sarabun', sans-serif;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+
+  .info-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .chip {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .chip-blue { background: #dbeafe; color: #1d4ed8; }
+  .chip-green { background: #dcfce7; color: #15803d; }
+  .chip-red { background: #fee2e2; color: #b91c1c; }
+  .chip-purple { background: #ede9fe; color: #6d28d9; }
+  .chip-orange { background: #ffedd5; color: #c2410c; }
+
+  .summary-section {
+    background: linear-gradient(135deg, #1a1a2e, #533483);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    margin-top: 2rem;
+  }
+
+  .summary-section h2 { font-size: 1.3rem; margin-bottom: 1.25rem; color: #fbbf24; }
+
+  .checklist {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 600px) { .checklist { grid-template-columns: 1fr; } }
+
+  .checklist li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #10b981;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .aug-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .aug-card {
+    background: #f9fafb;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .aug-card:hover { border-color: var(--accent); background: #fff5f5; color: var(--text); }
+  .aug-card.selected { border-color: var(--success); background: #ecfdf5; color: var(--success); font-weight: 600; }
+  .aug-card.wrong { border-color: var(--danger); background: #fef2f2; color: var(--danger); }
+
+  .aug-emoji { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+
+  .feedback-msg {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+  }
+
+  .feedback-correct { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+  .feedback-wrong { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+
+  #augFeedback1, #augFeedback2 { display: none; }
+
+
+/* ===== LESSON 2 STYLES ===== */
+
+:root {
+  --bg: #f0f2f8;
+  --surface: #ffffff;
+  --primary: #2c2f6b;
+  --accent: #5c6bc0;
+  --accent2: #e53935;
+  --accent3: #43a047;
+  --gold: #fb8c00;
+  --teal: #00897b;
+  --text: #1a1d3a;
+  --text-muted: #6b7280;
+  --border: #e2e5f0;
+  --danger: #e53935;
+  --success: #43a047;
+  --warning: #fb8c00;
+  --info: #1e88e5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Sarabun','Noto Sans Thai',sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 16px; }
+
+.hero {
+  background: linear-gradient(135deg, #1a1d4a 0%, #2c2f6b 45%, #3949ab 100%);
+  color: white; padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 20% 60%, rgba(255,152,0,0.12) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 30%, rgba(92,107,192,0.2) 0%, transparent 55%);
+}
+.hero-inner { position:relative; z-index:1; max-width:820px; margin:0 auto; }
+.hero h1 { font-size: clamp(1.5rem,4vw,2.5rem); font-weight:700; margin-bottom:.6rem; }
+.hero p { font-size:1rem; opacity:.8; max-width:580px; margin:0 auto; }
+.tag { display:inline-block; background:rgba(255,152,0,0.25); color:#ffcc80; border:1px solid rgba(255,152,0,0.4); border-radius:20px; padding:.25rem .9rem; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:.9rem; }
+
+.nav {
+  background: var(--surface); border-bottom: 2px solid var(--border);
+  display:flex; overflow-x:auto; padding:0 1.5rem; position:sticky; top:0; z-index:100;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+}
+.tab { flex-shrink:0; padding:.9rem 1.15rem; border:none; background:none; cursor:pointer; font-family:'Sarabun',sans-serif; font-size:.87rem; font-weight:500; color:var(--text-muted); border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .2s; white-space:nowrap; display:flex; align-items:center; gap:6px; }
+.tab:hover { color:var(--text); background:#f7f8ff; }
+.tab.on { color:var(--accent); border-bottom-color:var(--accent); font-weight:700; }
+.tnum { width:22px; height:22px; border-radius:50%; background:var(--border); color:var(--text-muted); font-size:.73rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+.tab.on .tnum { background:var(--accent); color:white; }
+
+.wrap { max-width:920px; margin:0 auto; padding:2rem 1.5rem 5rem; }
+.sec { display:none; }
+.sec.on { display:block; }
+
+.chead { background:var(--surface); border-radius:14px; border-left:5px solid var(--accent); padding:1.4rem 1.7rem; margin-bottom:1.5rem; box-shadow:0 1px 4px rgba(0,0,0,.05); }
+.chead h2 { font-size:1.35rem; font-weight:700; margin-bottom:.4rem; }
+.chead p { color:var(--text-muted); font-size:.95rem; }
+
+.qblock { background:#fffbef; border:1px solid #fcd34d; border-radius:12px; padding:1.2rem 1.5rem; margin:1.2rem 0; }
+.qlabel { font-size:.73rem; font-weight:700; color:#92400e; text-transform:uppercase; letter-spacing:.5px; margin-bottom:.4rem; }
+.qblock p { color:#78350f; font-size:.93rem; }
+
+.card { background:var(--surface); border-radius:14px; padding:1.6rem; margin:1.2rem 0; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,.05); }
+.ctitle { font-size:.97rem; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:1.1rem; }
+.cicon { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--primary)); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+.pbox { background:linear-gradient(135deg,#1a1d4a,#2c2f6b); color:white; border-radius:14px; padding:1.5rem 1.7rem; margin:1.5rem 0; }
+.pbox h3 { color:#ffcc80; font-size:.97rem; font-weight:700; margin-bottom:.65rem; display:flex; align-items:center; gap:7px; }
+.pbox p { opacity:.9; font-size:.93rem; line-height:1.9; }
+
+canvas { display:block; width:100%; border-radius:10px; }
+
+.btn { padding:.48rem 1.2rem; border-radius:8px; border:none; cursor:pointer; font-family:'Sarabun',sans-serif; font-size:.88rem; font-weight:600; transition:all .15s; }
+.bp { background:var(--accent); color:white; } .bp:hover { background:#3949ab; transform:translateY(-1px); }
+.bs { background:#f3f4f6; color:var(--text); border:1px solid var(--border); } .bs:hover { background:#e5e7eb; }
+.bg { background:var(--success); color:white; } .bg:hover { background:#2e7d32; }
+.br { background:var(--danger); color:white; } .br:hover { background:#c62828; }
+
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:600px){ .row2 { grid-template-columns:1fr; } }
+
+.slab { font-size:.78rem; color:var(--text-muted); font-weight:500; display:flex; justify-content:space-between; }
+.slab span { color:var(--accent); font-weight:700; }
+.sg { display:flex; flex-direction:column; gap:4px; }
+input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
+
+.mcard { flex:1; min-width:110px; background:#f7f8ff; border-radius:10px; padding:.8rem 1rem; border:1px solid var(--border); text-align:center; }
+.mlabel { font-size:.73rem; color:var(--text-muted); font-weight:500; }
+.mval { font-size:1.45rem; font-weight:700; margin-top:2px; }
+.mgood { color:var(--success); } .mbad { color:var(--danger); } .mwarn { color:var(--warning); }
+
+.mcards { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1rem; }
+
+.reveal { display:none; margin-top:.7rem; padding:.8rem 1rem; background:#ecfdf5; border-radius:8px; border:1px solid #6ee7b7; color:#065f46; font-size:.88rem; animation:fi .3s ease; }
+@keyframes fi { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+
+.alertbox { margin-top:.85rem; padding:.85rem 1rem; border-radius:8px; font-size:.85rem; }
+.alert-red { background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; }
+.alert-grn { background:#ecfdf5; border:1px solid #6ee7b7; color:#065f46; }
+.alert-ylw { background:#fffbef; border:1px solid #fcd34d; color:#92400e; }
+.alert-blu { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
+
+.choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin:1rem 0; }
+.choice-btn {
+  padding:1rem; border-radius:12px; border:2px solid var(--border); background:var(--surface);
+  cursor:pointer; font-family:'Sarabun',sans-serif; font-size:.88rem; font-weight:500;
+  color:var(--text); transition:all .2s; text-align:center; line-height:1.5;
+}
+.choice-btn:hover { border-color:var(--accent); background:#f0f2ff; }
+.choice-btn.correct { border-color:var(--success); background:#ecfdf5; color:#065f46; font-weight:700; }
+.choice-btn.wrong { border-color:var(--danger); background:#fef2f2; color:#991b1b; }
+
+.legend { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:.75rem; }
+.ldot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+.litem { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--text-muted); }
+
+.cm-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin:1rem 0; }
+.cm-cell { border-radius:6px; padding:.6rem .4rem; text-align:center; font-size:.8rem; font-weight:600; cursor:pointer; transition:all .2s; }
+.cm-cell:hover { transform:scale(1.05); }
+.cm-hdr { background:#f7f8ff; color:var(--text-muted); font-size:.72rem; font-weight:700; padding:.5rem .4rem; text-align:center; }
+.cm-tp { background:#d1fae5; color:#065f46; }
+.cm-tn { background:#dbeafe; color:#1e40af; }
+.cm-fp { background:#fee2e2; color:#991b1b; }
+.cm-fn { background:#fef3c7; color:#92400e; }
+.cm-zero { background:#f9fafb; color:var(--text-muted); }
+
+.airport-sim { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:1rem 0; }
+.person-card {
+  border-radius:10px; padding:.6rem; text-align:center; border:2px solid transparent;
+  font-size:.8rem; cursor:default; transition:all .3s;
+}
+.innocent { background:#e8f5e9; border-color:#a5d6a7; }
+.criminal { background:#ffebee; border-color:#ef9a9a; }
+.scanned { border-width:3px; transform:scale(1.05); }
+.scan-correct { border-color:#43a047; box-shadow:0 0 8px rgba(67,160,71,.4); }
+.scan-wrong { border-color:#e53935; box-shadow:0 0 8px rgba(229,57,53,.4); }
+.scan-missed { border-color:#fb8c00; background:#fff3e0; }
+
+.iou-demo { position:relative; width:100%; height:180px; background:#f7f8ff; border-radius:10px; overflow:hidden; border:1px solid var(--border); }
+.box-gt { position:absolute; border:3px solid #43a047; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:700; color:#43a047; background:rgba(67,160,71,.08); }
+.box-pred { position:absolute; border:3px dashed #e53935; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:700; color:#e53935; background:rgba(229,57,53,.08); }
+.box-overlap { position:absolute; background:rgba(92,107,192,.25); border-radius:2px; }
+
+.early-stop-line { stroke:#fb8c00; stroke-width:2; stroke-dasharray:6,3; }
+
+.progress-bar { height:10px; border-radius:5px; background:var(--border); overflow:hidden; margin-top:4px; }
+.progress-fill { height:100%; border-radius:5px; transition:width .5s; }
+
+.bkup { margin-top:.5rem; }
+
+
+
+</style>
+</head>
+<body>
+<a class="back-bar" href="index.html">← กลับหน้าเลือกบทเรียน &nbsp;|&nbsp; 🧠 บทที่ 2: ศิลปะแห่งการฝึกสอนโมเดล AI</a>
+
+<div style="background:linear-gradient(135deg,#1a1d4a 0%,#2c2f6b 45%,#3949ab 100%);color:white;padding:2.2rem 2rem 1.75rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(255,152,0,.12) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(92,107,192,.2) 0%,transparent 55%);"></div>
+  <div style="position:relative;z-index:1;">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,152,0,0.25);color:#ffcc80;border:1px solid rgba(255,152,0,0.4);border-radius:20px;padding:.25rem .9rem;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.9rem;">🧠 AI Learning Lab — บทที่ 2</div>
+    <h1 style="font-size:clamp(1.4rem,3.5vw,2.3rem);font-weight:700;margin-bottom:.5rem;">มนุษย์เรียนรู้ AI — AI เรียนรู้จากมนุษย์</h1>
+    <p style="font-size:.97rem;opacity:.8;max-width:560px;margin:0 auto;">มาสำรวจพฤติกรรมการเรียนรู้ของ AI กันเถอะ! ศิลปะแห่งการฝึกสอนโมเดล</p>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="tab on" onclick="goL2(0)"><span class="tnum">1</span>Overfitting</button>
+  <button class="tab" onclick="goL2(1)"><span class="tnum">2</span>Precision vs Recall</button>
+  <button class="tab" onclick="goL2(2)"><span class="tnum">3</span>mAP & IoU</button>
+  <button class="tab" onclick="goL2(3)"><span class="tnum">4</span>Epochs & LR</button>
+  <button class="tab" onclick="goL2(4)"><span class="tnum">5</span>Confusion Matrix</button>
+  <button class="tab" onclick="goL2(5)"><span class="tnum">✓</span>สรุป</button>
+</div>
+
+
+  
+
+<div class="wrap">
+
+  
+
+<!-- ===== S1 OVERFITTING ===== -->
+<div class="sec on" id="L2_s0">
+  <div class="chead">
+    <h2>📉 แนวคิดที่ 1: นักเรียนจอมท่องจำ (Overfitting)</h2>
+    <p>ความแม่นยำ 100% บนข้อมูลสอน ≠ AI ที่ดี — ดูที่ Validation Loss ด้วย</p>
+  </div>
+
+  <div class="qblock">
+    <div class="qlabel">💭 คำถามให้คิด</div>
+    <p>นักเรียนท่องข้อสอบเก่าจนได้คะแนน 100% แต่สอบตกข้อสอบชุดใหม่ — AI ก็มีพฤติกรรมแบบเดียวกัน สังเกตได้จากอะไร?</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">📈</div>จำลอง: Train Loss vs Validation Loss</div>
+    <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:1rem;">ปรับจำนวนรอบการฝึก (Epochs) แล้วสังเกตว่าเมื่อไหร่ Overfitting เริ่มเกิด</p>
+    <div class="sg" style="margin-bottom:1rem;">
+      <div class="slab">จำนวน Epochs ที่ฝึก <span id="L2_epochVal">25</span></div>
+      <input type="range" id="L2_epochSlider" min="5" max="100" value="25" oninput="updateOverfit()">
+    </div>
+    <canvas id="L2_overfitCanvas" height="220" style="background:#f7f8ff;"></canvas>
+    <div class="legend" style="margin-top:.75rem;">
+      <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>Train Loss (ข้อมูลสอน)</div>
+      <div class="litem"><div class="ldot" style="background:#e53935;"></div>Validation Loss (ข้อมูลทดสอบ)</div>
+      <div class="litem"><div class="ldot" style="background:#fb8c00;border-radius:0;width:18px;height:3px;"></div>จุด Overfitting</div>
+    </div>
+    <div class="mcards">
+      <div class="mcard"><div class="mlabel">Train Loss</div><div class="mval mgood" id="L2_trainLoss">0.42</div></div>
+      <div class="mcard"><div class="mlabel">Val Loss</div><div class="mval" id="L2_valLoss" style="color:var(--success);">0.48</div></div>
+      <div class="mcard"><div class="mlabel">สถานะ</div><div class="mval" id="L2_overfitStatus" style="font-size:.9rem;color:var(--success);">✅ ปกติ</div></div>
+      <div class="mcard"><div class="mlabel">Gap</div><div class="mval" id="L2_gapVal" style="color:var(--success);">0.06</div></div>
+    </div>
+    <div id="L2_overfitAlert" class="alertbox alert-grn" style="margin-top:.85rem;">✅ ยังอยู่ในสภาวะปกติ Train Loss และ Val Loss ลดลงพร้อมกัน</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🏫</div>อุปมาอุปไมย: นักเรียน A vs นักเรียน B</div>
+    <div class="row2">
+      <div style="background:#fef2f2;border-radius:10px;padding:1.1rem;border:1px solid #fca5a5;">
+        <div style="font-weight:700;color:#991b1b;margin-bottom:.5rem;">❌ นักเรียน A (Overfit)</div>
+        <p style="font-size:.85rem;color:#7f1d1d;">ท่องข้อสอบเก่าจนจำได้ทุกคำ<br>คะแนนข้อสอบเก่า: <strong>100%</strong><br>คะแนนข้อสอบใหม่: <strong>35%</strong></p>
+        <canvas id="L2_studentA" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#fff5f5;"></canvas>
+      </div>
+      <div style="background:#ecfdf5;border-radius:10px;padding:1.1rem;border:1px solid #6ee7b7;">
+        <div style="font-weight:700;color:#065f46;margin-bottom:.5rem;">✅ นักเรียน B (Generalize)</div>
+        <p style="font-size:.85rem;color:#064e3b;">เข้าใจหลักการ ไม่แค่ท่องจำ<br>คะแนนข้อสอบเก่า: <strong>88%</strong><br>คะแนนข้อสอบใหม่: <strong>84%</strong></p>
+        <canvas id="L2_studentB" width="200" height="90" style="margin-top:.75rem;border-radius:8px;background:#f0fff4;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <h3>💡 หลักการ: Overfitting</h3>
+    <p>เมื่อ <strong>Train Loss ลดลง</strong> แต่ <strong>Validation Loss พุ่งสูง</strong> = สัญญาณอันตราย! AI กำลัง "ท่องจำ (Memorize)" ข้อมูลสอน แทนที่จะ "เข้าใจรูปแบบ" ซึ่งทำให้ล้มเหลวกับข้อมูลใหม่ในโลกจริง</p>
+  </div>
+</div>
+
+<!-- ===== S2 PRECISION vs RECALL ===== -->
+<div class="sec" id="L2_s1">
+  <div class="chead">
+    <h2>🎯 แนวคิดที่ 2: ความแม่นยำ vs ความครอบคลุม (Precision vs Recall)</h2>
+    <p>ได้อย่างเสียอย่าง (Trade-off) — เลือกให้เหมาะกับงาน</p>
+  </div>
+
+  <div class="qblock">
+    <div class="qlabel">💭 คำถามให้คิด</div>
+    <p>พนักงานรักษาความปลอดภัยสองแบบ: <strong>สายเหวี่ยงแห</strong> (จับได้ครบแต่โดนตรวจผิดตัว) vs <strong>สายซุ่มยิง</strong> (แม่นแต่คนร้ายบางคนรอด) — งาน AI ต่างๆ ต้องการแบบไหน?</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">✈️</div>จำลองสนามบิน: ปรับ Threshold แล้วดูผล</div>
+    <div class="sg" style="margin-bottom:1rem;">
+      <div class="slab">ระดับ Threshold (ความเข้มงวดในการตรวจ) <span id="L2_threshVal">50</span>%</div>
+      <input type="range" id="L2_threshSlider" min="10" max="95" value="50" step="5" oninput="updateAirport()">
+      <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--text-muted);">
+        <span>← ต่ำ (เหวี่ยงแหมากขึ้น)</span>
+        <span>(ซุ่มยิงมากขึ้น) สูง →</span>
+      </div>
+    </div>
+
+    <div id="L2_airportGrid" class="airport-sim"></div>
+
+    <div class="mcards" style="margin-top:1rem;">
+      <div class="mcard"><div class="mlabel">Precision</div><div class="mval" id="L2_precVal" style="color:var(--info);">67%</div><div style="font-size:.7rem;color:var(--text-muted);">ตรวจแล้วถูก</div></div>
+      <div class="mcard"><div class="mlabel">Recall</div><div class="mval" id="L2_recVal" style="color:var(--success);">100%</div><div style="font-size:.7rem;color:var(--text-muted);">หาเจอครบ</div></div>
+      <div class="mcard"><div class="mlabel">F1 Score</div><div class="mval" id="L2_f1Val" style="color:var(--accent);">80%</div></div>
+      <div class="mcard"><div class="mlabel">คนบริสุทธิ์โดนตรวจ</div><div class="mval mbad" id="L2_fpVal">3 คน</div></div>
+      <div class="mcard"><div class="mlabel">คนร้ายที่รอด</div><div class="mval mbad" id="L2_fnVal">0 คน</div></div>
+    </div>
+    <div id="L2_airportAlert" class="alertbox alert-blu">⚖️ ปรับ Threshold เพื่อเปลี่ยนสมดุล Precision-Recall</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🩺</div>แบบทดสอบ: เลือก Metric ที่เหมาะสม</div>
+
+    <div style="margin-bottom:1.25rem;padding:1rem;background:#f0f4ff;border-radius:10px;border:1px solid #c7d2fe;">
+      <div style="font-weight:700;color:#3730a3;margin-bottom:.6rem;">📋 สถานการณ์ที่ 1: AI คัดกรองมะเร็งจากภาพถ่าย</div>
+      <p style="font-size:.85rem;color:#4338ca;margin-bottom:.85rem;">การพลาดผู้ป่วยมะเร็ง (False Negative) ส่งผลอันตรายร้ายแรง ควรเน้น Metric ใด?</p>
+      <div class="choice-grid">
+        <button class="choice-btn" onclick="checkChoice(1,'precision',this)">📍 Precision<br><small>เน้นความแม่นยำ</small></button>
+        <button class="choice-btn" onclick="checkChoice(1,'recall',this)">🔍 Recall<br><small>เน้นความครอบคลุม</small></button>
+      </div>
+      <div class="reveal" id="L2_r1c">✅ ถูกต้อง! ในการคัดกรองโรคร้าย เราต้องการ <strong>Recall สูง</strong> — ยอมให้เตือนผิดบ้างได้ ดีกว่าพลาดผู้ป่วยจริง</div>
+      <div class="reveal" id="L2_r1w">❌ ลองคิดใหม่ — ถ้าเน้น Precision สูง อาจ "พลาด" ผู้ป่วยที่ควรตรวจพบ ซึ่งอันตรายกว่าการแจ้งเตือนเกิน</div>
+    </div>
+
+    <div style="padding:1rem;background:#fff8f0;border-radius:10px;border:1px solid #fed7aa;">
+      <div style="font-weight:700;color:#c2410c;margin-bottom:.6rem;">📋 สถานการณ์ที่ 2: AI สแกนใบหน้าปลดล็อคโทรศัพท์</div>
+      <p style="font-size:.85rem;color:#9a3412;margin-bottom:.85rem;">การปลดล็อคให้คนอื่นโดยผิดพลาด (False Positive) ส่งผลเสียต่อความเป็นส่วนตัว ควรเน้น Metric ใด?</p>
+      <div class="choice-grid">
+        <button class="choice-btn" onclick="checkChoice(2,'precision',this)">📍 Precision<br><small>เน้นความแม่นยำ</small></button>
+        <button class="choice-btn" onclick="checkChoice(2,'recall',this)">🔍 Recall<br><small>เน้นความครอบคลุม</small></button>
+      </div>
+      <div class="reveal" id="L2_r2c">✅ ถูกต้อง! ในระบบรักษาความปลอดภัย เราต้องการ <strong>Precision สูง</strong> — ถ้าปลดล็อค ต้องมั่นใจว่าเป็นเจ้าของจริงๆ ยอมให้ผู้ใช้ scan ซ้ำได้ดีกว่าปล่อยคนอื่นเข้า</div>
+      <div class="reveal" id="L2_r2w">❌ ลองคิดใหม่ — Recall สูงในระบบนี้หมายความว่า "ปลดล็อคให้ได้ทุกคนที่คล้ายเจ้าของ" ซึ่งอันตรายมาก</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">📊</div>กราฟ Precision-Recall Curve</div>
+    <canvas id="L2_prCanvas" height="200" style="background:#f7f8ff;"></canvas>
+    <div style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;text-align:center;">จุดสีส้มคือ Threshold ปัจจุบัน — ลองปรับ Slider ด้านบนเพื่อเลื่อนตำแหน่ง</div>
+  </div>
+
+  <div class="pbox">
+    <h3>💡 หลักการ: Precision vs Recall Trade-off</h3>
+    <p><strong>Precision</strong> = ทายออกมาแล้วถูกกี่ % | <strong>Recall</strong> = หาเจอของจริงกี่ % | <strong>F1 Score</strong> = ค่าเฉลี่ยกลมกลืน — เลือก Metric ให้ตรงกับ "ต้นทุน" ของความผิดพลาดในงานนั้น</p>
+  </div>
+</div>
+
+<!-- ===== S3 mAP & IoU ===== -->
+<div class="sec" id="L2_s2">
+  <div class="chead">
+    <h2>📦 แนวคิดที่ 3: วัดฝีมือตีกรอบ (mAP & IoU)</h2>
+    <p>รู้จักประเภทวัตถุยังไม่พอ — ต้องตีกรอบให้ตรงด้วย</p>
+  </div>
+
+  <div class="qblock">
+    <div class="qlabel">💭 คำถามให้คิด</div>
+    <p>ผู้เข้าแข่งขันยิงธนูบอกถูกว่าเป้าคือสัตว์ชนิดใด แต่ยิงเฉียดขอบทุกดอก — ในการตรวจจับวัตถุ แค่รู้ว่า "มีหมา" เพียงพอหรือไม่? ต้องการมาตรวัดอะไรเพิ่มเติม?</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🎯</div>IoU: วัดความแม่นยำของ Bounding Box</div>
+    <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:1rem;">ลาก Slider เพื่อปรับตำแหน่ง Bounding Box ของ AI แล้วดูค่า IoU เปลี่ยนแปลง</p>
+
+    <div class="sg" style="margin-bottom:.5rem;">
+      <div class="slab">เลื่อน Predicted Box (แกน X) <span id="L2_iouXVal">0</span>px</div>
+      <input type="range" id="L2_iouX" min="-60" max="60" value="0" oninput="updateIoU()">
+    </div>
+    <div class="sg" style="margin-bottom:1rem;">
+      <div class="slab">เลื่อน Predicted Box (แกน Y) <span id="L2_iouYVal">0</span>px</div>
+      <input type="range" id="L2_iouY" min="-50" max="50" value="0" oninput="updateIoU()">
+    </div>
+
+    <div class="iou-demo" id="L2_iouDemo">
+      <div class="box-gt" id="L2_gtBox" style="left:25%;top:15%;width:50%;height:65%;">Ground Truth</div>
+      <div class="box-pred" id="L2_predBox" style="left:25%;top:15%;width:50%;height:65%;">Predicted</div>
+      <div class="box-overlap" id="L2_overlapBox" style="left:25%;top:15%;width:50%;height:65%;"></div>
+    </div>
+
+    <div class="mcards" style="margin-top:1rem;">
+      <div class="mcard"><div class="mlabel">IoU</div><div class="mval" id="L2_iouVal" style="color:var(--success);">1.00</div></div>
+      <div class="mcard"><div class="mlabel">ผลการตรวจจับ</div><div class="mval" id="L2_iouResult" style="font-size:.9rem;color:var(--success);">✅ TP (IoU≥0.5)</div></div>
+      <div class="mcard"><div class="mlabel">ระดับคุณภาพ</div><div class="mval" id="L2_iouGrade" style="font-size:.88rem;color:var(--success);">🥇 ดีมาก</div></div>
+    </div>
+    <div id="L2_iouAlert" class="alertbox alert-grn">✅ Box ซ้อนกันสมบูรณ์ — IoU = 1.0 ดีที่สุด!</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🏆</div>mAP: ค่าเฉลี่ยความแม่นยำรวมทุก Class</div>
+    <canvas id="L2_mapCanvas" height="200" style="background:#f7f8ff;"></canvas>
+    <div class="legend" style="margin-top:.75rem;">
+      <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>แมว (Cat)</div>
+      <div class="litem"><div class="ldot" style="background:#43a047;"></div>สุนัข (Dog)</div>
+      <div class="litem"><div class="ldot" style="background:#e53935;"></div>รถยนต์ (Car)</div>
+      <div class="litem"><div class="ldot" style="background:#fb8c00;"></div>คน (Person)</div>
+    </div>
+    <div class="mcards" style="margin-top:.75rem;">
+      <div class="mcard"><div class="mlabel">AP — แมว</div><div class="mval" style="color:#1e88e5;">82%</div></div>
+      <div class="mcard"><div class="mlabel">AP — สุนัข</div><div class="mval" style="color:#43a047;">74%</div></div>
+      <div class="mcard"><div class="mlabel">AP — รถ</div><div class="mval" style="color:#e53935;">91%</div></div>
+      <div class="mcard"><div class="mlabel">AP — คน</div><div class="mval" style="color:#fb8c00;">68%</div></div>
+      <div class="mcard"><div class="mlabel">mAP (เฉลี่ย)</div><div class="mval" style="color:var(--accent);">79%</div></div>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <h3>💡 หลักการ: mAP (Mean Average Precision)</h3>
+    <p>mAP วัด 2 สิ่งพร้อมกัน: (1) <strong>ทายประเภทถูกไหม?</strong> และ (2) <strong>ตีกรอบตรงแค่ไหน?</strong> (วัดด้วย IoU) โมเดลที่ดีต้องทำได้ทั้งสองอย่าง — รู้ว่าคืออะไร และระบุตำแหน่งได้แม่นยำ</p>
+  </div>
+</div>
+
+<!-- ===== S4 EPOCHS & LR ===== -->
+<div class="sec" id="L2_s3">
+  <div class="chead">
+    <h2>🎛️ แนวคิดที่ 4: ความพอดีในการเคี่ยวกรำ (Epochs & Learning Rate)</h2>
+    <p>ฝึกมากไปก็ไหม้ — ฝึกน้อยไปก็ดิบ — ต้องพอดีและรู้จักหยุด</p>
+  </div>
+
+  <div class="qblock">
+    <div class="qlabel">💭 คำถามให้คิด</div>
+    <p>เค้กฟูสุกพอดีตั้งแต่ 50 นาที แต่สูตรบอกให้อบ 100 นาที — ถ้าอบต่อ เค้กจะเป็นอย่างไร? และถ้าค่อยๆ ลดอุณหภูมิลง (Learning Rate) จะช่วยได้อย่างไร?</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🍰</div>จำลอง: การฝึก AI กับ Early Stopping</div>
+    <div class="row2" style="margin-bottom:1rem;gap:.75rem;">
+      <div class="sg">
+        <div class="slab">จำนวน Epochs <span id="L2_epVal2">60</span></div>
+        <input type="range" id="L2_epSlider2" min="10" max="150" value="60" oninput="updateEarlyStop()">
+      </div>
+      <div class="sg">
+        <div class="slab">Learning Rate <span id="L2_lrVal">0.01</span></div>
+        <input type="range" id="L2_lrSlider" min="1" max="10" value="5" oninput="updateEarlyStop()">
+      </div>
+    </div>
+    <div style="margin-bottom:.5rem;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.87rem;font-weight:500;">
+        <input type="checkbox" id="L2_earlyStopToggle" onchange="updateEarlyStop()" style="accent-color:var(--accent);">
+        เปิดใช้ Early Stopping
+      </label>
+    </div>
+    <canvas id="L2_esCanvas" height="230" style="background:#f7f8ff;"></canvas>
+    <div class="legend">
+      <div class="litem"><div class="ldot" style="background:#1e88e5;"></div>Train Accuracy</div>
+      <div class="litem"><div class="ldot" style="background:#e53935;"></div>Validation Accuracy</div>
+      <div class="litem" id="L2_esLegend" style="display:none;"><div style="width:18px;height:3px;background:#fb8c00;border-radius:2px;flex-shrink:0;"></div>จุด Early Stop</div>
+    </div>
+    <div class="mcards" style="margin-top:.75rem;">
+      <div class="mcard"><div class="mlabel">Best Val Acc</div><div class="mval mgood" id="L2_bestAcc">-</div></div>
+      <div class="mcard"><div class="mlabel">Epoch ที่ดีที่สุด</div><div class="mval" id="L2_bestEp" style="color:var(--accent);">-</div></div>
+      <div class="mcard"><div class="mlabel">Epoch ที่ฝึก</div><div class="mval" id="L2_actualEp" style="color:var(--text-muted);">-</div></div>
+      <div class="mcard"><div class="mlabel">ประหยัดเวลา</div><div class="mval" id="L2_timeSave" style="color:var(--success);">-</div></div>
+    </div>
+    <div id="L2_esAlert" class="alertbox alert-blu">⬆️ ปรับ Epochs และ Learning Rate แล้วดูผล</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🌡️</div>Learning Rate: ก้าวใหญ่ vs ก้าวเล็ก</div>
+    <canvas id="L2_lrCanvas" height="160" style="background:#f7f8ff;"></canvas>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:.75rem;">
+      <div style="background:#fee2e2;border-radius:8px;padding:.75rem;text-align:center;border:1px solid #fca5a5;">
+        <div style="font-size:1.2rem;">🐎</div>
+        <div style="font-size:.8rem;font-weight:700;color:#991b1b;">LR สูงเกิน</div>
+        <div style="font-size:.75rem;color:#7f1d1d;">กระโดดข้ามคำตอบที่ดี</div>
+      </div>
+      <div style="background:#ecfdf5;border-radius:8px;padding:.75rem;text-align:center;border:1px solid #6ee7b7;">
+        <div style="font-size:1.2rem;">🚶</div>
+        <div style="font-size:.8rem;font-weight:700;color:#065f46;">LR พอดี</div>
+        <div style="font-size:.75rem;color:#064e3b;">เดินหาจุดที่ดีที่สุดสำเร็จ</div>
+      </div>
+      <div style="background:#fffbef;border-radius:8px;padding:.75rem;text-align:center;border:1px solid #fcd34d;">
+        <div style="font-size:1.2rem;">🐢</div>
+        <div style="font-size:.8rem;font-weight:700;color:#92400e;">LR ต่ำเกิน</div>
+        <div style="font-size:.75rem;color:#78350f;">ใช้เวลาช้ามาก</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <h3>💡 หลักการ: Early Stopping & Learning Rate</h3>
+    <p><strong>Early Stopping</strong> = หยุดทันทีเมื่อ Val Loss ไม่พัฒนา ป้องกัน Overfitting และประหยัดเวลา | <strong>Learning Rate</strong> = ขนาดก้าว ถ้า Loss "นิ่ง" ให้ลด LR ลง เพื่อค้นหาจุดที่ดีกว่าด้วยก้าวที่ละเอียดขึ้น</p>
+  </div>
+</div>
+
+<!-- ===== S5 CONFUSION MATRIX ===== -->
+<div class="sec" id="L2_s4">
+  <div class="chead">
+    <h2>🗂️ แนวคิดที่ 5: ตารางความสับสน (Confusion Matrix)</h2>
+    <p>คะแนน 80% บอกว่าดี — แต่ Confusion Matrix บอกว่า AI สับสนอะไรกับอะไร</p>
+  </div>
+
+  <div class="qblock">
+    <div class="qlabel">💭 คำถามให้คิด</div>
+    <p>เด็กชายเอกสอบได้ 80/100 ดูดี — แต่พอดูรายละเอียดพบว่าสับสนระหว่าง "b" กับ "d" ทั้งหมด การรู้จุดสับสนนี้มีประโยชน์อย่างไรในการสอน AI?</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">📋</div>จำลอง Confusion Matrix: AI แยกแยะสุนัข</div>
+    <p style="font-size:.87rem;color:var(--text-muted);margin-bottom:1rem;">คลิกที่ช่องในตารางเพื่อดูความหมายและแนวทางแก้ไข</p>
+
+    <div style="overflow-x:auto;">
+      <div style="min-width:340px;">
+        <div style="font-size:.78rem;color:var(--text-muted);font-weight:700;text-align:center;margin-bottom:.3rem;">AI ทาย →</div>
+        <div class="cm-grid" id="L2_cmGrid"></div>
+      </div>
+    </div>
+
+    <div id="L2_cmInfo" class="alertbox alert-blu" style="margin-top:.85rem;">👆 คลิกที่ช่องใดก็ได้เพื่อดูความหมาย</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🔍</div>วิเคราะห์: AI สับสนอะไรมากที่สุด?</div>
+    <canvas id="L2_confCanvas" height="200" style="background:#f7f8ff;"></canvas>
+    <div style="margin-top:.75rem;" id="L2_confAnalysis">
+      <div class="alertbox alert-ylw">⚠️ AI สับสนระหว่าง <strong>Husky vs Malamute</strong> มากที่สุด (28 ครั้ง) เพราะทั้งสองพันธุ์มีลักษณะคล้ายกันมาก</div>
+      <div style="margin-top:.6rem;padding:.85rem;background:#f0f4ff;border-radius:8px;border:1px solid #c7d2fe;">
+        <div style="font-weight:700;color:#3730a3;font-size:.88rem;margin-bottom:.4rem;">💡 แนวทางแก้ไข Dataset</div>
+        <ul style="font-size:.83rem;color:#4338ca;padding-left:1.2rem;line-height:1.8;">
+          <li>เพิ่มภาพที่เห็น <strong>ทรงหู</strong> ชัดเจน (Husky: ตั้งตรง ปลายแหลม / Malamute: ตั้งตรง กว้างกว่า)</li>
+          <li>เพิ่มภาพที่เห็น <strong>ลักษณะหาง</strong> ชัด (Husky: หางม้วนหรือตก / Malamute: หางม้วนชัด)</li>
+          <li>เพิ่มภาพแสดง <strong>ขนาดตัว</strong> (Malamute ใหญ่กว่า Husky อย่างเห็นได้ชัด)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle"><div class="cicon">🧮</div>ความหมายของ TP / TN / FP / FN</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+      <div style="background:#d1fae5;border-radius:10px;padding:1rem;border:1px solid #6ee7b7;">
+        <div style="font-weight:700;color:#065f46;margin-bottom:.3rem;">✅ True Positive (TP)</div>
+        <p style="font-size:.83rem;color:#064e3b;">AI ทายว่า "มะเร็ง" → เป็นมะเร็งจริง<br><em>จับคนร้ายได้ถูกคน</em></p>
+      </div>
+      <div style="background:#dbeafe;border-radius:10px;padding:1rem;border:1px solid #bfdbfe;">
+        <div style="font-weight:700;color:#1e40af;margin-bottom:.3rem;">✅ True Negative (TN)</div>
+        <p style="font-size:.83rem;color:#1e3a8a;">AI ทายว่า "ปกติ" → ปกติจริง<br><em>ปล่อยผู้บริสุทธิ์ถูกคน</em></p>
+      </div>
+      <div style="background:#fee2e2;border-radius:10px;padding:1rem;border:1px solid #fca5a5;">
+        <div style="font-weight:700;color:#991b1b;margin-bottom:.3rem;">❌ False Positive (FP)</div>
+        <p style="font-size:.83rem;color:#7f1d1d;">AI ทายว่า "มะเร็ง" → แต่ปกติจริง<br><em>ค้นกระเป๋าคนบริสุทธิ์</em></p>
+      </div>
+      <div style="background:#fef3c7;border-radius:10px;padding:1rem;border:1px solid #fcd34d;">
+        <div style="font-weight:700;color:#92400e;margin-bottom:.3rem;">❌ False Negative (FN)</div>
+        <p style="font-size:.83rem;color:#78350f;">AI ทายว่า "ปกติ" → แต่มะเร็งจริง<br><em>คนร้ายรอดสายตา — อันตรายที่สุด!</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <h3>💡 หลักการ: Confusion Matrix</h3>
+    <p>ความแม่นยำรวม (Accuracy) ซ่อนปัญหา — Confusion Matrix เปิดเผยว่า AI <strong>สับสนระหว่างอะไรกับอะไร</strong> เพื่อให้เรากลับไปแก้ Dataset ได้ตรงจุด เช่น เพิ่มภาพที่เน้น Feature ที่แตกต่าง</p>
+  </div>
+</div>
+
+<!-- ===== S6 SUMMARY ===== -->
+<div class="sec" id="L2_s5">
+  <div class="chead">
+    <h2>✅ สรุป: เครื่องมือประเมินและควบคุมการฝึก AI</h2>
+    <p>ทบทวนหลักการสำคัญทั้ง 5 ข้อจากบทเรียนที่ 2</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+    <div style="background:var(--surface);border-radius:14px;padding:1.25rem;border:1px solid var(--border);border-top:4px solid #1e88e5;">
+      <div style="font-size:1.4rem;margin-bottom:.4rem;">📉</div>
+      <div style="font-weight:700;color:#1e88e5;margin-bottom:.3rem;">Overfitting</div>
+      <p style="font-size:.83rem;color:var(--text-muted);">Train Loss ↓ แต่ Val Loss ↑ = เตือนอันตราย AI กำลังท่องจำ</p>
+    </div>
+    <div style="background:var(--surface);border-radius:14px;padding:1.25rem;border:1px solid var(--border);border-top:4px solid #43a047;">
+      <div style="font-size:1.4rem;margin-bottom:.4rem;">🎯</div>
+      <div style="font-weight:700;color:#43a047;margin-bottom:.3rem;">Precision vs Recall</div>
+      <p style="font-size:.83rem;color:var(--text-muted);">เลือก Metric ให้ตรงงาน: โรค=Recall สูง, ความปลอดภัย=Precision สูง</p>
+    </div>
+    <div style="background:var(--surface);border-radius:14px;padding:1.25rem;border:1px solid var(--border);border-top:4px solid #e53935;">
+      <div style="font-size:1.4rem;margin-bottom:.4rem;">📦</div>
+      <div style="font-weight:700;color:#e53935;margin-bottom:.3rem;">mAP & IoU</div>
+      <p style="font-size:.83rem;color:var(--text-muted);">วัดทั้งประเภทและตำแหน่ง Bounding Box สำหรับ Object Detection</p>
+    </div>
+    <div style="background:var(--surface);border-radius:14px;padding:1.25rem;border:1px solid var(--border);border-top:4px solid #fb8c00;">
+      <div style="font-size:1.4rem;margin-bottom:.4rem;">🎛️</div>
+      <div style="font-weight:700;color:#fb8c00;margin-bottom:.3rem;">Early Stopping & LR</div>
+      <p style="font-size:.83rem;color:var(--text-muted);">หยุดเมื่อดีที่สุด อย่าอบเกินไฟ — ปรับ LR ให้ก้าวพอดี</p>
+    </div>
+  </div>
+  <div style="background:var(--surface);border-radius:14px;padding:1.25rem;border:1px solid var(--border);border-top:4px solid #8b5cf6;margin-bottom:1.5rem;">
+    <div style="font-size:1.4rem;margin-bottom:.4rem;">🗂️</div>
+    <div style="font-weight:700;color:#6d28d9;margin-bottom:.3rem;">Confusion Matrix</div>
+    <p style="font-size:.83rem;color:var(--text-muted);">เปิดเผยจุดบอด — AI สับสนอะไรกับอะไร ใช้วางแผนปรับปรุง Dataset ได้ตรงจุด</p>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#1a1d4a,#3949ab);border-radius:16px;padding:2rem;color:white;">
+    <h2 style="color:#ffcc80;font-size:1.25rem;margin-bottom:1.2rem;">🏆 สูตรสำเร็จ: ฝึก AI อย่างชาญฉลาด</h2>
+    <ul style="list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>ติดตาม Val Loss เสมอ ไม่ใช่แค่ Train Loss</li>
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>เลือก Metric ให้ตรงกับงานและต้นทุนของความผิดพลาด</li>
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>ใช้ IoU ประเมิน Bounding Box ไม่แค่ Classification</li>
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>ตั้ง Early Stopping ป้องกัน Overfitting และเสียเวลา</li>
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>อ่าน Confusion Matrix เพื่อหาจุดบอดของ AI</li>
+      <li style="display:flex;gap:8px;align-items:flex-start;font-size:.87rem;opacity:.9;"><span style="width:20px;height:20px;border-radius:50%;background:#43a047;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:2px;">✓</span>ปรับ LR ลงเมื่อ Loss ไม่พัฒนา แทนการเพิ่ม Epoch</li>
+    </ul>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1.25rem;background:var(--surface);border-radius:12px;border:1px solid var(--border);text-align:center;">
+    <div style="font-size:1.3rem;margin-bottom:.4rem;">💬</div>
+    <div style="font-weight:600;margin-bottom:.4rem;">คำถามทบทวน</div>
+    <p style="color:var(--text-muted);font-size:.88rem;max-width:520px;margin:0 auto .9rem;">ถ้า AI ของคุณมี Accuracy 95% แต่ Recall ต่ำมาก และ Confusion Matrix แสดงว่าสับสนระหว่าง Class A กับ Class B — คุณจะแก้ปัญหาอย่างไร?</p>
+    <button class="btn bp" onclick="alert('แนวคิด: ตรวจสอบก่อนว่า Class A และ B มีข้อมูลสมดุลไหม (Class Imbalance?) → หากสับสนกัน ให้เพิ่มภาพที่เน้น Feature ที่แตกต่าง → ปรับ Threshold ให้ Recall สูงขึ้น → ลองใช้ Weighted Loss เพื่อให้ AI ใส่ใจ Class ที่น้อยกว่า')">🤔 ดูแนวคิด</button>
+  </div>
+</div>
+
+
+  
+</div><!-- /wrap -->
+
+<script>
+
+// ===== TAB =====
+const tabs = document.querySelectorAll('#lesson2 .tab');
+const secs = document.querySelectorAll('#lesson2 .sec');
+
+// goL2 defined below
+
+
+// ===== S1 OVERFITTING =====
+function initL2S0(){
+  L2_updateOverfit();
+  L2_drawStudentBars();
+}
+function L2_updateOverfit(){
+  const ep = parseInt(document.getElementById('L2_epochSlider').value);
+  document.getElementById('L2_epochVal').textContent = ep;
+  const c = document.getElementById('L2_overfitCanvas');
+  const ctx = c.getContext('2d');
+  const W=c.offsetWidth||600, H=220;
+  c.width=W; c.height=H;
+  const pad=45, gw=W-2*pad, gh=H-2*pad-10;
+
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  // grid
+  for(let i=0;i<=4;i++){
+    const y=pad+gh/4*i;
+    ctx.strokeStyle='#e2e5f0'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px Sarabun'; ctx.textAlign='right';
+    ctx.fillText((1-i*0.25).toFixed(2), pad-6, y+4);
+  }
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun'; ctx.textAlign='center';
+  ctx.fillText('Loss', pad-30, H/2);
+  ctx.fillText('Epochs', W/2, H-3);
+
+  const overfit_start = 40;
+  const trainPts=[], valPts=[];
+  for(let e=0;e<=ep;e++){
+    const t=e/100;
+    const tLoss = Math.max(0.02, 0.9*Math.exp(-t*5)+0.05);
+    let vLoss;
+    if(e<=overfit_start) vLoss = Math.max(0.08, 0.85*Math.exp(-t*4)+0.12);
+    else vLoss = 0.22 + (e-overfit_start)*0.006;
+    vLoss = Math.min(vLoss, 0.98);
+    const x=pad+gw*(e/100);
+    trainPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,1-tLoss)))});
+    valPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,1-vLoss)))});
+  }
+
+  // early stop zone
+  if(ep>overfit_start){
+    const ex=pad+gw*(overfit_start/100);
+    ctx.fillStyle='rgba(229,57,53,.06)';
+    ctx.fillRect(ex, pad, W-pad-ex, gh);
+  }
+
+  const draw=(pts,col)=>{
+    ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.beginPath();
+    pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+    ctx.stroke();
+  };
+  draw(trainPts,'#1e88e5');
+  draw(valPts,'#e53935');
+
+  if(ep>overfit_start){
+    const ex=pad+gw*(overfit_start/100);
+    ctx.strokeStyle='#fb8c00'; ctx.lineWidth=2; ctx.setLineDash([6,3]);
+    ctx.beginPath(); ctx.moveTo(ex,pad); ctx.lineTo(ex,pad+gh); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#fb8c00'; ctx.font='bold 10px Sarabun'; ctx.textAlign='center';
+    ctx.fillText('⚠ Overfitting', ex, pad-5);
+  }
+
+  const tl=trainPts[trainPts.length-1];
+  const vl=valPts[valPts.length-1];
+  const tLossVal=(0.9*Math.exp(-(ep/100)*5)+0.05).toFixed(2);
+  const vLossVal=ep<=overfit_start ? (0.85*Math.exp(-(ep/100)*4)+0.12).toFixed(2) : Math.min(0.98,0.22+(ep-overfit_start)*0.006).toFixed(2);
+  const gap=(parseFloat(vLossVal)-parseFloat(tLossVal)).toFixed(2);
+
+  document.getElementById('L2_trainLoss').textContent=tLossVal;
+  document.getElementById('L2_valLoss').textContent=vLossVal;
+  document.getElementById('L2_gapVal').textContent=gap;
+
+  const ov=ep>overfit_start;
+  document.getElementById('L2_valLoss').style.color=ov?'var(--danger)':'var(--success)';
+  document.getElementById('L2_gapVal').style.color=parseFloat(gap)>0.15?'var(--danger)':parseFloat(gap)>0.08?'var(--warning)':'var(--success)';
+  document.getElementById('L2_overfitStatus').textContent=ov?'🔴 Overfit':'✅ ปกติ';
+  document.getElementById('L2_overfitStatus').style.color=ov?'var(--danger)':'var(--success)';
+
+  const al=document.getElementById('L2_overfitAlert');
+  if(ov){
+    al.className='alertbox alert-red';
+    al.textContent='⚠️ Overfitting กำลังเกิดขึ้น! Val Loss พุ่งสูงขณะที่ Train Loss ยังลดลง — ควร Early Stop ที่ Epoch ≈ '+overfit_start;
+  } else {
+    al.className='alertbox alert-grn';
+    al.textContent='✅ การเรียนรู้ปกติ Train Loss และ Val Loss ลดลงพร้อมกัน';
+  }
+}
+
+function L2_drawStudentBars(){
+  const drawBars=(id,data,colors)=>{
+    const c=document.getElementById(id);
+    if(!c)return;
+    const ctx=c.getContext('2d');
+    const W=c.offsetWidth||200, H=90;
+    c.width=W; c.height=H;
+    ctx.clearRect(0,0,W,H);
+    const bw=(W-30)/(data.length*2);
+    data.forEach((d,i)=>{
+      const x=15+i*(bw*2+8);
+      ctx.fillStyle=colors[i];
+      const bh=d/100*(H-25);
+      ctx.beginPath(); ctx.roundRect(x,H-25-bh,bw,bh,4); ctx.fill();
+      ctx.fillStyle='#374151'; ctx.font='9px Sarabun'; ctx.textAlign='center';
+      ctx.fillText(d+'%', x+bw/2, H-25-bh-3);
+      ctx.fillStyle='#6b7280'; ctx.font='8px Sarabun';
+      ctx.fillText(['Train','Val'][i], x+bw/2, H-8);
+    });
+  };
+  L2_drawBars('studentA',[100,35],['#e53935','#ef9a9a']);
+  L2_drawBars('studentB',[88,84],['#43a047','#66bb6a']);
+}
+
+// ===== S2 PRECISION vs RECALL =====
+// People: 0=innocent, 1=criminal
+const people=[0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1];
+function initL2S1(){L2_updateAirport();L2_drawPRCurve();}
+function L2_updateAirport(){
+  const thresh=parseInt(document.getElementById('L2_threshSlider').value);
+  document.getElementById('L2_threshVal').textContent=thresh;
+  // each person has a suspicion score
+  const scores=[30,20,95,15,25,85,35,10,40,90,18,22,45,80,28,12,38,8,50,92];
+  const grid=document.getElementById('L2_airportGrid');
+  grid.innerHTML='';
+
+  let tp=0,fp=0,fn=0,tn=0;
+  people.forEach((p,i)=>{
+    const scanned=scores[i]>=thresh;
+    const div=document.createElement('div');
+    div.className='person-card '+(p===1?'criminal':'innocent');
+    let cls='';
+    if(scanned&&p===1){tp++;cls='scan-correct';}
+    else if(scanned&&p===0){fp++;cls='scan-wrong';}
+    else if(!scanned&&p===1){fn++;cls='scan-missed';}
+    else{tn++;}
+    if(scanned||fn>0&&!scanned&&p===1) div.classList.add('scanned');
+    if(cls) div.classList.add(cls);
+    div.innerHTML=`<div style="font-size:1.1rem;">${p===1?'🕵️':'👤'}</div><div style="font-size:.68rem;">${scanned?'🔍':'–'}</div>`;
+    grid.appendChild(div);
+  });
+
+  const prec=tp+fp>0?Math.round(tp/(tp+fp)*100):100;
+  const rec=tp+fn>0?Math.round(tp/(tp+fn)*100):0;
+  const f1=prec+rec>0?Math.round(2*prec*rec/(prec+rec)):0;
+  document.getElementById('L2_precVal').textContent=prec+'%';
+  document.getElementById('L2_recVal').textContent=rec+'%';
+  document.getElementById('L2_f1Val').textContent=f1+'%';
+  document.getElementById('L2_fpVal').textContent=fp+' คน';
+  document.getElementById('L2_fnVal').textContent=fn+' คน';
+
+  const al=document.getElementById('L2_airportAlert');
+  if(thresh<30){al.className='alertbox alert-ylw';al.textContent='⚠️ Threshold ต่ำ: จับคนร้ายได้ครบแต่ตรวจคนบริสุทธิ์เยอะ (Recall↑ Precision↓)';}
+  else if(thresh>75){al.className='alertbox alert-ylw';al.textContent='⚠️ Threshold สูง: แม่นยำมากแต่เสี่ยงให้คนร้ายรอด (Precision↑ Recall↓)';}
+  else{al.className='alertbox alert-blu';al.textContent='⚖️ สมดุลระหว่าง Precision และ Recall — F1 Score: '+f1+'%';}
+  L2_drawPRCurve(thresh);
+}
+function L2_drawPRCurve(curThresh=50){
+  const c=document.getElementById('L2_prCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||580, H=200;
+  c.width=W; c.height=H;
+  const pad=40, gw=W-2*pad, gh=H-2*pad;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  for(let i=0;i<=4;i++){
+    const x=pad+gw*i/4, y=pad+gh*i/4;
+    ctx.strokeStyle='#e2e5f0'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,pad); ctx.lineTo(x,pad+gh); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(pad+gw,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px Sarabun'; ctx.textAlign='center';
+    ctx.fillText((i*25)+'%', x, pad+gh+14);
+    ctx.textAlign='right';
+    ctx.fillText((100-i*25)+'%', pad-5, y+4);
+  }
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun';
+  ctx.textAlign='center'; ctx.fillText('Recall →', W/2, H-3);
+  ctx.save(); ctx.rotate(-Math.PI/2); ctx.fillText('Precision ↑', -H/2, 12); ctx.restore();
+
+  // PR curve
+  const pts=[];
+  for(let t=95;t>=5;t-=5){
+    const scores=[30,20,95,15,25,85,35,10,40,90,18,22,45,80,28,12,38,8,50,92];
+    let tp=0,fp=0,fn=0;
+    people.forEach((p,i)=>{if(scores[i]>=t&&p===1)tp++;else if(scores[i]>=t&&p===0)fp++;else if(scores[i]<t&&p===1)fn++;});
+    const pr=tp+fp>0?tp/(tp+fp):1, re=tp+fn>0?tp/(tp+fn):0;
+    pts.push({x:pad+gw*re, y:pad+gh*(1-pr), t});
+  }
+  ctx.strokeStyle='#5c6bc0'; ctx.lineWidth=2.5; ctx.beginPath();
+  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)); ctx.stroke();
+
+  // current point
+  const scores2=[30,20,95,15,25,85,35,10,40,90,18,22,45,80,28,12,38,8,50,92];
+  let ctp=0,cfp=0,cfn=0;
+  people.forEach((p,i)=>{if(scores2[i]>=curThresh&&p===1)ctp++;else if(scores2[i]>=curThresh&&p===0)cfp++;else if(scores2[i]<curThresh&&p===1)cfn++;});
+  const cpr=ctp+cfp>0?ctp/(ctp+cfp):1, cre=ctp+cfn>0?ctp/(ctp+cfn):0;
+  const cx2=pad+gw*cre, cy2=pad+gh*(1-cpr);
+  ctx.fillStyle='#fb8c00'; ctx.beginPath(); ctx.arc(cx2,cy2,7,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
+}
+function L2_checkChoice(q,ans,el){
+  const correct={1:'recall',2:'precision'};
+  const parent=el.parentElement;
+  parent.querySelectorAll('.choice-btn').forEach(b=>{b.classList.remove('correct','wrong');});
+  const isCorrect=ans===correct[q];
+  el.classList.add(isCorrect?'correct':'wrong');
+  document.getElementById('r'+q+'c').style.display=isCorrect?'block':'none';
+  document.getElementById('r'+q+'w').style.display=isCorrect?'none':'block';
+}
+
+// ===== S3 mAP & IoU =====
+function initL2S2(){L2_updateIoU();L2_drawMapChart();}
+function L2_updateIoU(){
+  const dx=parseInt(document.getElementById('L2_iouX').value);
+  const dy=parseInt(document.getElementById('L2_iouY').value);
+  document.getElementById('L2_iouXVal').textContent=dx;
+  document.getElementById('L2_iouYVal').textContent=dy;
+
+  const demo=document.getElementById('L2_iouDemo');
+  const W=demo.offsetWidth||400, H=180;
+  const gt={l:.22*W,t:.12*H,w:.55*W,h:.72*H};
+  const pr={l:gt.l+dx*.8,t:gt.t+dy*.8,w:gt.w,h:gt.h};
+
+  document.getElementById('L2_gtBox').style.cssText=`left:${gt.l}px;top:${gt.t}px;width:${gt.w}px;height:${gt.h}px;position:absolute;border:3px solid #43a047;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#43a047;background:rgba(67,160,71,.08);`;
+  document.getElementById('L2_predBox').style.cssText=`left:${pr.l}px;top:${pr.t}px;width:${pr.w}px;height:${pr.h}px;position:absolute;border:3px dashed #e53935;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#e53935;background:rgba(229,57,53,.08);`;
+
+  const ol={l:Math.max(gt.l,pr.l),t:Math.max(gt.t,pr.t)};
+  ol.r=Math.min(gt.l+gt.w,pr.l+pr.w);
+  ol.b=Math.min(gt.t+gt.h,pr.t+pr.h);
+  const interW=Math.max(0,ol.r-ol.l), interH=Math.max(0,ol.b-ol.t);
+  const inter=interW*interH;
+  const union=gt.w*gt.h+pr.w*pr.h-inter;
+  const iou=union>0?inter/union:0;
+
+  document.getElementById('L2_overlapBox').style.cssText=`left:${ol.l}px;top:${ol.t}px;width:${interW}px;height:${interH}px;position:absolute;background:rgba(92,107,192,.25);border-radius:2px;`;
+  const iouDisplay=iou.toFixed(2);
+  document.getElementById('L2_iouVal').textContent=iouDisplay;
+  document.getElementById('L2_iouVal').style.color=iou>=.75?'var(--success)':iou>=.5?'var(--warning)':'var(--danger)';
+
+  let result,grade,ac,ab;
+  if(iou>=0.5){result='✅ TP (IoU≥0.5)';grade='🥇 ดีมาก';ac='var(--success)';ab='alert-grn';}
+  else if(iou>=0.25){result='⚠️ Partial';grade='🥈 พอใช้';ac='var(--warning)';ab='alert-ylw';}
+  else{result='❌ FP (IoU<0.5)';grade='🥉 ต้องปรับ';ac='var(--danger)';ab='alert-red';}
+  document.getElementById('L2_iouResult').textContent=result;
+  document.getElementById('L2_iouResult').style.color=ac;
+  document.getElementById('L2_iouGrade').textContent=grade;
+  const ial=document.getElementById('L2_iouAlert');
+  ial.className='alertbox '+ab;
+  ial.textContent=iou>=0.5?`✅ IoU = ${iouDisplay} — Box ซ้อนทับเพียงพอ นับเป็น True Positive`:iou>=0.25?`⚠️ IoU = ${iouDisplay} — Box ซ้อนทับน้อยเกินไป ยังไม่เป็น TP`:`❌ IoU = ${iouDisplay} — Box แทบไม่ซ้อนทับ = False Positive`;
+}
+
+function L2_drawMapChart(){
+  const c=document.getElementById('L2_mapCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||580, H=200;
+  c.width=W; c.height=H;
+  const pad=45, gw=W-2*pad, gh=H-2*pad;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  const classes=['Cat','Dog','Car','Person'];
+  const colors=['#1e88e5','#43a047','#e53935','#fb8c00'];
+  const apData=[[0.9,0.85,0.82,0.82],[0.8,0.76,0.74,0.74],[0.95,0.93,0.91,0.91],[0.7,0.7,0.68,0.68]];
+  const recalls=[0,0.3,0.6,1.0];
+
+  for(let i=0;i<=4;i++){
+    const x=pad+gw*i/4, y=pad+gh*i/4;
+    ctx.strokeStyle='#e2e5f0'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,pad); ctx.lineTo(x,pad+gh); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(pad+gw,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px Sarabun';
+    ctx.textAlign='center'; ctx.fillText((i*25)+'%', x, pad+gh+13);
+    ctx.textAlign='right'; ctx.fillText((100-i*25)+'%', pad-5, y+4);
+  }
+
+  classes.forEach((cls,ci)=>{
+    const pts=recalls.map((r,i)=>({x:pad+gw*r, y:pad+gh*(1-apData[ci][i])}));
+    ctx.strokeStyle=colors[ci]; ctx.lineWidth=2; ctx.beginPath();
+    pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)); ctx.stroke();
+    ctx.fillStyle=colors[ci]; ctx.beginPath(); ctx.arc(pts[pts.length-1].x,pts[pts.length-1].y,4,0,Math.PI*2); ctx.fill();
+  });
+
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun';
+  ctx.textAlign='center'; ctx.fillText('Recall →', W/2, H-3);
+  ctx.save(); ctx.rotate(-Math.PI/2); ctx.fillText('Precision ↑', -H/2, 12); ctx.restore();
+}
+
+// ===== S4 EARLY STOPPING =====
+function initL2S3(){L2_updateEarlyStop();L2_drawLRViz();}
+function L2_updateEarlyStop(){
+  const ep=parseInt(document.getElementById('L2_epSlider2').value);
+  const lrIdx=parseInt(document.getElementById('L2_lrSlider').value);
+  const lrValues=[0.001,0.003,0.005,0.008,0.01,0.015,0.02,0.03,0.05,0.1];
+  const lr=lrValues[lrIdx-1];
+  document.getElementById('L2_epVal2').textContent=ep;
+  document.getElementById('L2_lrVal').textContent=lr;
+  const useES=document.getElementById('L2_earlyStopToggle').checked;
+  document.getElementById('L2_esLegend').style.display=useES?'flex':'none';
+
+  const c=document.getElementById('L2_esCanvas');
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||580, H=230;
+  c.width=W; c.height=H;
+  const pad=45, gw=W-2*pad, gh=H-2*pad-5;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  for(let i=0;i<=4;i++){
+    const y=pad+gh*i/4;
+    ctx.strokeStyle='#e2e5f0'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px Sarabun'; ctx.textAlign='right';
+    ctx.fillText((100-i*25)+'%', pad-5, y+4);
+  }
+
+  const lrFactor=Math.max(0.3,1-Math.abs(lr-0.01)/0.05);
+  const trainPts=[], valPts=[];
+  let bestValAcc=0, bestEp=0;
+
+  for(let e=1;e<=Math.max(ep,120);e++){
+    const t=e/100;
+    const tA=Math.min(98,60+35*lrFactor*(1-Math.exp(-t*4)));
+    const peakEp=Math.round(45/lrFactor);
+    let vA;
+    if(e<=peakEp) vA=Math.min(95,55+30*lrFactor*(1-Math.exp(-t*3.5)));
+    else vA=Math.max(40, (55+30*lrFactor*(1-Math.exp(-peakEp/100*3.5))) - (e-peakEp)*0.35);
+    if(vA>bestValAcc){bestValAcc=vA;bestEp=e;}
+    if(e<=ep){
+      const x=pad+gw*(e/120);
+      trainPts.push({x,y:pad+gh*(1-tA/100)});
+      valPts.push({x,y:pad+gh*(1-vA/100)});
+    }
+  }
+
+  const stopEp=useES?bestEp:ep;
+  if(useES&&bestEp<ep){
+    const ex=pad+gw*(bestEp/120);
+    ctx.fillStyle='rgba(251,140,0,.08)'; ctx.fillRect(ex,pad,W-pad-ex,gh);
+    ctx.strokeStyle='#fb8c00'; ctx.lineWidth=2; ctx.setLineDash([6,3]);
+    ctx.beginPath(); ctx.moveTo(ex,pad); ctx.lineTo(ex,pad+gh); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#fb8c00'; ctx.font='bold 10px Sarabun'; ctx.textAlign='center';
+    ctx.fillText('🛑 Early Stop Ep.'+bestEp, ex, pad-5);
+  }
+
+  const draw=(pts,col)=>{
+    ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.beginPath();
+    pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)); ctx.stroke();
+  };
+  draw(trainPts,'#1e88e5');
+  draw(valPts,'#e53935');
+
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun'; ctx.textAlign='center';
+  ctx.fillText('Epoch →', W/2, H-2);
+  ctx.save(); ctx.rotate(-Math.PI/2); ctx.fillText('Accuracy ↑', -H/2, 12); ctx.restore();
+
+  document.getElementById('L2_bestAcc').textContent=Math.round(bestValAcc)+'%';
+  document.getElementById('L2_bestEp').textContent='Ep. '+bestEp;
+  document.getElementById('L2_actualEp').textContent='Ep. '+ep;
+  const saved=useES&&bestEp<ep?ep-bestEp:0;
+  document.getElementById('L2_timeSave').textContent=saved>0?'~'+saved+' Epochs':'ไม่ได้เปิด';
+  document.getElementById('L2_timeSave').style.color=saved>0?'var(--success)':'var(--text-muted)';
+
+  const al=document.getElementById('L2_esAlert');
+  if(useES&&bestEp<ep){al.className='alertbox alert-grn';al.textContent='✅ Early Stopping หยุดที่ Epoch '+bestEp+' ประหยัด '+saved+' Epochs และป้องกัน Overfitting';}
+  else if(ep>bestEp){al.className='alertbox alert-red';al.textContent='⚠️ ฝึกเกิน Epoch ที่ดีที่สุด ('+bestEp+') เสี่ยง Overfitting — ลองเปิด Early Stopping';}
+  else{al.className='alertbox alert-blu';al.textContent='✅ จำนวน Epoch เหมาะสม กำลังอยู่ในช่วงเรียนรู้ที่ดี';}
+  L2_drawLRViz();
+}
+
+function L2_drawLRViz(){
+  const c=document.getElementById('L2_lrCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||580, H=160;
+  c.width=W; c.height=H;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  // Draw loss landscape
+  const midX=W/2, baseline=H-20, amplitude=80;
+  ctx.strokeStyle='#5c6bc0'; ctx.lineWidth=2;
+  ctx.beginPath();
+  for(let x=20;x<W-20;x++){
+    const t=(x-midX)/(W/3);
+    const y=baseline-amplitude*Math.exp(-t*t*0.8)+(Math.sin(t*6)*8*Math.exp(-t*t*0.3));
+    if(x===20)ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  const lrIdx=parseInt(document.getElementById('L2_lrSlider').value);
+  const scenarios=[
+    {lbl:'LR ต่ำเกิน',col:'#fb8c00',steps:8,stepSize:8,startX:midX-W*0.28},
+    {lbl:'LR พอดี',col:'#43a047',steps:4,stepSize:20,startX:midX-W*0.28},
+    {lbl:'LR สูงเกิน',col:'#e53935',steps:3,stepSize:55,startX:midX-W*0.28}
+  ];
+  const si=lrIdx<=3?0:lrIdx<=7?1:2;
+  const sc=scenarios[si];
+
+  let cx=sc.startX;
+  const getY=(x)=>{const t=(x-midX)/(W/3);return baseline-amplitude*Math.exp(-t*t*0.8)+(Math.sin(t*6)*8*Math.exp(-t*t*0.3));};
+
+  ctx.strokeStyle=sc.col; ctx.lineWidth=2;
+  for(let s=0;s<sc.steps;s++){
+    const nx=cx+(midX-cx)*Math.min(1,sc.stepSize/80);
+    if(Math.abs(nx-midX)<5) break;
+    const cy=L2_getY(cx), ny=L2_getY(nx);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(nx,ny); ctx.stroke();
+    ctx.fillStyle=sc.col; ctx.beginPath(); ctx.arc(nx,ny,4,0,Math.PI*2); ctx.fill();
+    if(si===2&&s>0){cx=cx+(nx-cx)*((Math.random()-.4)*3);} else cx=nx;
+  }
+
+  ctx.fillStyle='#374151'; ctx.font='10px Sarabun'; ctx.textAlign='center';
+  ctx.fillText('🏔 Loss Landscape — '+sc.lbl, W/2, 14);
+  ctx.fillStyle='#6b7280'; ctx.fillText('↕ Loss', 10, baseline+8); ctx.fillText('← Weights →', W/2, H-5);
+  ctx.fillStyle='#43a047'; ctx.font='bold 10px Sarabun'; ctx.fillText('★', midX, L2_getY(midX)-8);
+  ctx.fillText('optimal', midX, L2_getY(midX)-18);
+}
+
+// ===== S5 CONFUSION MATRIX =====
+const cmData={
+  labels:['Husky','Malamute','Shiba','Poodle'],
+  matrix:[[62,28,5,5],[18,72,4,6],[3,2,85,10],[4,5,8,83]]
+};
+function initL2S4(){L2_buildCM();L2_drawConfBar();}
+function L2_buildCM(){
+  const grid=document.getElementById('L2_cmGrid');
+  grid.style.gridTemplateColumns='repeat(5,1fr)';
+  grid.innerHTML='';
+  const add=(content,cls,onclick)=>{
+    const d=document.createElement('div');
+    d.className=cls; d.innerHTML=content;
+    if(onclick)d.onclick=onclick;
+    grid.appendChild(d);
+  };
+  add('','cm-hdr');
+  cmData.labels.forEach(l=>add('<span style="font-size:.7rem;">'+l+'</span>','cm-hdr'));
+  cmData.labels.forEach((rl,ri)=>{
+    add('<span style="font-size:.72rem;font-weight:700;">'+rl+'</span>','cm-hdr');
+    cmData.labels.forEach((cl,ci)=>{
+      const v=cmData.matrix[ri][ci];
+      const diag=ri===ci;
+      let cls='cm-cell ';
+      if(diag) cls+='cm-tp';
+      else if(v>20) cls+='cm-fn';
+      else if(v>5) cls+='cm-fp';
+      else cls+='cm-zero';
+      add(v, cls, ()=>L2_showCMInfo(ri,ci,v));
+    });
+  });
+}
+function L2_showCMInfo(r,c,v){
+  const al=document.getElementById('L2_cmInfo');
+  const rl=cmData.labels[r], cl=cmData.labels[c];
+  if(r===c){al.className='alertbox alert-grn';al.innerHTML=`✅ <strong>${rl}</strong> ทายถูก ${v} ครั้ง — Diagonal หมายถึงทำนายถูกต้อง`;}
+  else if(v>20){al.className='alertbox alert-red';al.innerHTML=`❌ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ถึง ${v} ครั้ง! → แก้ไข: เพิ่มภาพเน้น Feature ที่ต่างกันระหว่างสองพันธุ์นี้`;}
+  else if(v>5){al.className='alertbox alert-ylw';al.innerHTML=`⚠️ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ${v} ครั้ง — มีข้อผิดพลาดพอสมควร`;}
+  else{al.className='alertbox alert-blu';al.innerHTML=`ℹ️ สับสน <strong>${rl}</strong> เป็น <strong>${cl}</strong> ${v} ครั้ง — ถือว่าน้อย`;}
+}
+function L2_drawConfBar(){
+  const c=document.getElementById('L2_confCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||580, H=200;
+  c.width=W; c.height=H;
+  const pad=50, gw=W-2*pad, gh=H-2*pad;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#f7f8ff'; ctx.fillRect(0,0,W,H);
+
+  const errors=[];
+  cmData.labels.forEach((rl,ri)=>{
+    cmData.labels.forEach((cl,ci)=>{
+      if(ri!==ci&&cmData.matrix[ri][ci]>0) errors.push({from:rl,to:cl,v:cmData.matrix[ri][ci]});
+    });
+  });
+  errors.sort((a,b)=>b.v-a.v);
+  const top6=errors.slice(0,6);
+  const maxV=top6[0].v;
+  const bw=(gw-top6.length*10)/top6.length;
+  const colors=['#e53935','#e57373','#fb8c00','#ffa726','#1e88e5','#42a5f5'];
+
+  top6.forEach((e,i)=>{
+    const x=pad+i*(bw+10);
+    const bh=e.v/maxV*gh*0.85;
+    ctx.fillStyle=colors[i]; ctx.beginPath(); ctx.roundRect(x,pad+gh-bh,bw,bh,4); ctx.fill();
+    ctx.fillStyle='#374151'; ctx.font='bold 11px Sarabun'; ctx.textAlign='center';
+    ctx.fillText(e.v, x+bw/2, pad+gh-bh-5);
+    ctx.font='9px Sarabun'; ctx.fillStyle='#6b7280';
+    ctx.fillText(e.from+'→', x+bw/2, H-14);
+    ctx.fillText(e.to, x+bw/2, H-3);
+  });
+
+  ctx.fillStyle='#374151'; ctx.font='11px Sarabun';
+  ctx.textAlign='center'; ctx.fillText('คู่ที่สับสนบ่อยที่สุด (6 อันดับ)', W/2, pad-5);
+  ctx.textAlign='right'; ctx.fillText('ครั้ง', pad-5, pad+4);
+}
+
+// ===== INIT =====
+initL2S0();
+
+
+
+
+function goL2(i) {
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',i===j));
+  document.querySelectorAll('.sec').forEach((s,j)=>s.classList.toggle('on',i===j));
+  if(i===0)initL2S0();
+  if(i===1)initL2S1();
+  if(i===2)initL2S2();
+  if(i===3)initL2S3();
+  if(i===4)initL2S4();
+}
+
+initL2S0();
+</script>
+</body>
+</html>

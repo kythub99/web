@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>มนุษย์เรียนรู้ AI — AI เรียนรู้จากมนุษย์</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;line-height:1.8;font-size:16px;}
+
+/* ===== SHARED BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;line-height:1.8;font-size:16px;}
+
+/* ===== LANDING PAGE ===== */
+.landing{
+  min-height:100vh;
+  background:linear-gradient(145deg,#0d0f2b 0%,#1a1d4a 40%,#2c1a4a 70%,#0f1a3a 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;position:relative;overflow:hidden;
+}
+.landing::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 30%,rgba(233,69,96,0.18) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 70%,rgba(92,107,192,0.2) 0%,transparent 45%),
+    radial-gradient(ellipse at 50% 100%,rgba(83,52,131,0.15) 0%,transparent 50%);
+}
+.landing-inner{position:relative;z-index:1;text-align:center;max-width:800px;width:100%;}
+.land-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.18);border-radius:30px;
+  padding:.4rem 1.2rem;font-size:.8rem;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:1.5rem;backdrop-filter:blur(6px);
+}
+.land-title{
+  font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;
+  line-height:1.25;margin-bottom:1rem;
+  text-shadow:0 2px 20px rgba(0,0,0,0.4);
+}
+.land-title span{
+  background:linear-gradient(135deg,#f5a623,#ff8fa3,#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.land-sub{
+  font-size:1.1rem;color:rgba(255,255,255,0.65);max-width:520px;
+  margin:0 auto 3rem;line-height:1.7;
+}
+.lesson-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+@media(max-width:580px){.lesson-cards{grid-template-columns:1fr;}}
+.lcard{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+  border-radius:20px;padding:2rem 1.5rem;cursor:pointer;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  backdrop-filter:blur(8px);text-align:left;position:relative;overflow:hidden;
+}
+.lcard::before{
+  content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:.3s;
+}
+.lcard.l1::before{background:linear-gradient(135deg,rgba(233,69,96,0.15),rgba(83,52,131,0.1));}
+.lcard.l2::before{background:linear-gradient(135deg,rgba(92,107,192,0.18),rgba(0,137,123,0.1));}
+.lcard:hover{transform:translateY(-6px) scale(1.02);border-color:rgba(255,255,255,0.3);}
+.lcard:hover::before{opacity:1;}
+.lcard-icon{font-size:2.5rem;margin-bottom:1rem;display:block;}
+.lcard-lesson{font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.4rem;}
+.lcard.l1 .lcard-lesson{color:#ff8fa3;}
+.lcard.l2 .lcard-lesson{color:#93c5fd;}
+.lcard-title{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+.lcard-desc{font-size:.85rem;color:rgba(255,255,255,0.55);line-height:1.6;}
+.lcard-topics{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
+.lcard-topic{
+  background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);
+  border-radius:20px;padding:.2rem .65rem;font-size:.72rem;font-weight:500;
+}
+.lcard-arrow{
+  position:absolute;top:1.25rem;right:1.25rem;
+  width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:.3s;
+}
+.lcard:hover .lcard-arrow{background:rgba(255,255,255,0.25);transform:translateX(3px);}
+.land-footer{color:rgba(255,255,255,0.35);font-size:.8rem;}
+
+/* ===== LESSON WRAPPER ===== */
+.lesson-page{display:none;min-height:100vh;}
+.lesson-page.visible{display:block;}
+
+/* ===== SHARED BACK BUTTON ===== */
+.back-bar{
+  background:rgba(0,0,0,0.85);color:rgba(255,255,255,0.8);
+  padding:.6rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:.85rem;cursor:pointer;border:none;width:100%;
+  font-family:'Sarabun',sans-serif;transition:.2s;
+}
+.back-bar:hover{background:rgba(0,0,0,0.95);color:#fff;}
+
+
+</style>
+</head>
+<body>
+<div class="landing" id="landingPage">
+  <div class="landing-inner">
+    <div class="land-badge">🤖 AI Learning Lab</div>
+    <h1 class="land-title">มนุษย์เรียนรู้ AI<br><span>AI เรียนรู้จากมนุษย์</span></h1>
+    <p class="land-sub">มาสำรวจพฤติกรรมการเรียนรู้ของ AI กันเถอะ! เลือกบทเรียนที่ต้องการเพื่อเริ่มต้น</p>
+
+    <div class="lesson-cards">
+      <a class="lcard l1" href="lesson1.html" style="text-decoration:none;">
+        <div class="lcard-arrow">→</div>
+        <span class="lcard-icon">🗂️</span>
+        <div class="lcard-lesson">บทที่ 1</div>
+        <div class="lcard-title">ศาสตร์แห่งการเตรียมข้อมูล</div>
+        <div class="lcard-desc">เข้าใจว่าข้อมูลที่ดีสร้าง AI ที่ฉลาดได้อย่างไร ตั้งแต่มุมมองกล้องไปจนถึง Data Augmentation</div>
+        <div class="lcard-topics">
+          <span class="lcard-topic">Viewpoint Coverage</span>
+          <span class="lcard-topic">Class Imbalance</span>
+          <span class="lcard-topic">Background Bias</span>
+          <span class="lcard-topic">Generalization</span>
+          <span class="lcard-topic">Augmentation</span>
+        </div>
+      </a>
+      <a class="lcard l2" href="lesson2.html" style="text-decoration:none;">
+        <div class="lcard-arrow">→</div>
+        <span class="lcard-icon">🧠</span>
+        <div class="lcard-lesson">บทที่ 2</div>
+        <div class="lcard-title">ศิลปะแห่งการฝึกสอนโมเดล</div>
+        <div class="lcard-desc">สำรวจพฤติกรรมการเรียนรู้ของ AI เข้าใจการประเมินและควบคุมกระบวนการฝึกสอน</div>
+        <div class="lcard-topics">
+          <span class="lcard-topic">Overfitting</span>
+          <span class="lcard-topic">Precision vs Recall</span>
+          <span class="lcard-topic">mAP &amp; IoU</span>
+          <span class="lcard-topic">Early Stopping</span>
+          <span class="lcard-topic">Confusion Matrix</span>
+        </div>
+      </a>
+    </div>
+    <div class="land-footer">5 แนวคิดต่อบทเรียน &nbsp;·&nbsp; Simulation แบบโต้ตอบ &nbsp;·&nbsp; แบบทดสอบความเข้าใจ</div>
+  </div>
+</div>
+</body>
+</html>
