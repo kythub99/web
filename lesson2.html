@@ -1138,8 +1138,8 @@ function updateOverfit(){
     else vLoss = 0.22 + (e-overfit_start)*0.006;
     vLoss = Math.min(vLoss, 0.98);
     const x=pad+gw*(e/100);
-    trainPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,1-tLoss)))});
-    valPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,1-vLoss)))});
+    trainPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,tLoss)))});
+    valPts.push({x, y: pad+gh*(1-Math.max(0.02,Math.min(1,vLoss)))});
   }
 
   // early stop zone
