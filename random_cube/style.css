@@ -1,0 +1,465 @@
+:root {
+  /* Casino palette */
+  --bg: #2a0707;
+  --bg-2: #4a0e0e;
+  --panel: #150303;
+  --panel-2: #2a0707;
+
+  --shadow-dark: #000000;
+  --shadow-light: #5a1818;
+
+  --gold-light: #fef3c7;
+  --gold: #fbbf24;
+  --gold-mid: #d97706;
+  --gold-dark: #78350f;
+
+  --accent: #fbbf24;
+  --accent-strong: #f59e0b;
+
+  --red: #ef4444;
+  --red-dark: #b91c1c;
+  --red-light: #fca5a5;
+
+  --blue: #3b82f6;
+  --blue-dark: #1d4ed8;
+  --blue-light: #93c5fd;
+
+  --green: #22c55e;
+  --green-dark: #15803d;
+  --green-light: #86efac;
+
+  --yellow: #facc15;
+  --yellow-dark: #b45309;
+  --yellow-light: #fde68a;
+
+  --cell-h: 130px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(ellipse at center, #6b1a1a 0%, #2a0707 55%, #0d0202 100%);
+  overflow: hidden;
+}
+
+/* Subtle velvet texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 80, 80, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(251, 191, 36, 0.05) 0%, transparent 40%);
+  z-index: 0;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Brand sign (casino marquee) ---------- */
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 18px 38px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--panel-2), var(--panel));
+  box-shadow:
+    0 0 0 3px var(--gold-dark),
+    0 0 0 5px var(--gold),
+    0 0 0 7px var(--gold-mid),
+    0 0 35px rgba(251, 191, 36, 0.45),
+    0 12px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(0, 0, 0, 0.6);
+  user-select: none;
+  animation: brandPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes brandPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px var(--gold-dark),
+      0 0 0 5px var(--gold),
+      0 0 0 7px var(--gold-mid),
+      0 0 30px rgba(251, 191, 36, 0.4),
+      0 12px 30px rgba(0, 0, 0, 0.6),
+      inset 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px var(--gold-dark),
+      0 0 0 5px var(--gold),
+      0 0 0 7px var(--gold-mid),
+      0 0 55px rgba(251, 191, 36, 0.75),
+      0 12px 30px rgba(0, 0, 0, 0.6),
+      inset 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.brand-text {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  font-size: 38px;
+  letter-spacing: 1.5px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 50%, var(--gold-mid));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.4));
+}
+
+.brand-num {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-weight: 900;
+  font-size: 42px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #7f1d1d, #ef4444 50%, #fca5a5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(239, 68, 68, 0.55));
+}
+
+/* ---------- Console (board + lever) ---------- */
+.console {
+  display: flex;
+  align-items: stretch;
+  gap: 26px;
+}
+
+/* ---------- Board ---------- */
+.board {
+  display: flex;
+  gap: 32px;
+  padding: 44px 52px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--panel-2), var(--panel));
+  box-shadow:
+    0 0 0 4px var(--gold-dark),
+    0 0 0 7px var(--gold),
+    0 0 0 10px var(--gold-mid),
+    0 0 50px rgba(251, 191, 36, 0.25),
+    0 24px 60px rgba(0, 0, 0, 0.75),
+    inset 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Slot (the reel window) ---------- */
+.slot {
+  width: 130px;
+  height: 130px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #050101, #1a0505);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 2px rgba(251, 191, 36, 0.55),
+    inset 7px 7px 14px rgba(0, 0, 0, 0.95),
+    inset -3px -3px 8px rgba(100, 30, 30, 0.4);
+}
+
+/* Top/bottom haze — "reel window" feel */
+.slot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(to bottom,
+      rgba(5, 1, 1, 0.95),
+      transparent 18%,
+      transparent 82%,
+      rgba(5, 1, 1, 0.95));
+}
+
+/* Landing flash — gold */
+.slot::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 4;
+  box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+  opacity: 0;
+}
+.slot.landed::after {
+  animation: landFlash 0.6s ease-out;
+}
+@keyframes landFlash {
+  0%   { opacity: 1; box-shadow: 0 0 0 0 rgba(251, 191, 36, 1), inset 0 0 0 0 rgba(251, 191, 36, 0.8); }
+  60%  { opacity: 1; box-shadow: 0 0 0 10px rgba(251, 191, 36, 0), inset 0 0 0 3px rgba(251, 191, 36, 0.5); }
+  100% { opacity: 0; box-shadow: 0 0 0 14px rgba(251, 191, 36, 0), inset 0 0 0 0 rgba(251, 191, 36, 0); }
+}
+
+/* ---------- Reel ---------- */
+.reel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.reel-cell {
+  width: 100%;
+  height: var(--cell-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  perspective: 700px;
+}
+
+.reel-cell:has(.cube)::after {
+  content: "";
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  width: 55%;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  filter: blur(8px);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+/* ---------- Cube (3D) ---------- */
+.cube {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(-32deg);
+  z-index: 1;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+.face.top    { transform: rotateX(90deg) translateZ(42px); }
+.face.front  { transform: translateZ(42px); }
+.face.right  { transform: rotateY(90deg) translateZ(42px); }
+
+.cube.red    .face.top    { background: linear-gradient(135deg, #fecaca, var(--red-light)); }
+.cube.red    .face.front  { background: linear-gradient(160deg, var(--red), var(--red-dark)); }
+.cube.red    .face.right  { background: linear-gradient(160deg, var(--red-dark), #7f1d1d); }
+
+.cube.blue   .face.top    { background: linear-gradient(135deg, #bfdbfe, var(--blue-light)); }
+.cube.blue   .face.front  { background: linear-gradient(160deg, var(--blue), var(--blue-dark)); }
+.cube.blue   .face.right  { background: linear-gradient(160deg, var(--blue-dark), #1e3a8a); }
+
+.cube.green  .face.top    { background: linear-gradient(135deg, #bbf7d0, var(--green-light)); }
+.cube.green  .face.front  { background: linear-gradient(160deg, var(--green), var(--green-dark)); }
+.cube.green  .face.right  { background: linear-gradient(160deg, var(--green-dark), #14532d); }
+
+.cube.yellow .face.top    { background: linear-gradient(135deg, #fef3c7, var(--yellow-light)); }
+.cube.yellow .face.front  { background: linear-gradient(160deg, var(--yellow), #d97706); }
+.cube.yellow .face.right  { background: linear-gradient(160deg, #d97706, var(--yellow-dark)); }
+
+.reel.spinning .reel-cell:not(.final) .cube {
+  filter: blur(1.5px);
+}
+
+.slot.landed .reel-cell.final .cube,
+.slot.has-cube .reel-cell.final .cube {
+  animation: float 4s ease-in-out infinite, cubeLand 0.5s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes float {
+  0%, 100% { transform: rotateX(-22deg) rotateY(-32deg) translateY(0); }
+  50%      { transform: rotateX(-22deg) rotateY(-32deg) translateY(-6px); }
+}
+
+@keyframes cubeLand {
+  0%   { transform: rotateX(-22deg) rotateY(-32deg) scale(0.85) translateY(-10px); }
+  40%  { transform: rotateX(-22deg) rotateY(-32deg) scale(1.18) translateY(0); }
+  70%  { transform: rotateX(-22deg) rotateY(-32deg) scale(0.96) translateY(0); }
+  100% { transform: rotateX(-22deg) rotateY(-32deg) scale(1) translateY(0); }
+}
+
+/* ---------- Lever ---------- */
+.lever {
+  position: relative;
+  width: 90px;
+  align-self: stretch;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lever.disabled {
+  cursor: not-allowed;
+}
+
+.lever-base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 60px;
+  border-radius: 22px 22px 14px 14px;
+  background:
+    linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 30%, var(--gold-mid) 70%, var(--gold-dark) 100%);
+  box-shadow:
+    inset 0 3px 6px rgba(255, 255, 255, 0.6),
+    inset 0 -5px 10px rgba(0, 0, 0, 0.55),
+    inset 4px 0 6px rgba(255, 255, 255, 0.2),
+    inset -4px 0 6px rgba(0, 0, 0, 0.3),
+    0 8px 18px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(251, 191, 36, 0.35);
+  z-index: 1;
+}
+
+.lever-base::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, var(--gold-dark) 0%, var(--gold-dark) 40%, var(--gold-mid) 60%, var(--gold-dark) 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.lever-shaft {
+  position: absolute;
+  bottom: 36px;
+  left: calc(50% - 9px);
+  width: 18px;
+  height: 220px;
+  border-radius: 9px;
+  background:
+    linear-gradient(90deg,
+      var(--gold-dark) 0%,
+      var(--gold-mid) 22%,
+      var(--gold) 42%,
+      var(--gold-light) 50%,
+      var(--gold) 58%,
+      var(--gold-mid) 78%,
+      var(--gold-dark) 100%);
+  transform-origin: 50% 100%;
+  transform: rotate(-2deg);
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.55),
+    0 0 12px rgba(251, 191, 36, 0.2);
+  z-index: 2;
+}
+
+.lever:hover:not(.disabled) .lever-shaft {
+  transform: rotate(6deg);
+  transition: transform 0.25s ease-out;
+}
+
+.lever.pulled .lever-shaft {
+  transform: rotate(88deg) !important;
+  transition: transform 0.22s cubic-bezier(0.55, 0, 0.7, 0.3) !important;
+}
+
+.lever-ball {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%,
+      #ffffff 0%,
+      var(--gold-light) 10%,
+      var(--gold) 38%,
+      var(--gold-mid) 72%,
+      var(--gold-dark) 100%);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.7),
+    0 0 34px rgba(251, 191, 36, 0.55),
+    inset -5px -8px 16px rgba(120, 53, 15, 0.6),
+    inset 4px 4px 12px rgba(255, 255, 255, 0.7);
+}
+
+.lever:hover:not(.disabled) .lever-ball {
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.7),
+    0 0 44px rgba(251, 191, 36, 0.85),
+    inset -5px -8px 16px rgba(120, 53, 15, 0.6),
+    inset 4px 4px 12px rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  :root { --cell-h: 92px; }
+  .scene { gap: 36px; }
+  .brand { padding: 14px 28px; gap: 10px; }
+  .brand-text { font-size: 28px; letter-spacing: 1px; }
+  .brand-num { font-size: 32px; letter-spacing: 1.5px; }
+
+  .board { gap: 16px; padding: 30px 26px; border-radius: 24px; }
+  .slot  { width: 92px; height: 92px; border-radius: 16px; }
+  .slot::after { inset: 4px; border-radius: 12px; }
+  .cube  { width: 58px; height: 58px; }
+  .face.top   { transform: rotateX(90deg) translateZ(29px); }
+  .face.front { transform: translateZ(29px); }
+  .face.right { transform: rotateY(90deg) translateZ(29px); }
+
+  .console { gap: 18px; }
+  .lever { width: 70px; }
+  .lever-base { width: 56px; height: 46px; }
+  .lever-base::after { width: 22px; height: 22px; top: 5px; }
+  .lever-shaft { bottom: 28px; left: calc(50% - 7px); width: 14px; height: 170px; }
+  .lever-ball { width: 48px; height: 48px; top: -28px; }
+}
+
+@media (max-width: 540px) {
+  :root { --cell-h: 58px; }
+  .scene { gap: 22px; padding: 16px; }
+  .brand { padding: 10px 20px; gap: 8px; border-radius: 20px; }
+  .brand-text { font-size: 22px; }
+  .brand-num { font-size: 26px; }
+
+  .board { gap: 8px; padding: 18px 14px; border-radius: 18px; }
+  .slot  { width: 58px; height: 58px; border-radius: 12px; }
+  .slot::after { inset: 3px; border-radius: 9px; }
+  .cube  { width: 38px; height: 38px; }
+  .face.top   { transform: rotateX(90deg) translateZ(19px); }
+  .face.front { transform: translateZ(19px); }
+  .face.right { transform: rotateY(90deg) translateZ(19px); }
+
+  .console { gap: 12px; }
+  .lever { width: 52px; }
+  .lever-base { width: 44px; height: 36px; border-radius: 14px 14px 10px 10px; }
+  .lever-base::after { width: 16px; height: 16px; top: 4px; }
+  .lever-shaft { bottom: 22px; left: calc(50% - 5px); width: 10px; height: 120px; }
+  .lever-ball { width: 36px; height: 36px; top: -20px; }
+}
